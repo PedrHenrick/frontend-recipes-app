@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import './styles/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RecipesProvider from './context/RecipesProvider';
+import Home from './pages/Home';
 import Login from './pages/Login';
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
     <RecipesProvider>
       <Switch>
         <Route exact path="/" component={ Login } />
+        <Route path="/home" component={ Home } />
       </Switch>
     </RecipesProvider>
   );

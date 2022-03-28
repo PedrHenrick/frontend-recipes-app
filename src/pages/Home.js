@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
-import Header from '../components/Header';
+import React from 'react';
+import HeaderPage from '../components/Header';
 
-export class Home extends Component {
-  render() {
-    return (
-      <Header>
-        lalaland
-      </Header>
-    );
-  }
+function Home() {
+  return (
+    <HeaderPage
+      title=""
+    />
+  );
 }
 
 export default Home;
