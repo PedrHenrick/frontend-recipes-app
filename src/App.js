@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import RecipesProvider from './context/RecipesProvider';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={ Login } />
         <Route path="/foods" component={ Home } />
+        <Route path="/profile" component={ Profile } />
       </Switch>
     </RecipesProvider>
   );
