@@ -1,13 +1,13 @@
 import React from 'react';
 import HeaderPage from '../components/Header';
 
-function Foods() {
+function Profile() {
   return (
     <HeaderPage
-      title="Foods"
-      showSearch
+      title="Profile"
+      showSearch={ false }
     />
   );
 }
 
-export default Foods;
+export default Profile;
