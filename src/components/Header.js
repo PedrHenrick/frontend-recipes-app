@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import searchIcon from '../images/searchIcon.svg';
@@ -55,7 +56,7 @@ function Header({ history: { push }, title }) {
   );
 }
 
-export default Header;
+export default withRouter(Header);
 
 Header.defaultProps = {
   history: {},
