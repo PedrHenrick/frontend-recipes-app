@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import validateEmail from '../helpers/helpers';
 import '../styles/login.css';
 
 function Login(props) {
   const { history: { push } } = props;
-  const [user, setUser] = useState({ email: '' });
   const [inputState, setInputState] = useState({ email: '', password: '' });
 
   const changeButtonStatus = () => {
@@ -17,9 +15,9 @@ function Login(props) {
       || password.length < miniSenha
     );
   };
-   
+
   const inputChangeHandler = ({ target }) => {
-     const { name, value } = target;
+    const { name, value } = target;
     setInputState({ ...inputState, [name]: value });
   };
 
@@ -32,11 +30,16 @@ function Login(props) {
     localStorage.setItem('cocktailsToken', '1');
 
     // save email to localstorage
+    const user = {
+      email: inputState.email,
+    };
     localStorage.setItem('user', JSON.stringify(user));
 
     // redirect to Foods
     push('/foods');
   };
+
+  console.log(inputState);
 
   return (
     <div className="login-container">
@@ -50,7 +53,7 @@ function Login(props) {
             data-testid="email-input"
             name="email"
             onChange={ inputChangeHandler }
-            value={ user.email }
+            value={ inputState.email }
           />
         </label>
         <label htmlFor="senha" className="login__label">
