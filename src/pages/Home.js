@@ -4,7 +4,7 @@ import HeaderPage from '../components/Header';
 function Home() {
   return (
     <HeaderPage
-      title=""
+      title="Foods"
     />
   );
 }
