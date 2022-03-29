@@ -6,8 +6,10 @@ import searchIcon from '../images/searchIcon.svg';
 import profileIcon from '../images/profileIcon.svg';
 import '../styles/headerPage.css';
 
-function Header({ history: { push }, title }) {
+function Header({ history: { push }, title, showSearch }) {
   const [inputView, setInputView] = useState(false);
+  console.log(showSearch);
+
   return (
     <header className="headerPageAll">
       <section className="headerPage">
@@ -27,7 +29,7 @@ function Header({ history: { push }, title }) {
           { title }
         </h2>
         {
-          title === 'Foods' || title === 'Explore Nationalities'
+          showSearch
             ? (
               <button
                 type="button"
@@ -60,9 +62,11 @@ export default withRouter(Header);
 
 Header.defaultProps = {
   history: {},
+  showSearch: true,
 };
 
 Header.propTypes = {
   title: PropTypes.string.isRequired,
   history: PropTypes.objectOf(PropTypes.any),
+  showSearch: PropTypes.bool,
 };

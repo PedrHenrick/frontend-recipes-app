@@ -1,12 +1,13 @@
 import React from 'react';
 import HeaderPage from '../components/Header';
 
-function Home() {
+function Foods() {
   return (
     <HeaderPage
       title="Foods"
+      showSearch
     />
   );
 }
 
-export default Home;
+export default Foods;

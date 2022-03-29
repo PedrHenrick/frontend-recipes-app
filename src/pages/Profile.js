@@ -5,6 +5,7 @@ function Profile() {
   return (
     <HeaderPage
       title="Profile"
+      showSearch={ false }
     />
   );
 }
