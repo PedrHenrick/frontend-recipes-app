@@ -1,7 +1,18 @@
+.headerPageAll {
+  align-items: center;
+}
+
 .headerPage {
   align-items: center;
   background-color: rgb(196, 196, 196);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.headerInput {
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 3%;
+  width: 80%;
 }

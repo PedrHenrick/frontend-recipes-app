@@ -1,4 +1,4 @@
-import React /* { useState } */ from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import searchIcon from '../images/searchIcon.svg';
@@ -6,9 +6,9 @@ import profileIcon from '../images/profileIcon.svg';
 import '../styles/headerPage.css';
 
 function Header({ history: { push }, title }) {
-  // const [inputView, setInputView] = useState(false);
+  const [inputView, setInputView] = useState(false);
   return (
-    <header>
+    <header className="headerPageAll">
       <section className="headerPage">
         <button
           type="button"
@@ -30,7 +30,7 @@ function Header({ history: { push }, title }) {
             ? (
               <button
                 type="button"
-                // onClick={ () => setInputView(!inputView) }
+                onClick={ () => setInputView(!inputView) }
               >
                 <img
                   data-testid="search-top-btn"
@@ -41,14 +41,16 @@ function Header({ history: { push }, title }) {
             ) : null
         }
       </section>
-      {/* {
+      {
         inputView === true
           ? (
             <input
               type="text"
+              className="headerInput"
+              data-testid="search-input"
             />
           ) : null
-      } */}
+      }
     </header>
   );
 }
