@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Radio(props) {
-  const { inputId, inputLabel, inputName, clicked } = props;
+  const { inputId, inputLabel, inputName } = props;
   return (
     <label htmlFor={ inputId }>
       {inputLabel}
@@ -11,7 +11,6 @@ function Radio(props) {
         id={ inputId }
         name={ inputName }
         data-testid={ dataTestid }
-        onClick={ clicked }
       />
 
     </label>
@@ -20,14 +19,12 @@ function Radio(props) {
 
 Radio.defaultProps = {
   inputLabel: '',
-  clicked: () => '',
 };
 
 Radio.propTypes = {
   inputId: PropTypes.string.isRequired,
   inputLabel: PropTypes.string,
   inputName: PropTypes.string.isRequired,
-  clicked: PropTypes.func,
 };
 
 export default Radio;

@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from './Forms/Button';
 import Radio from './Forms/Radio';
 
 function SearchBar() {
@@ -7,6 +8,9 @@ function SearchBar() {
       <Radio />
       <Radio />
       <Radio />
+
+      <Button />
+
     </div>
   );
 }
