@@ -1,8 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/login.css';
 
 function Login(props) {
+  useEffect(() => {
+    const requisition = async () => {
+      const response = await
+      fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+      const data = await response.json();
+      console.log(data.meals);
+    };
+    requisition();
+  }, []);
+
   const { history: { push } } = props;
   const [inputState, setInputState] = useState({ email: '', password: '' });
 
@@ -23,7 +33,6 @@ function Login(props) {
 
   const inputSubmitHandler = (event) => {
     event.preventDefault();
-    console.log(event);
 
     // set token to localStorage
     localStorage.setItem('mealsToken', '1');
@@ -38,8 +47,6 @@ function Login(props) {
     // redirect to Foods
     push('/foods');
   };
-
-  console.log(inputState);
 
   return (
     <div className="login-container">
