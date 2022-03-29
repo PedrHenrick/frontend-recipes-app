@@ -1,11 +1,11 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import searchIcon from '../images/searchIcon.svg';
 import profileIcon from '../images/profileIcon.svg';
 import '../styles/headerPage.css';
 
-function Header() {
+function Header({ title }) {
   return (
     <header className="headerPage">
       <button
@@ -21,7 +21,7 @@ function Header() {
       <h2
         data-testid="page-title"
       >
-        Foods
+        { title }
       </h2>
 
       <button
@@ -39,6 +39,6 @@ function Header() {
 
 export default Header;
 
-// Header.propTypes = {
-//   title: PropTypes.string.isRequired,
-// };
+Header.propTypes = {
+  title: PropTypes.string.isRequired,
+};
