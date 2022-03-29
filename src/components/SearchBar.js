@@ -7,24 +7,24 @@ function SearchBar() {
     <div className="search-container">
       <Radio
         inputId="ingredientsearch"
-        inputLabel="Ingredients"
+        inputLabel="Ingredient"
         inputName="search"
         dataTestid="ingredient-search-radio"
       />
       <Radio
         inputId="recipesearch"
-        inputLabel="Recipes"
+        inputLabel="Name"
         inputName="search"
         dataTestid="name-search-radio"
       />
       <Radio
         inputId="firstlettersearch"
-        inputLabel="By First Letter"
+        inputLabel="First Letter"
         inputName="search"
         dataTestid="first-letter-search-radio"
       />
 
-      <Button btnName="Search" />
+      <Button btnName="Search" dataTestid="exec-search-btn" />
 
     </div>
   );

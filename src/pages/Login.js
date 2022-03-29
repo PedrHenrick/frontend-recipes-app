@@ -23,7 +23,6 @@ function Login(props) {
 
   const inputSubmitHandler = (event) => {
     event.preventDefault();
-    console.log(event);
 
     // set token to localStorage
     localStorage.setItem('mealsToken', '1');
@@ -38,8 +37,6 @@ function Login(props) {
     // redirect to Foods
     push('/foods');
   };
-
-  console.log(inputState);
 
   return (
     <div className="login-container">
