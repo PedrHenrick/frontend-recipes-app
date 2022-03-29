@@ -3,22 +3,24 @@ import PropTypes from 'prop-types';
 import validateEmail from '../helpers/helpers';
 import '../styles/login.css';
 
-const MIN_LENGTH = 6;
-
 function Login(props) {
   const { history: { push } } = props;
   const [user, setUser] = useState({ email: '' });
-  const [validEmail, setValidEmail] = useState(false);
-  const [validPassword, setValidPassword] = useState(false);
+  const [inputState, setInputState] = useState({ email: '', password: '' });
 
+  const changeButtonStatus = () => {
+    const { email, password } = inputState;
+    const miniSenha = 7;
+    return (
+      !email.includes('@')
+      || !email.includes('.com')
+      || password.length < miniSenha
+    );
+  };
+   
   const inputChangeHandler = ({ target }) => {
-    if (target.name === 'email') {
-      setUser({ email: target.value });
-      setValidEmail(validateEmail(target.value));
-    } else {
-      const isValid = target.value.length > MIN_LENGTH;
-      setValidPassword(isValid);
-    }
+     const { name, value } = target;
+    setInputState({ ...inputState, [name]: value });
   };
 
   const inputSubmitHandler = (event) => {
@@ -68,7 +70,7 @@ function Login(props) {
           className="login__btn"
           type="submit"
           data-testid="login-submit-btn"
-          disabled={ !(validEmail && validPassword) }
+          disabled={ changeButtonStatus() }
         >
           Enter
         </button>
