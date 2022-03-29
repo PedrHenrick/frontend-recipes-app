@@ -5,11 +5,26 @@ import Radio from './Forms/Radio';
 function SearchBar() {
   return (
     <div className="search-container">
-      <Radio />
-      <Radio />
-      <Radio />
+      <Radio
+        inputId="ingredientsearch"
+        inputLabel="Ingredients"
+        inputName="search"
+        dataTestid="ingredient-search-radio"
+      />
+      <Radio
+        inputId="recipesearch"
+        inputLabel="Recipes"
+        inputName="search"
+        dataTestid="name-search-radio"
+      />
+      <Radio
+        inputId="firstlettersearch"
+        inputLabel="By First Letter"
+        inputName="search"
+        dataTestid="first-letter-search-radio"
+      />
 
-      <Button />
+      <Button btnName="Search" />
 
     </div>
   );

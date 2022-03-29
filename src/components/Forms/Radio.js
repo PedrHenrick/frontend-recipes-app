@@ -12,7 +12,6 @@ function Radio(props) {
         name={ inputName }
         data-testid={ dataTestid }
       />
-
     </label>
   );
 }
