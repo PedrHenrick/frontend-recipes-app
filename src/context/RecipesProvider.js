@@ -6,6 +6,8 @@ import recipesContext from './recipesContext';
 function RecipesProvider({ children }) {
   const { Provider } = recipesContext;
   const [searchInput, setSearchInput] = useState('');
+  const [meals, setMeals] = useState([]);
+  const [drinks, setDrinks] = useState([]);
 
   const searchParams = {
     searchInput,
@@ -13,7 +15,19 @@ function RecipesProvider({ children }) {
   };
 
   return (
-    <Provider value={ searchParams }>
+    <Provider
+      value={ {
+        searchParams,
+        meal: {
+          meals,
+          setMeals,
+        },
+        drink: {
+          drinks,
+          setDrinks,
+        },
+      } }
+    >
       { children }
     </Provider>
   );
