@@ -12,8 +12,6 @@ function SearchBar(props) {
   const { searchInput } = useContext(recipesContext);
   const [searchType, setSearchType] = useState('');
 
-  console.log(type);
-
   const inputChangeHandler = ({ target }) => {
     setSearchType(target.value);
   };
