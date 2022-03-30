@@ -1,18 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/login.css';
 
 function Login(props) {
-  useEffect(() => {
-    const requisition = async () => {
-      const response = await
-      fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-      const data = await response.json();
-      console.log(data.meals);
-    };
-    requisition();
-  }, []);
-
   const { history: { push } } = props;
   const [inputState, setInputState] = useState({ email: '', password: '' });
 
