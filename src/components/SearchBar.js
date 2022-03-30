@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import recipesContext from '../context/recipesContext';
 import Button from './Forms/Button';
 import Radio from './Forms/Radio';
@@ -8,7 +9,7 @@ import { fetchMealsOrDrinksByFirstLetter,
   fetchMealsOrDrinksByName } from '../services/api';
 
 function SearchBar(props) {
-  const { type } = props;
+  const { type, history } = props;
   const { searchInput } = useContext(recipesContext);
   const [searchType, setSearchType] = useState('');
 
@@ -16,9 +17,17 @@ function SearchBar(props) {
     setSearchType(target.value);
   };
 
+  const redirectToRecipeDetails = (results) => {
+    const { location: { pathname }, push } = history;
+    let recipeId;
+    if (results.length === 1) {
+      recipeId = type === 'meals' ? results[0].idMeal : results[0].idDrink;
+      push(`${pathname}/${recipeId}`);
+    }
+  };
+
   const fetchData = async () => {
     let data;
-    console.log(type, searchInput);
     if (searchType === 'ingredient') {
       data = await fetchMealsOrDrinksByIngredient(type, searchInput);
     } else if (searchType === 'name') {
@@ -31,11 +40,20 @@ function SearchBar(props) {
 
   const searchClickedHandler = async () => {
     const data = await fetchData();
+    let results = [];
     if (searchType === 'firstletter'
     && searchInput.length > 1) {
       global.alert('Your search must have only 1 (one) character');
+    } else {
+      if (type === 'drinks') {
+        const { drinks } = data;
+        results = drinks;
+      } else {
+        const { meals } = data;
+        results = meals;
+      }
+      redirectToRecipeDetails(results);
     }
-    console.log(data);
   };
 
   return (
@@ -74,7 +92,13 @@ function SearchBar(props) {
 }
 
 SearchBar.propTypes = {
+  history: PropTypes.shape({
+    location: PropTypes.shape({
+      pathname: PropTypes.string,
+    }),
+    push: PropTypes.shape({}),
+  }).isRequired,
   type: PropTypes.string.isRequired,
 };
 
-export default SearchBar;
+export default withRouter(SearchBar);
