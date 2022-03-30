@@ -8,10 +8,9 @@ import '../styles/headerPage.css';
 
 function Header({ history: { push }, title, showSearch }) {
   const [inputView, setInputView] = useState(false);
-  console.log(showSearch);
 
   return (
-    <header className="headerPageAll">
+    <header className="headerPageAll" data-testid="heading">
       <section className="headerPage">
         <button
           type="button"
