@@ -9,7 +9,7 @@ function Foods() {
         title="Foods"
         showSearch
       />
-      <SearchBar />
+      <SearchBar type="meals" />
     </div>
   );
 }

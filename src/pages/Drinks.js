@@ -1,12 +1,16 @@
 import React from 'react';
 import HeaderPage from '../components/Header';
+import SearchBar from '../components/SearchBar';
 
 function Drinks() {
   return (
-    <HeaderPage
-      title="Drinks"
-      showSearch
-    />
+    <div>
+      <HeaderPage
+        title="Drinks"
+        showSearch
+      />
+      <SearchBar type="drinks" />
+    </div>
   );
 }
 
