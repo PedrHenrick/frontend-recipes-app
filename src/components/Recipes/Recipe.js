@@ -5,7 +5,7 @@ function Recipe(props) {
   const { index, recipeName, recipeImgScr } = props;
 
   return (
-    <div className="recipe-container" data-testid={ `${index}-recipe-card` }>
+    <div className="recipe__card" data-testid={ `${index}-recipe-card` }>
       <h4 className="recipe__name" data-testid={ `${index}-card-name` }>{recipeName}</h4>
       <img
         src={ recipeImgScr }

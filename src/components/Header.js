@@ -10,7 +10,8 @@ import recipesContext from '../context/recipesContext';
 
 function Header({ history: { push }, title, showSearch }) {
   const [inputView, setInputView] = useState(false);
-  const { searchInput, setSearchInput } = useContext(recipesContext);
+  const { searchParams } = useContext(recipesContext);
+  const { searchInput, setSearchInput } = searchParams;
 
   return (
     <header className="headerPageAll">

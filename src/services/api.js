@@ -36,7 +36,6 @@ export const fetchMealsOrDrinksByName = async (type, name) => {
 
     const data = await fetch(url);
     const results = await data.json();
-    console.log(results);
     return results;
   } catch (err) {
     console.error(err.message);

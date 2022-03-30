@@ -7,10 +7,15 @@ import Radio from './Forms/Radio';
 import { fetchMealsOrDrinksByFirstLetter,
   fetchMealsOrDrinksByIngredient,
   fetchMealsOrDrinksByName } from '../services/api';
+import { getMealsOrDrinks } from '../helpers/helpers';
+
+const MAX_RECIPES = 12;
 
 function SearchBar(props) {
   const { type, history } = props;
-  const { searchInput } = useContext(recipesContext);
+  const { meal, drink, searchParams: { searchInput } } = useContext(recipesContext);
+  const { setMeals } = meal;
+  const { setDrinks } = drink;
   const [searchType, setSearchType] = useState('');
 
   const inputChangeHandler = ({ target }) => {
@@ -27,32 +32,49 @@ function SearchBar(props) {
   };
 
   const fetchData = async () => {
-    let data;
-    if (searchType === 'ingredient') {
-      data = await fetchMealsOrDrinksByIngredient(type, searchInput);
-    } else if (searchType === 'name') {
-      data = await fetchMealsOrDrinksByName(type, searchInput);
-    } else {
-      data = await fetchMealsOrDrinksByFirstLetter(type, searchInput);
+    try {
+      let data;
+      if (searchType === 'ingredient') {
+        data = await fetchMealsOrDrinksByIngredient(type, searchInput);
+      } else if (searchType === 'name') {
+        data = await fetchMealsOrDrinksByName(type, searchInput);
+      } else {
+        data = await fetchMealsOrDrinksByFirstLetter(type, searchInput);
+      }
+      return data;
+    } catch (err) {
+      console.error(err.message);
     }
-    return data;
   };
 
+  const saveMealsOrDrinks = (results) => {
+    if (type === 'drinks') {
+      const drinks = results.filter((element, index) => index < MAX_RECIPES);
+      setDrinks(drinks);
+    } else if (type === 'meals') {
+      const meals = results.filter((element, index) => index < MAX_RECIPES);
+      setMeals(meals);
+    }
+  };
   const searchClickedHandler = async () => {
-    const data = await fetchData();
-    let results = [];
-    if (searchType === 'firstletter'
+    try {
+      const data = await fetchData();
+      const results = getMealsOrDrinks(type, data, searchType);
+
+      if (searchType === 'firstletter'
     && searchInput.length > 1) {
-      global.alert('Your search must have only 1 (one) character');
-    } else {
-      if (type === 'drinks') {
-        const { drinks } = data;
-        results = drinks;
-      } else {
-        const { meals } = data;
-        results = meals;
+        global.alert('Your search must have only 1 (one) character');
+      } else if (results?.length === 1) {
+        redirectToRecipeDetails(results);
+      } else if (results?.length > 0) {
+        saveMealsOrDrinks(results);
       }
-      redirectToRecipeDetails(results);
+
+      if (!results || results?.length === 0) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      }
+    } catch (err) {
+      console.error(err.message);
     }
   };
 
@@ -96,7 +118,7 @@ SearchBar.propTypes = {
     location: PropTypes.shape({
       pathname: PropTypes.string,
     }),
-    push: PropTypes.shape({}),
+    push: PropTypes.func,
   }).isRequired,
   type: PropTypes.string.isRequired,
 };
