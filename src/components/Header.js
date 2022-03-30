@@ -14,7 +14,7 @@ function Header({ history: { push }, title, showSearch }) {
   const { searchInput, setSearchInput } = searchParams;
 
   return (
-    <header className="headerPageAll">
+    <header className="headerPageAll" data-testid="heading">
       <section className="headerPage">
         <button
           type="button"

@@ -1,11 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import HeaderPage from '../components/Header';
 
-function Explore(props) {
-  const { location } = props;
-  console.log(location);
+function Explore() {
   return (
     <HeaderPage
       title="Explore"
@@ -15,11 +12,3 @@ function Explore(props) {
 }
 
 export default Explore;
-
-Explore.defaultProps = {
-  location: {},
-};
-
-Explore.propTypes = {
-  location: PropTypes.objectOf(PropTypes.any),
-};
