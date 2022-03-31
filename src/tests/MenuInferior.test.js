@@ -50,10 +50,10 @@ respeitando os atributos descritos no protótipo`, () => {
 describe(`20 - Posicione o menu inferior de forma fixa e apresente 
   3 ícones: um para comidas, um para bebidas e outro para exploração`, () => {
   it('O menu inferior deve ficar fixado sempre ao final da página', () => {
-    const { getByTestId } = renderWithRouter(<Foods />);
+    const { findByTestId } = renderWithRouter(<Foods />);
 
-    expect(getByTestId(/footer/i)).toHaveStyle('position: fixed');
-    expect(getByTestId(/footer/i)).toHaveStyle('bottom: 0px');
+    expect(findByTestId(/footer/i)).toHaveStyle('position: fixed');
+    expect(findByTestId(/footer/i)).toHaveStyle('bottom: 0px');
   });
 
   it(`Apresenta os ícones corretos (drinkIcon.svg, exploreIcon.svg 

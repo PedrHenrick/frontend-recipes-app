@@ -1,87 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 
-function DrinkDescription() {
+function DrinkDescription({ history }) {
+  const id = (Number(history.location.pathname.split('/')[2]));
+  useEffect(() => {
+    const requestAPI = async () => {
+      const data = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+      const response = data.json();
+      console.log(response);
+    };
+    requestAPI();
+  }, [id]);
   return (
-    <main>
-      <img
-        data-testid="recipe-photo"
-        src=""
-        alt=""
-      />
-
-      <h1
-        data-testid="recipeTitle"
-      >
-        Title Item
-      </h1>
-
-      <button
-        data-testid="share-btn"
-        type="button"
-      >
-        share
-      </button>
-
-      <button
-        data-testid="favorite-btn"
-        type="button"
-      >
-        favorite
-      </button>
-
-      <h2
-        data-testid="recipe-category"
-      >
-        title category
-      </h2>
-
-      {/* <ul>
-        ingredients.map((ingredient, index) => (
-        <li
-          key={ index }
-          data-testid='${index}-ingredient-name-and-measure'
-        >
-          { ingredient }
-        </li>
-        ))
-      </ul> */}
-
-      <p
-        data-testid="instructions"
-      >
-        instructions
-      </p>
-
-      <video
-        width="300px"
-        height="200px"
-      >
-        <source src="./Tryunfo.mp4" type="video/mp4" />
-        <track kind="captions" />
-      </video>
-
-      {/* { name === 'foods'
-        ? 'lalaland'
-        : null } */}
-
-      {/* <ul>
-      cardsOfRecomendation.map((recomendation, index) => (
-        <li
-          key={ index }
-          data-testid="${index}-recomendation-card"
-        >
-          { recomendation }
-        </li>
-      </ul> */}
-
-      <button
-        type="button"
-        data-testid="start-recipe-btn"
-      >
-        Fazer
-      </button>
-    </main>
+    <main>lalaland</main>
   );
 }
 
 export default DrinkDescription;
+
+DrinkDescription.defaultProps = {
+  history: {},
+};
+
+DrinkDescription.propTypes = {
+  history: PropTypes.objectOf(PropTypes.any),
+};
