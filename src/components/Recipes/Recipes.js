@@ -43,6 +43,8 @@ function Recipes(props) {
         index={ index }
         recipeName={ meal.strMeal }
         recipeImgSrc={ meal.strMealThumb }
+        recipeId={ meal.idMeal }
+        recipeType={ pathname }
       />));
     }
     if (pathname === '/drinks') {
@@ -51,6 +53,8 @@ function Recipes(props) {
         index={ index }
         recipeName={ drink.strDrink }
         recipeImgSrc={ drink.strDrinkThumb }
+        recipeId={ drink.idDrink }
+        recipeType={ pathname }
       />));
     }
   };
