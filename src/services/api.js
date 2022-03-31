@@ -94,8 +94,6 @@ export const fetchRecipesByCategory = async (type, category) => {
       categoryFiltered = encodeURIComponent(category);
     }
 
-    console.log(categoryFiltered);
-
     if (type === 'meals') {
       url = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryFiltered}`;
     } else if (type === 'drinks') {

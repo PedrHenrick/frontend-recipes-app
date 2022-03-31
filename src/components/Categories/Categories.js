@@ -2,15 +2,18 @@ import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import recipesContext from '../../context/recipesContext';
 import Button from '../Forms/Button';
-import { fetchMealsOrDrinksCategories,
+import { fetchMealsOrDrinksByName, fetchMealsOrDrinksCategories,
   fetchRecipesByCategory } from '../../services/api';
 
 const MAX_CATEGORIES = 5;
 const MAX_RECIPES = 12;
+let sameCategory = '';
 
 function Categories(props) {
   const { type } = props;
   const [categories, setCategories] = useState([]);
+  const [isFiltered, setIsFiltered] = useState(false);
+
   const { meal: { setMeals }, drink: { setDrinks } } = useContext(recipesContext);
 
   useEffect(() => {
@@ -33,14 +36,30 @@ function Categories(props) {
 
   const clickCategoryHandler = async (categoryName) => {
     try {
-      const recipes = await fetchRecipesByCategory(type, categoryName);
-      if (type === 'drinks') {
-        const drinks = recipes.drinks.filter((element, index) => index < MAX_RECIPES);
-        setDrinks(drinks);
-      } else if (type === 'meals') {
-        const meals = recipes.meals.filter((element, index) => index < MAX_RECIPES);
-        setMeals(meals);
+      let recipes;
+      let drinks;
+      let meals;
+      if (isFiltered && sameCategory === categoryName) {
+        recipes = await fetchMealsOrDrinksByName(type);
+        if (type === 'drinks') {
+          drinks = recipes.drinks.filter((element, index) => index < MAX_RECIPES);
+          setDrinks(drinks);
+        } else if (type === 'meals') {
+          meals = recipes.meals.filter((element, index) => index < MAX_RECIPES);
+          setMeals(meals);
+        }
+      } else {
+        recipes = await fetchRecipesByCategory(type, categoryName);
+        if (type === 'drinks') {
+          drinks = recipes.drinks.filter((element, index) => index < MAX_RECIPES);
+          setDrinks(drinks);
+        } else if (type === 'meals') {
+          meals = recipes.meals.filter((element, index) => index < MAX_RECIPES);
+          setMeals(meals);
+        }
       }
+      sameCategory = categoryName;
+      setIsFiltered(!isFiltered);
     } catch (err) {
       console.error(err.message);
     }

@@ -13,7 +13,6 @@ function Recipes(props) {
     drink: { drinks, setDrinks } } = useContext(recipesContext);
   const { location: { pathname } } = props;
   const [type, setType] = useState('');
-  console.log(pathname);
 
   useEffect(() => {
     if (pathname === '/foods') {
