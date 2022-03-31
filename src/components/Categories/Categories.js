@@ -39,7 +39,7 @@ function Categories(props) {
       let recipes;
       let drinks;
       let meals;
-      if (isFiltered && sameCategory === categoryName) {
+      if ((isFiltered && sameCategory === categoryName) || categoryName === 'All') {
         recipes = await fetchMealsOrDrinksByName(type);
         if (type === 'drinks') {
           drinks = recipes.drinks.filter((element, index) => index < MAX_RECIPES);
@@ -76,6 +76,11 @@ function Categories(props) {
   return (
     <div className="categories-container">
       { renderCategories() }
+      <Button
+        btnName="All"
+        dataTestid="All-category-filter"
+        clicked={ () => clickCategoryHandler('All') }
+      />
     </div>
   );
 }

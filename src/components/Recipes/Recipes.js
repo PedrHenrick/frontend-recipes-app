@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import recipesContext from '../../context/recipesContext';
@@ -12,20 +12,17 @@ function Recipes(props) {
   const { meal: { meals, setMeals },
     drink: { drinks, setDrinks } } = useContext(recipesContext);
   const { location: { pathname } } = props;
-  const [type, setType] = useState('');
 
   useEffect(() => {
     if (pathname === '/foods') {
       fetchMealsOrDrinksByName('meals').then(({ meals: results }) => {
         const mealResults = results.filter((element, index) => index < MAX_RECIPES);
         setMeals(mealResults);
-        setType('meals');
       });
     } else if (pathname === '/drinks') {
       fetchMealsOrDrinksByName('drinks').then(({ drinks: results }) => {
         const drinkResults = results.filter((element, index) => index < MAX_RECIPES);
         setDrinks(drinkResults);
-        setType('drinks');
       });
     }
   }, [pathname]);
@@ -45,7 +42,7 @@ function Recipes(props) {
         key={ meal.idMeal }
         index={ index }
         recipeName={ meal.strMeal }
-        recipeImgScr={ meal.strMealThumb }
+        recipeImgSrc={ meal.strMealThumb }
       />));
     }
     if (pathname === '/drinks') {
@@ -53,14 +50,15 @@ function Recipes(props) {
         key={ drink.idDrink }
         index={ index }
         recipeName={ drink.strDrink }
-        recipeImgScr={ drink.strDrinkThumb }
+        recipeImgSrc={ drink.strDrinkThumb }
       />));
     }
   };
+  console.log(drinks, meals);
 
   return (
     <div className="recipe-container">
-      <Categories type={ type } />
+      <Categories type={ pathname === '/foods' ? 'meals' : 'drinks' } />
       { renderRecipes() }
     </div>
   );
