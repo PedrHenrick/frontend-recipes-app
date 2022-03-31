@@ -52,8 +52,9 @@ describe(`20 - Posicione o menu inferior de forma fixa e apresente
     const { history } = renderWithRouter(<App />);
     history.push('./foods');
 
-    const footer = screen.queryByTestId(/footer/i);
-    expect(footer).toHaveStyle('position: fixed');
+    expect(screen.getByTestId(/footer/i)).toHaveStyle({
+      position: 'fixed',
+    });
   });
 
   it(`Apresenta os ícones corretos (drinkIcon.svg, exploreIcon.svg 
