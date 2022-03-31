@@ -18,15 +18,15 @@ function Categories(props) {
 
   useEffect(() => {
     if (type === 'meals') {
-      fetchMealsOrDrinksCategories('meals').then((res) => {
-        const categoriesResults = res
+      fetchMealsOrDrinksCategories('meals').then((recipeCategory) => {
+        const categoriesResults = recipeCategory
           .meals
           .filter((element, index) => index < MAX_CATEGORIES);
         setCategories(categoriesResults);
       });
     } else if (type === 'drinks') {
-      fetchMealsOrDrinksCategories('drinks').then((res) => {
-        const categoriesResults = res
+      fetchMealsOrDrinksCategories('drinks').then((recipeCategory) => {
+        const categoriesResults = recipeCategory
           .drinks
           .filter((element, index) => index < MAX_CATEGORIES);
         setCategories(categoriesResults);
