@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import searchIcon from '../images/searchIcon.svg';
 import profileIcon from '../images/profileIcon.svg';
 import '../styles/headerPage.css';
+import Input from './Forms/Input';
+import recipesContext from '../context/recipesContext';
 
 function Header({ history: { push }, title, showSearch }) {
   const [inputView, setInputView] = useState(false);
+  const { searchParams } = useContext(recipesContext);
+  const { searchInput, setSearchInput } = searchParams;
 
   return (
     <header className="headerPageAll" data-testid="heading">
@@ -43,16 +47,12 @@ function Header({ history: { push }, title, showSearch }) {
             ) : null
         }
       </section>
-      {
-        inputView === true
-          ? (
-            <input
-              type="text"
-              className="headerInput"
-              data-testid="search-input"
-            />
-          ) : null
-      }
+      { inputView && (<Input
+        inputClass="headerInput"
+        dataTestid="search-input"
+        changed={ ({ target }) => setSearchInput(target.value) }
+        inputValue={ searchInput }
+      />)}
     </header>
   );
 }
