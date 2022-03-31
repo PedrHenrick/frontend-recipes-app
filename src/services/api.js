@@ -87,17 +87,10 @@ export const fetchMealsOrDrinksCategories = async (type) => {
 export const fetchRecipesByCategory = async (type, category) => {
   try {
     let url;
-    let categoryFiltered;
-    if (category.startsWith('Ordinary')) {
-      categoryFiltered = category.replace(' ', '_');
-    } else {
-      categoryFiltered = encodeURIComponent(category);
-    }
-
     if (type === 'meals') {
-      url = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryFiltered}`;
+      url = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`;
     } else if (type === 'drinks') {
-      url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoryFiltered}`;
+      url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`;
     } else {
       invalidType();
     }
