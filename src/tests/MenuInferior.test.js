@@ -7,6 +7,7 @@ import App from '../App';
 import drinkIcon from '../images/drinkIcon.svg';
 import exploreIcon from '../images/exploreIcon.svg';
 import mealIcon from '../images/mealIcon.svg';
+import Foods from '../pages/Foods';
 
 describe(`19 - Implemente os elementos do menu inferior 
 respeitando os atributos descritos no protótipo`, () => {
@@ -49,12 +50,10 @@ respeitando os atributos descritos no protótipo`, () => {
 describe(`20 - Posicione o menu inferior de forma fixa e apresente 
   3 ícones: um para comidas, um para bebidas e outro para exploração`, () => {
   it('O menu inferior deve ficar fixado sempre ao final da página', () => {
-    const { history } = renderWithRouter(<App />);
-    history.push('./foods');
+    const { getByTestId } = renderWithRouter(<Foods />);
 
-    expect(screen.getByTestId(/footer/i)).toHaveStyle({
-      position: 'fixed',
-    });
+    expect(getByTestId(/footer/i)).toHaveStyle('position: fixed');
+    expect(getByTestId(/footer/i)).toHaveStyle('bottom: 0px');
   });
 
   it(`Apresenta os ícones corretos (drinkIcon.svg, exploreIcon.svg 
