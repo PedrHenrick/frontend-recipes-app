@@ -52,7 +52,7 @@ describe(`20 - Posicione o menu inferior de forma fixa e apresente
     const { history } = renderWithRouter(<App />);
     history.push('./foods');
 
-    const footer = screen.getByTestId(/footer/i);
+    const footer = screen.queryByTestId(/footer/i);
     expect(footer).toHaveStyle('position: fixed');
   });
 
@@ -65,9 +65,9 @@ describe(`20 - Posicione o menu inferior de forma fixa e apresente
     const exploreElem = screen.getByTestId(/explore-bottom-btn/i);
     const foodElem = screen.getByTestId(/food-bottom-btn/i);
 
-    expect(drinkElem).toBe(drinkIcon);
-    expect(exploreElem).toBe(exploreIcon);
-    expect(foodElem).toBe(mealIcon);
+    expect(drinkElem.src.includes(drinkIcon)).toBe(true);
+    expect(exploreElem.src.includes(exploreIcon)).toBe(true);
+    expect(foodElem.src.includes(mealIcon)).toBe(true);
   });
 });
 
@@ -85,7 +85,7 @@ describe(`21 - Exiba o menu inferior apenas nas
       expect(exploreElem).toBeInTheDocument();
       expect(foodElem).toBeInTheDocument();
     } else {
-      const footer = screen.getByTestId(/footer/i);
+      const footer = screen.queryByTestId(/footer/i);
       expect(footer).not.toBeInTheDocument();
     }
   };
