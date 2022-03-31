@@ -1,19 +1,48 @@
 import React, { useContext, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import recipesContext from '../../context/recipesContext';
+import { fetchMealsOrDrinksByName } from '../../services/api';
 import Recipe from './Recipe';
+import Categories from '../Categories/Categories';
 
-function Recipes() {
-  const { meal: { meals }, drink: { drinks } } = useContext(recipesContext);
-  const [isLoaded, setIsLoaded] = useState(false);
+const MAX_RECIPES = 12;
+
+function Recipes(props) {
+  const { meal: { meals, setMeals },
+    drink: { drinks, setDrinks } } = useContext(recipesContext);
+  const { location: { pathname } } = props;
+  const [type, setType] = useState('');
 
   useEffect(() => {
-    if (meals.length > 1 || drinks.length > 1) {
-      setIsLoaded(true);
+    console.log('componentDidMount()');
+    if (pathname === '/foods') {
+      fetchMealsOrDrinksByName('meals').then(({ meals: results }) => {
+        const mealResults = results.filter((element, index) => index < MAX_RECIPES);
+        setMeals(mealResults);
+        setType('meals');
+      });
+    } else if (pathname === '/drinks') {
+      fetchMealsOrDrinksByName('drinks').then(({ drinks: results }) => {
+        const drinkResults = results.filter((element, index) => index < MAX_RECIPES);
+        setDrinks(drinkResults);
+        setType('drinks');
+      });
     }
-  }, [meals, drinks]);
+  }, []);
+
+  useEffect(() => {
+    console.log('componentDidUpdate()');
+    if (meals.length > 1) {
+      setMeals(meals);
+    }
+    if (drinks.length > 1) {
+      setDrinks(drinks);
+    }
+  }, [setMeals, setDrinks]);
 
   const renderRecipes = () => {
-    if (meals.length > 1) {
+    if (pathname === '/foods') {
       return meals.map((meal, index) => (<Recipe
         key={ meal.idMeal }
         index={ index }
@@ -21,7 +50,7 @@ function Recipes() {
         recipeImgScr={ meal.strMealThumb }
       />));
     }
-    if (drinks.length > 1) {
+    if (pathname === '/drinks') {
       return drinks.map((drink, index) => (<Recipe
         key={ drink.idDrink }
         index={ index }
@@ -33,9 +62,16 @@ function Recipes() {
 
   return (
     <div className="recipe-container">
-      { isLoaded && renderRecipes() }
+      <Categories type={ type } />
+      { renderRecipes() }
     </div>
   );
 }
 
-export default Recipes;
+Recipes.propTypes = {
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }).isRequired,
+};
+
+export default withRouter(Recipes);

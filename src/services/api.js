@@ -21,10 +21,9 @@ export const fetchMealsOrDrinksByIngredient = async (type, ingredient) => {
   }
 };
 
-export const fetchMealsOrDrinksByName = async (type, name) => {
+export const fetchMealsOrDrinksByName = async (type, name = '') => {
   try {
     let url;
-    if (!name.trim()) throw new Error('name não foi definido.');
 
     if (type === 'meals') {
       url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${name}`;
@@ -59,6 +58,27 @@ export const fetchMealsOrDrinksByFirstLetter = async (type, letter) => {
 
     const data = await fetch(url);
     const results = await data.json();
+    return results;
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+export const fetchMealsOrDrinksCategories = async (type) => {
+  try {
+    let url;
+
+    if (type === 'meals') {
+      url = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
+    } else if (type === 'drinks') {
+      url = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
+    } else {
+      invalidType();
+    }
+
+    const data = await fetch(url);
+    const results = await data.json();
+    console.log(results);
     return results;
   } catch (err) {
     console.error(err.message);
