@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import recipesContext from '../../context/recipesContext';
 import Button from '../Forms/Button';
-import { fetchMealsOrDrinksCategories, fetchRecipesByCategory } from '../../services/api';
+import { fetchMealsOrDrinksCategories,
+  fetchRecipesByCategory } from '../../services/api';
 
 const MAX_CATEGORIES = 5;
 const MAX_RECIPES = 12;

@@ -13,9 +13,9 @@ function Recipes(props) {
     drink: { drinks, setDrinks } } = useContext(recipesContext);
   const { location: { pathname } } = props;
   const [type, setType] = useState('');
+  console.log(pathname);
 
   useEffect(() => {
-    console.log('componentDidMount()');
     if (pathname === '/foods') {
       fetchMealsOrDrinksByName('meals').then(({ meals: results }) => {
         const mealResults = results.filter((element, index) => index < MAX_RECIPES);
@@ -29,10 +29,9 @@ function Recipes(props) {
         setType('drinks');
       });
     }
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
-    console.log('componentDidUpdate()');
     if (meals.length > 1) {
       setMeals(meals);
     }
