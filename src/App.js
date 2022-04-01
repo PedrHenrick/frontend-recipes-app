@@ -34,9 +34,9 @@ function App() {
         <Route exact path="/explore" component={ Explore } />
         <Route exact path="/foods/:food_recipes_id" component={ FoodsDescription } />
         <Route exact path="/drinks/:drink_recipes_id" component={ DrinksDescription } />
-        <Route path="/foods/:food_recipes_id/in-progress" component={ FoodsInProgress } />
+        <Route path="/foods/:recipe_id/in-progress" component={ FoodsInProgress } />
         <Route
-          path="/drinks/:drink_recipes_id/in-progress"
+          path="/drinks/:recipe_id/in-progress"
           component={ DrinksInProgress }
         />
         <Route exact path="/explore/foods" component={ ExploreFoods } />

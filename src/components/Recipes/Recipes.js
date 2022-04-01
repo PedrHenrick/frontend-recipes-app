@@ -39,7 +39,7 @@ function Recipes(props) {
   const renderRecipes = () => {
     if (pathname === '/foods') {
       return meals.map((meal, index) => (<Recipe
-        key={ meal.idMeal }
+        key={ index }
         index={ index }
         recipeName={ meal.strMeal }
         recipeImgSrc={ meal.strMealThumb }
@@ -49,7 +49,7 @@ function Recipes(props) {
     }
     if (pathname === '/drinks') {
       return drinks.map((drink, index) => (<Recipe
-        key={ drink.idDrink }
+        key={ index }
         index={ index }
         recipeName={ drink.strDrink }
         recipeImgSrc={ drink.strDrinkThumb }
@@ -58,7 +58,6 @@ function Recipes(props) {
       />));
     }
   };
-  console.log(drinks, meals);
 
   return (
     <div className="recipe-container">
