@@ -14,8 +14,6 @@ function FoodsDescription({ history }) {
     requestAPI();
   }, [id]);
 
-  console.log(foodsObject);
-
   const arrayOfEntries = Object.entries(foodsObject);
 
   const ingredients = arrayOfEntries.filter((ingredient) => (
@@ -25,7 +23,9 @@ function FoodsDescription({ history }) {
   const measures = arrayOfEntries.filter((measure) => (
     measure[0].includes('strMeasure')
   ));
-  console.log(foodsObject);
+
+  const linkOfVideo = String(foodsObject.strYoutube).split('=');
+  const Url = `https://www.youtube.com/embed/${linkOfVideo[1]}`;
 
   return (
     <main>
@@ -67,6 +67,16 @@ function FoodsDescription({ history }) {
             <p data-testid="instructions">
               { foodsObject.strInstructions }
             </p>
+
+            <iframe
+              title={ `vídeo ${measures.strMeal}` }
+              width="360"
+              height="250"
+              data-testid="video"
+              src={ Url }
+            >
+              { null }
+            </iframe>
           </section>
         ) : null}
     </main>
