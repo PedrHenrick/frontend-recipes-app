@@ -1,0 +1,19 @@
+.bottomMenu {
+  align-items: center;
+  background-color: rgb(196, 196, 196);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.footerMenu {
+  bottom: 0;
+  position: fixed;
+}
+
+.headerInput {
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 3%;
+  width: 80%;
+}
