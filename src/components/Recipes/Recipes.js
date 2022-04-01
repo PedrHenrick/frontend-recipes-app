@@ -5,6 +5,7 @@ import recipesContext from '../../context/recipesContext';
 import { fetchMealsOrDrinksByName } from '../../services/api';
 import Recipe from './Recipe';
 import Categories from '../Categories/Categories';
+import '../../styles/recipe.css';
 
 const MAX_RECIPES = 12;
 

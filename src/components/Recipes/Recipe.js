@@ -19,6 +19,7 @@ function Recipe(props) {
           alt={ `recipe ${recipeName} img ${index}` }
           className="recipe__img"
           data-testid={ `${index}-card-img` }
+          width="150px"
         />
       </div>
     </Link>

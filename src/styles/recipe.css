@@ -1,0 +1,5 @@
+.recipe-container {
+  max-height: 640px;
+  min-height: 640px;
+  overflow: scroll;
+}
