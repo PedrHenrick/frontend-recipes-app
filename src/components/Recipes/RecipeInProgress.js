@@ -5,7 +5,7 @@ import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import { fetchMealsOrDrinksByName } from '../../services/api';
 import '../../styles/recipes.css';
-import Input from '../Forms/Input';
+import IngredientsList from './IngredientsList';
 
 const INITIAL_STATE_MEAL = {
   idMeal: '52963',
@@ -143,29 +143,6 @@ function RecipeInProgress(props) {
     });
   }, []);
 
-  const renderIngredients = () => {
-    const ingredientsKeyValue = Object.entries(recipe);
-    const ingredients = ingredientsKeyValue
-      .filter(([key, value]) => key.startsWith('strIngredient') && value?.length > 0)
-      .map((ingredient) => ingredient[1]);
-
-    const measurements = ingredientsKeyValue
-      .filter(([key, value]) => key.startsWith('strMeasure') && value?.length > 0)
-      .map((measure) => measure[1]);
-
-    return ingredients.map((ingredient, index) => (
-      <li
-        key={ index }
-        data-testid={ `${index}-ingredient-step` }
-      >
-        <Input inputType="checkbox" />
-        {ingredient}
-        {' - '}
-        {measurements[index]}
-      </li>
-    ));
-  };
-
   return (
     <div className="recipe-progress__container">
       <img
@@ -195,9 +172,7 @@ function RecipeInProgress(props) {
         {recipe.strCategory}
       </h6>
       <h3 className="recipe-progress__ingredients">Ingredients</h3>
-      <ul className="recipe-progress__list">
-        { renderIngredients() }
-      </ul>
+      <IngredientsList recipe={ recipe } isMeal={ isMeal } />
       <p
         className="recipe-progress__instructions"
         data-testid="instructions"
