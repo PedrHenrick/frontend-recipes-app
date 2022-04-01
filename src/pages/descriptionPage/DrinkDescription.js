@@ -1,20 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
-// * A foto deve possuir o atributo `data-testid="recipe-photo"`; ✅
-// * O título deve possuir o atributo `data-testid="recipe-title"`; ✅
-// * O botão de compartilhar deve possuir o atributo `data-testid="share-btn"`;
-// * O botão de favoritar deve possuir o atributo `data-testid="favorite-btn"`;
-// * O texto da categoria deve possuir o atributo `data-testid="recipe-category"`; ✅
-// * Os ingredientes devem possuir o atributo `data-testid="${index}-ingredient-name-and-measure"`; ✅
-// * O texto de instruções deve possuir o atributo `data-testid="instructions"`;
-// * O vídeo, presente somente na tela de comidas, deve possuir o atributo `data-testid="video"`;
-// * O card de receitas recomendadas deve possuir o atributo `data-testid="${index}-recomendation-card"`;
-// * O botão de iniciar receita deve possuir o atributo `data-testid="start-recipe-btn"`;
+import '../../styles/describe.css';
 
 function DrinkDescription({ history }) {
+  const NUMBER_RECOMMENDED = 6;
   const id = (Number(history.location.pathname.split('/')[2]));
   const [drinkObject, setDrinkObject] = useState([]);
+  const [recommended, setRecommended] = useState([]);
 
   useEffect(() => {
     const requestAPI = async () => {
@@ -23,6 +15,12 @@ function DrinkDescription({ history }) {
       setDrinkObject(response.drinks[0]);
     };
     requestAPI();
+    const requestAPIRecommended = async () => {
+      const data = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+      const response = await data.json();
+      setRecommended(response.drinks);
+    };
+    requestAPIRecommended();
   }, [id]);
 
   const arrayOfEntries = Object.entries(drinkObject);
@@ -34,7 +32,6 @@ function DrinkDescription({ history }) {
   const measures = arrayOfEntries.filter((measure) => (
     measure[0].includes('strMeasure')
   ));
-  console.log(drinkObject);
 
   return (
     <main>
@@ -75,6 +72,33 @@ function DrinkDescription({ history }) {
             <p data-testid="instructions">
               { drinkObject.strInstructions }
             </p>
+            <ul className="recommendedList">
+              { Object.entries(recommended).slice(0, NUMBER_RECOMMENDED)
+                .map((recommend, index) => (
+                  <li
+                    key={ recommend[1].idDrink }
+                    data-testid={ `${index}-recomendation-card` }
+                  >
+                    <img
+                      src={ recommend[1].strDrinkThumb }
+                      alt={ `Imagem da comida ${recommend[1].strDrink}` }
+                      width="100px"
+                    />
+                    <h3
+                      data-testid={ `${index}-recomendation-title` }
+                    >
+                      { recommend[1].strDrink }
+                    </h3>
+                  </li>
+                )) }
+            </ul>
+            <button
+              className="describeButtonStart"
+              type="button"
+              data-testid="start-recipe-btn"
+            >
+              Start recipe
+            </button>
           </section>
         ) : null}
     </main>
