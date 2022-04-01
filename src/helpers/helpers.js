@@ -17,3 +17,41 @@ export const getMealsOrDrinks = (type, data, searchType) => {
     return results;
   }
 };
+
+export const getIngredientsAndMeasurements = (recipe) => {
+  const ingredientsKeyValue = Object.entries(recipe);
+  const ingredients = ingredientsKeyValue
+    .filter(([key, value]) => key.startsWith('strIngredient') && value?.length > 0)
+    .map((ingredient) => ingredient[1]);
+
+  const measurements = ingredientsKeyValue
+    .filter(([key, value]) => key.startsWith('strMeasure') && value?.length > 0)
+    .map((measure) => measure[1]);
+
+  return [ingredients, measurements];
+};
+
+export const saveIngredientsInStorage = (target, recipeId, recipeType) => {
+  const storage = localStorage.getItem(recipeType) ?? false;
+  const recipeIngredients = {};
+
+  if (target.checked) {
+    if (!storage) {
+      recipeIngredients[recipeId] = [target.value];
+    } else {
+      const ingredients = JSON.parse(storage)[recipeId];
+      const isOnList = ingredients.includes(target.value);
+      if (!isOnList) {
+        recipeIngredients[recipeId] = [...ingredients, target.value];
+      } else {
+        recipeIngredients[recipeId] = ingredients;
+      }
+    }
+  } else if (!target.checked && storage) {
+    const ingredients = JSON.parse(storage)[recipeId];
+    const filteredIngredients = ingredients
+      .filter((ingredient) => ingredient !== target.value);
+    recipeIngredients[recipeId] = filteredIngredients;
+  }
+  localStorage.setItem(recipeType, JSON.stringify(recipeIngredients));
+};

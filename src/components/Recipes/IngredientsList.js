@@ -1,61 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Input from '../Forms/Input';
+import CheckBox from '../Forms/CheckBox';
 import '../../styles/recipes.css';
+import { getIngredientsAndMeasurements,
+  saveIngredientsInStorage } from '../../helpers/helpers';
 
 function IngredientsList(props) {
   const { recipe, isMeal } = props;
+  const recipeType = isMeal ? 'meals' : 'cocktails';
+  const type = isMeal ? 'Meal' : 'Drink';
+  const recipeId = recipe[`id${type}`];
+  const [ingredients, measurements] = getIngredientsAndMeasurements(recipe);
+  const [isChecked, setIsChecked] = useState(false);
+  const storage = localStorage.getItem(recipeType) ?? false;
+
+  const checkIngredient = (ingredient) => {
+    if (storage) {
+      const ingredientsInStorage = JSON.parse(storage)[recipeId];
+      return ingredientsInStorage?.includes(ingredient);
+    }
+    return isChecked;
+  };
 
   const inputChangeHandler = ({ target }) => {
-    const recipeType = isMeal ? 'meals' : 'cocktails';
-    const type = isMeal ? 'Meal' : 'Drink';
-    const recipeId = recipe[`id${type}`];
-    const recipeIngredients = {};
-
-    const storage = localStorage.getItem(recipeType) ?? false;
-
-    if (target.checked) {
-      if (!storage) {
-        recipeIngredients[recipeId] = [target.value];
-      } else {
-        const ingredients = JSON.parse(storage)[recipeId];
-        recipeIngredients[recipeId] = [...ingredients, target.value];
-      }
-    } else if (!target.checked && storage) {
-      const ingredients = JSON.parse(storage)[recipeId];
-      recipeIngredients[recipeId] = ingredients
-        .filter((ingredient) => ingredient !== target.value);
-    }
-
-    localStorage.setItem(recipeType, JSON.stringify(recipeIngredients));
+    setIsChecked(target.checked);
+    saveIngredientsInStorage(target, recipeId, recipeType);
   };
 
-  const renderIngredients = () => {
-    const ingredientsKeyValue = Object.entries(recipe);
-    const ingredients = ingredientsKeyValue
-      .filter(([key, value]) => key.startsWith('strIngredient') && value?.length > 0)
-      .map((ingredient) => ingredient[1]);
-
-    const measurements = ingredientsKeyValue
-      .filter(([key, value]) => key.startsWith('strMeasure') && value?.length > 0)
-      .map((measure) => measure[1]);
-
-    return ingredients.map((ingredient, index) => (
-      <li
-        key={ index }
-        data-testid={ `${index}-ingredient-step` }
-      >
-        <Input
-          inputType="checkbox"
-          inputValue={ ingredient }
-          changed={ inputChangeHandler }
-        />
-        {ingredient}
-        {' - '}
-        {measurements[index]}
-      </li>
-    ));
-  };
+  const renderIngredients = () => ingredients.map((ingredient, index) => (
+    <li
+      key={ index }
+      data-testid={ `${index}-ingredient-step` }
+    >
+      <CheckBox
+        inputType="checkbox"
+        inputValue={ ingredient }
+        changed={ inputChangeHandler }
+        isChecked={ checkIngredient(ingredient) }
+      />
+      {ingredient}
+      {' - '}
+      {measurements[index]}
+    </li>
+  ));
 
   return (
     <ul className="recipe-progress__list">

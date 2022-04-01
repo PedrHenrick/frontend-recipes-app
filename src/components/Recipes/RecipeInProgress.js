@@ -158,9 +158,9 @@ function RecipeInProgress(props) {
         {recipe[`str${recipeType}`]}
       </h2>
       <div>
-        <buton type="button" data-testid="share-btn">
+        <button type="button" data-testid="share-btn">
           <img src={ shareIcon } alt="icon share" />
-        </buton>
+        </button>
         <button type="button" data-testid="favorite-btn">
           <img src={ whiteHeartIcon } alt="icon favorite" />
         </button>
