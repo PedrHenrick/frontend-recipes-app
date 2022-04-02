@@ -84,6 +84,8 @@ function DrinkDescription({ history }) {
             <p data-testid="instructions">
               { drinkObject.strInstructions }
             </p>
+            <button type="button" data-testid="share-btn">share</button>
+            <button type="button" data-testid="favorite-btn">Favorite</button>
             <ul className="recommendedList">
               { Object.entries(recommended).slice(0, NUMBER_RECOMMENDED)
                 .map((recommend, index) => (

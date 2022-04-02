@@ -90,7 +90,8 @@ function FoodsDescription({ history }) {
             <p data-testid="instructions">
               { foodsObject.strInstructions }
             </p>
-
+            <button type="button" data-testid="share-btn">share</button>
+            <button type="button" data-testid="favorite-btn">Favorite</button>
             <iframe
               title={ `vídeo ${measureArr.strMeal}` }
               width="360"
