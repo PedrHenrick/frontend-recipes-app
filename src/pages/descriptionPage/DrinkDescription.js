@@ -109,6 +109,7 @@ function DrinkDescription({ history }) {
                 className="describeButtonStart"
                 type="button"
                 data-testid="start-recipe-btn"
+                onClick={ () => history.push(`${history.location.pathname}/in-progress`) }
               >
                 {verifyInProgress ? 'Continue' : 'Start'}
                 {' '}
