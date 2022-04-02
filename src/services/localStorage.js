@@ -11,12 +11,27 @@ export const doneRecipes = (id) => {
   return true;
 };
 
-export const inProgress = (id) => {
+export const inProgressMeals = (id) => {
   const result = localStorage.getItem('inProgressRecipes');
   const finalResult = JSON.parse(result);
 
   const verifyValue = finalResult === null
-    ? false : finalResult.some((idFoods) => idFoods.id === id);
+    ? false : Object.entries(finalResult.meals)
+      .some((idFoods) => Number(idFoods[0]) === id);
+
+  if (verifyValue) {
+    return true;
+  }
+  return false;
+};
+
+export const inProgressDrinks = (id) => {
+  const result = localStorage.getItem('inProgressRecipes');
+  const finalResult = JSON.parse(result);
+
+  const verifyValue = finalResult === null
+    ? false : Object.entries(finalResult.cocktails)
+      .some((idDrinks) => Number(idDrinks[0]) === id);
 
   if (verifyValue) {
     return true;

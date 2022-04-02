@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import '../../styles/describe.css';
-import { doneRecipes, inProgress } from '../../services/localStorage';
+import { doneRecipes, inProgressDrinks } from '../../services/localStorage';
 
 function DrinkDescription({ history }) {
   const NUMBER_RECOMMENDED = 6;
@@ -39,7 +39,7 @@ function DrinkDescription({ history }) {
     };
     requestAPIRecommended();
     const verifyLocalStorage = () => {
-      setVerifyInProgress(inProgress(id));
+      setVerifyInProgress(inProgressDrinks(id));
       setVerifyDoneRecipes(doneRecipes(id));
     };
     verifyLocalStorage();
@@ -112,7 +112,7 @@ function DrinkDescription({ history }) {
               >
                 {verifyInProgress ? 'Continue' : 'Start'}
                 {' '}
-                recipe
+                Recipe
               </button>
             )}
           </section>
