@@ -2,16 +2,20 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import '../../styles/describe.css';
 import { doneRecipes, inProgressDrinks } from '../../services/localStorage';
+import shareIcon from '../../images/shareIcon.svg';
 
 function DrinkDescription({ history }) {
   const NUMBER_RECOMMENDED = 6;
+  const TIMER_CLOCK = 3000;
+
   const id = (Number(history.location.pathname.split('/')[2]));
   const [drinkObject, setDrinkObject] = useState([]);
   const [recommended, setRecommended] = useState([]);
   const [verifyInProgress, setVerifyInProgress] = useState(false);
   const [verifyDoneRecipes, setVerifyDoneRecipes] = useState(false);
-  const [ingredientArr, setIngredient] = useState(false);
-  const [measureArr, setMeasure] = useState(false);
+  const [ingredientArr, setIngredient] = useState([]);
+  const [measureArr, setMeasure] = useState([]);
+  const [linkCopied, setLinkCopied] = useState(false);
 
   useEffect(() => {
     const requestAPI = async () => {
@@ -45,6 +49,16 @@ function DrinkDescription({ history }) {
     verifyLocalStorage();
   }, [id]);
 
+  function copyClipboard() {
+    const copyText = `http://localhost:3000${history.location.pathname}`;
+    navigator.clipboard.writeText(copyText);
+
+    setLinkCopied(true);
+    const interval = setInterval(() => {
+      setLinkCopied(false);
+      clearInterval(interval);
+    }, TIMER_CLOCK);
+  }
   return (
     <main>
       { drinkObject.length !== 0
@@ -56,16 +70,15 @@ function DrinkDescription({ history }) {
               alt={ `Imagem da bebida ${drinkObject.strDrink}` }
               width="100px"
             />
-            <h1
-              data-testid="recipe-title"
-            >
+
+            <h1 data-testid="recipe-title">
               { drinkObject.strDrink }
             </h1>
-            <h2
-              data-testid="recipe-category"
-            >
+
+            <h2 data-testid="recipe-category">
               { drinkObject.strAlcoholic }
             </h2>
+
             <ul>
               { ingredientArr.filter((ingredientsTest) => ingredientsTest[1] !== null)
                 .map((ingredient, index) => (
@@ -81,11 +94,25 @@ function DrinkDescription({ history }) {
                   </li>
                 ))}
             </ul>
+
             <p data-testid="instructions">
               { drinkObject.strInstructions }
             </p>
-            <button type="button" data-testid="share-btn">share</button>
+
+            { linkCopied ? <p>Link copied!</p> : null }
+            <button
+              type="button"
+              data-testid="share-btn"
+              onClick={ copyClipboard }
+            >
+              <img
+                src={ shareIcon }
+                alt="icone de compartilhamento"
+              />
+            </button>
+
             <button type="button" data-testid="favorite-btn">Favorite</button>
+
             <ul className="recommendedList">
               { Object.entries(recommended).slice(0, NUMBER_RECOMMENDED)
                 .map((recommend, index) => (
@@ -106,6 +133,7 @@ function DrinkDescription({ history }) {
                   </li>
                 )) }
             </ul>
+
             { verifyDoneRecipes && (
               <button
                 className="describeButtonStart"

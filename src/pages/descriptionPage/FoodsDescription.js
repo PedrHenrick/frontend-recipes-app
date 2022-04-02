@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import '../../styles/describe.css';
 import { doneRecipes, inProgressMeals } from '../../services/localStorage';
+import shareIcon from '../../images/shareIcon.svg';
 
 function FoodsDescription({ history }) {
   const NUMBER_RECOMMENDED = 6;
-  const id = Number(history.location.pathname.split('/')[2]);
+  const TIMER_CLOCK = 3000;
 
+  const id = Number(history.location.pathname.split('/')[2]);
   const [foodsObject, setFoodsObject] = useState([]);
   const [recommended, setRecommended] = useState([]);
   const [verifyInProgress, setVerifyInProgress] = useState(false);
@@ -14,6 +16,7 @@ function FoodsDescription({ history }) {
   const [ingredientArr, setIngredient] = useState([]);
   const [measureArr, setMeasure] = useState([]);
   const [urlLink, setUrlLink] = useState(' ');
+  const [linkCopied, setLinkCopied] = useState(false);
 
   useEffect(() => {
     const requestAPIFoods = async () => {
@@ -49,6 +52,17 @@ function FoodsDescription({ history }) {
     };
     verifyLocalStorage();
   }, [id]);
+
+  function copyClipboard() {
+    const copyText = `http://localhost:3000${history.location.pathname}`;
+    navigator.clipboard.writeText(copyText);
+
+    setLinkCopied(true);
+    const interval = setInterval(() => {
+      setLinkCopied(false);
+      clearInterval(interval);
+    }, TIMER_CLOCK);
+  }
 
   return (
     <main>
@@ -90,7 +104,19 @@ function FoodsDescription({ history }) {
             <p data-testid="instructions">
               { foodsObject.strInstructions }
             </p>
-            <button type="button" data-testid="share-btn">share</button>
+
+            { linkCopied ? <p>Link copied!</p> : null }
+            <button
+              type="button"
+              data-testid="share-btn"
+              onClick={ copyClipboard }
+            >
+              <img
+                src={ shareIcon }
+                alt="icone de compartilhamento"
+              />
+            </button>
+
             <button type="button" data-testid="favorite-btn">Favorite</button>
             <iframe
               title={ `vídeo ${measureArr.strMeal}` }
