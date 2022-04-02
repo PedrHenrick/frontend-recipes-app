@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import '../../styles/describe.css';
-import { doneRecipes, inProgressMeals } from '../../services/localStorage';
+import {
+  addInFavorites,
+  doneRecipes,
+  favorites,
+  inProgressMeals,
+  removeFavorites,
+} from '../../services/localStorage';
 import shareIcon from '../../images/shareIcon.svg';
+import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
 
 function FoodsDescription({ history }) {
   const NUMBER_RECOMMENDED = 6;
@@ -17,6 +25,7 @@ function FoodsDescription({ history }) {
   const [measureArr, setMeasure] = useState([]);
   const [urlLink, setUrlLink] = useState(' ');
   const [linkCopied, setLinkCopied] = useState(false);
+  const [favorite, setFavorite] = useState(false);
 
   useEffect(() => {
     const requestAPIFoods = async () => {
@@ -49,6 +58,7 @@ function FoodsDescription({ history }) {
     const verifyLocalStorage = () => {
       setVerifyInProgress(inProgressMeals(id));
       setVerifyDoneRecipes(doneRecipes(id));
+      setFavorite(favorites(id));
     };
     verifyLocalStorage();
   }, [id]);
@@ -64,27 +74,49 @@ function FoodsDescription({ history }) {
     }, TIMER_CLOCK);
   }
 
+  function addFavorites() {
+    setFavorite(!favorite);
+
+    if (!favorite === false) {
+      removeFavorites(id);
+    } else {
+      addInFavorites({
+        id,
+        type: 'food',
+        nationality: foodsObject.strArea,
+        category: foodsObject.strCategory,
+        alcoholicOrNot: '',
+        name: foodsObject.strMeal,
+        image: foodsObject.strMealThumb,
+      });
+    }
+  }
+
   return (
     <main>
       { foodsObject.length !== 0
         ? (
           <section className="sectionDescribe">
+            {/* Imagem da comida */}
             <img
               data-testid="recipe-photo"
               src={ foodsObject.strMealThumb }
               alt={ `Imagem da comida ${foodsObject.strMeal}` }
               width="100px"
             />
+            {/* Nome da comida */}
             <h1
               data-testid="recipe-title"
             >
               { foodsObject.strMeal }
             </h1>
+            {/* Categoria da comida */}
             <h2
               data-testid="recipe-category"
             >
               { foodsObject.strCategory }
             </h2>
+            {/* Lista de ingredientes e quantidades */}
             <ul>
               { ingredientArr.filter((ingredientsTest) => (
                 ingredientsTest[1] !== null && ingredientsTest[1] !== ''
@@ -101,23 +133,49 @@ function FoodsDescription({ history }) {
                 </li>
               ))}
             </ul>
-            <p data-testid="instructions">
+            {/* Intruções de preparação */}
+            <p data-testid="instructions" className="instructions">
               { foodsObject.strInstructions }
             </p>
-
-            { linkCopied ? <p>Link copied!</p> : null }
-            <button
-              type="button"
-              data-testid="share-btn"
-              onClick={ copyClipboard }
-            >
-              <img
-                src={ shareIcon }
-                alt="icone de compartilhamento"
-              />
-            </button>
-
-            <button type="button" data-testid="favorite-btn">Favorite</button>
+            {/* Botões de compatilhamento e de favoritar */}
+            <div className="divButtons">
+              <div className="divButtonShare">
+                {/* mensagem de compartilhamento */}
+                { linkCopied
+                  ? <p className="linkMessage">Link copied!</p>
+                  : <p className="linkMessage">Copy the link!</p> }
+                {/* botão de compatilhar */}
+                <button
+                  type="button"
+                  data-testid="share-btn"
+                  onClick={ copyClipboard }
+                >
+                  <img
+                    src={ shareIcon }
+                    alt="icone de compartilhamento"
+                  />
+                </button>
+              </div>
+              {/* botão de favoritar */}
+              <button
+                type="button"
+                data-testid="favorite-btn"
+                onClick={ addFavorites }
+              >
+                { favorite ? (
+                  <img
+                    src={ blackHeartIcon }
+                    alt="Icone de favorito marcado"
+                  />
+                ) : (
+                  <img
+                    src={ whiteHeartIcon }
+                    alt="Icone de favorito desmarcado"
+                  />
+                ) }
+              </button>
+            </div>
+            {/* vídeo da receita */}
             <iframe
               title={ `vídeo ${measureArr.strMeal}` }
               width="360"
@@ -127,6 +185,7 @@ function FoodsDescription({ history }) {
             >
               { null }
             </iframe>
+            {/* lista de itens recomendados */}
             <ul className="recommendedList">
               { Object.entries(recommended).slice(0, NUMBER_RECOMMENDED)
                 .map((recommend, index) => (
@@ -147,6 +206,7 @@ function FoodsDescription({ history }) {
                   </li>
                 )) }
             </ul>
+            {/* botão de começar/continuar uma receita */}
             { verifyDoneRecipes && (
               <button
                 className="describeButtonStart"

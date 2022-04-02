@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import '../../styles/describe.css';
 import { doneRecipes, inProgressDrinks } from '../../services/localStorage';
 import shareIcon from '../../images/shareIcon.svg';
+import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
 
 function DrinkDescription({ history }) {
   const NUMBER_RECOMMENDED = 6;
@@ -16,6 +18,7 @@ function DrinkDescription({ history }) {
   const [ingredientArr, setIngredient] = useState([]);
   const [measureArr, setMeasure] = useState([]);
   const [linkCopied, setLinkCopied] = useState(false);
+  const [favorite, setFavorite] = useState(false);
 
   useEffect(() => {
     const requestAPI = async () => {
@@ -59,26 +62,31 @@ function DrinkDescription({ history }) {
       clearInterval(interval);
     }, TIMER_CLOCK);
   }
+
+  function addFavorites() {
+    setFavorite(!favorite);
+  }
   return (
     <main>
       { drinkObject.length !== 0
         ? (
           <section>
+            {/* Imagem da comida */}
             <img
               data-testid="recipe-photo"
               src={ drinkObject.strDrinkThumb }
               alt={ `Imagem da bebida ${drinkObject.strDrink}` }
               width="100px"
             />
-
+            {/* Nome da comida */}
             <h1 data-testid="recipe-title">
               { drinkObject.strDrink }
             </h1>
-
+            {/* Categoria da comida */}
             <h2 data-testid="recipe-category">
               { drinkObject.strAlcoholic }
             </h2>
-
+            {/* Lista de ingredientes e quantidades */}
             <ul>
               { ingredientArr.filter((ingredientsTest) => ingredientsTest[1] !== null)
                 .map((ingredient, index) => (
@@ -94,25 +102,50 @@ function DrinkDescription({ history }) {
                   </li>
                 ))}
             </ul>
-
-            <p data-testid="instructions">
+            {/* Intruções de preparação */}
+            <p data-testid="instructions" className="instructions">
               { drinkObject.strInstructions }
             </p>
 
-            { linkCopied ? <p>Link copied!</p> : null }
-            <button
-              type="button"
-              data-testid="share-btn"
-              onClick={ copyClipboard }
-            >
-              <img
-                src={ shareIcon }
-                alt="icone de compartilhamento"
-              />
-            </button>
-
-            <button type="button" data-testid="favorite-btn">Favorite</button>
-
+            {/* Botões de compatilhamento e de favoritar */}
+            <div className="divButtons">
+              <div className="divButtonShare">
+                {/* mensagem de compartilhamento */}
+                { linkCopied
+                  ? <p className="linkMessage">Link copied!</p>
+                  : <p className="linkMessage">Copy the link!</p> }
+                {/* botão de compatilhar */}
+                <button
+                  type="button"
+                  data-testid="share-btn"
+                  onClick={ copyClipboard }
+                >
+                  <img
+                    src={ shareIcon }
+                    alt="icone de compartilhamento"
+                  />
+                </button>
+              </div>
+              {/* botão de favoritar */}
+              <button
+                type="button"
+                data-testid="favorite-btn"
+                onClick={ addFavorites }
+              >
+                { favorite ? (
+                  <img
+                    src={ blackHeartIcon }
+                    alt="Icone de favorito marcado"
+                  />
+                ) : (
+                  <img
+                    src={ whiteHeartIcon }
+                    alt="Icone de favorito desmarcado"
+                  />
+                ) }
+              </button>
+            </div>
+            {/* lista de itens recomendados */}
             <ul className="recommendedList">
               { Object.entries(recommended).slice(0, NUMBER_RECOMMENDED)
                 .map((recommend, index) => (
@@ -133,7 +166,7 @@ function DrinkDescription({ history }) {
                   </li>
                 )) }
             </ul>
-
+            {/* botão de começar/continuar uma receita */}
             { verifyDoneRecipes && (
               <button
                 className="describeButtonStart"

@@ -38,3 +38,42 @@ export const inProgressDrinks = (id) => {
   }
   return false;
 };
+
+export const favorites = (id) => {
+  const response = localStorage.getItem('favoriteRecipes');
+  const data = JSON.parse(response);
+
+  const verifyValue = data === null
+    ? false : data.some((idFav) => Number(idFav.id) === id);
+
+  if (verifyValue) {
+    return true;
+  }
+  return false;
+};
+
+export const removeFavorites = (id) => {
+  const response = localStorage.getItem('favoriteRecipes');
+  const data = JSON.parse(response);
+
+  const resetLocalStorage = data
+    .filter((desfavorite) => desfavorite.id !== id);
+  localStorage.setItem('favoriteRecipes', JSON.stringify(resetLocalStorage));
+};
+
+export const addInFavorites = (foodsObject) => {
+  console.log(foodsObject);
+  const response = localStorage.getItem('favoriteRecipes');
+  const data = JSON.parse(response);
+
+  const verifyValue = data === null
+    ? false : data.some((idFav) => Number(idFav.id) === id);
+
+  if (verifyValue) {
+    const resetLocalStorage = [...data, foodsObject];
+    localStorage.setItem('favoriteRecipes', JSON.stringify(resetLocalStorage));
+  } else {
+    const resetLocalStorage = [foodsObject];
+    localStorage.setItem('favoriteRecipes', JSON.stringify(resetLocalStorage));
+  }
+};
