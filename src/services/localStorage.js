@@ -11,45 +11,64 @@ export const doneRecipes = (id) => {
   return true;
 };
 
-export const inProgressMeals = (id) => {
-  const result = localStorage.getItem('inProgressRecipes');
-  const finalResult = JSON.parse(result);
+// funções relacionadas as receitas em progresso
+export const getInProgress = () => {
+  const response = localStorage.getItem('inProgressRecipes');
+  const data = JSON.parse(response);
 
-  const verifyValue = finalResult === null
-    ? false : Object.entries(finalResult.meals)
-      .some((idFoods) => Number(idFoods[0]) === id);
+  const verifyValue = data === null
+    ? {} : data;
 
-  if (verifyValue) {
-    return true;
-  }
-  return false;
+  return verifyValue;
 };
 
-export const inProgressDrinks = (id) => {
-  const result = localStorage.getItem('inProgressRecipes');
-  const finalResult = JSON.parse(result);
+export const addInProgressMeals = (mealsInProgress) => {
+  const response = localStorage.getItem('inProgressRecipes');
+  const data = JSON.parse(response);
 
-  const verifyValue = finalResult === null
-    ? false : Object.entries(finalResult.cocktails)
-      .some((idDrinks) => Number(idDrinks[0]) === id);
-
-  if (verifyValue) {
-    return true;
+  if (data !== null) {
+    const resetLocalStorage = {
+      ...data,
+      meals: { ...data.meals, ...mealsInProgress },
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(resetLocalStorage));
+  } else {
+    const resetLocalStorage = {
+      ...data,
+      meals: { ...mealsInProgress },
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(resetLocalStorage));
   }
-  return false;
 };
 
-export const favorites = (id) => {
+export const addInProgressDrinks = (cocktailsInProgress) => {
+  const response = localStorage.getItem('inProgressRecipes');
+  const data = JSON.parse(response);
+
+  if (data !== null) {
+    const resetLocalStorage = {
+      ...data,
+      cocktails: { ...data.cocktails, ...cocktailsInProgress },
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(resetLocalStorage));
+  } else {
+    const resetLocalStorage = {
+      ...data,
+      cocktails: { ...cocktailsInProgress },
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(resetLocalStorage));
+  }
+};
+
+// funções relacionadas aos favoritos
+export const getfavorites = () => {
   const response = localStorage.getItem('favoriteRecipes');
   const data = JSON.parse(response);
 
   const verifyValue = data === null
-    ? false : data.some((idFav) => Number(idFav.id) === id);
+    ? [] : data;
 
-  if (verifyValue) {
-    return true;
-  }
-  return false;
+  return verifyValue;
 };
 
 export const removeFavorites = (id) => {
@@ -62,14 +81,10 @@ export const removeFavorites = (id) => {
 };
 
 export const addInFavorites = (foodsObject) => {
-  console.log(foodsObject);
   const response = localStorage.getItem('favoriteRecipes');
   const data = JSON.parse(response);
 
-  const verifyValue = data === null
-    ? false : data.some((idFav) => Number(idFav.id) === id);
-
-  if (verifyValue) {
+  if (data !== null) {
     const resetLocalStorage = [...data, foodsObject];
     localStorage.setItem('favoriteRecipes', JSON.stringify(resetLocalStorage));
   } else {

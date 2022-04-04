@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import '../../styles/describe.css';
-import { doneRecipes, inProgressDrinks } from '../../services/localStorage';
+import {
+  doneRecipes,
+  getfavorites,
+  removeFavorites,
+  addInFavorites,
+  getInProgress,
+  addInProgressDrinks,
+} from '../../services/localStorage';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
@@ -16,7 +23,6 @@ function DrinkDescription({ history }) {
   const [verifyInProgress, setVerifyInProgress] = useState(false);
   const [verifyDoneRecipes, setVerifyDoneRecipes] = useState(false);
   const [ingredientArr, setIngredient] = useState([]);
-  const [measureArr, setMeasure] = useState([]);
   const [linkCopied, setLinkCopied] = useState(false);
   const [favorite, setFavorite] = useState(false);
 
@@ -26,16 +32,21 @@ function DrinkDescription({ history }) {
       const response = await data.json();
 
       const arrayOfEntries = Object.entries(response.drinks[0]);
-
       const measures = arrayOfEntries.filter((measure) => (
         measure[0].includes('strMeasure')
-      ));
+      )).filter((measureTest) => (
+        measureTest[1] !== null && measureTest[1] !== ''
+      )).map((measuress) => measuress[1]);
       const ingredients = arrayOfEntries.filter((ingredient) => (
         ingredient[0].includes('strIngredient')
+      )).filter((ingredientsTest) => (
+        ingredientsTest[1] !== null && ingredientsTest[1] !== ''
+      )).map((ingredient) => ingredient[1]);
+      const createIngredientsMeasure = ingredients.map((ingredient, index) => (
+        [ingredient, measures[index]]
       ));
 
-      setIngredient(ingredients);
-      setMeasure(measures);
+      setIngredient(createIngredientsMeasure);
       setDrinkObject(response.drinks[0]);
     };
     requestAPI();
@@ -46,7 +57,12 @@ function DrinkDescription({ history }) {
     };
     requestAPIRecommended();
     const verifyLocalStorage = () => {
-      setVerifyInProgress(inProgressDrinks(id));
+      const favoritesInlocalStorage = getfavorites();
+      const inProgressLocalStorage = getInProgress();
+
+      setFavorite(favoritesInlocalStorage.some((idFav) => Number(idFav.id) === id));
+      setVerifyInProgress(Object.values(inProgressLocalStorage)
+        .some((idFoods) => Number(Object.keys(idFoods)[0]) === id));
       setVerifyDoneRecipes(doneRecipes(id));
     };
     verifyLocalStorage();
@@ -63,9 +79,24 @@ function DrinkDescription({ history }) {
     }, TIMER_CLOCK);
   }
 
-  function addFavorites() {
+  function setFavorites() {
     setFavorite(!favorite);
+
+    if (!favorite === false) {
+      removeFavorites(id);
+    } else {
+      addInFavorites({
+        id,
+        type: 'drink',
+        nationality: drinkObject.strArea,
+        category: drinkObject.strCategory,
+        alcoholicOrNot: '',
+        name: drinkObject.strDrink,
+        image: drinkObject.strDrinkThumb,
+      });
+    }
   }
+
   return (
     <main>
       { drinkObject.length !== 0
@@ -88,19 +119,17 @@ function DrinkDescription({ history }) {
             </h2>
             {/* Lista de ingredientes e quantidades */}
             <ul>
-              { ingredientArr.filter((ingredientsTest) => ingredientsTest[1] !== null)
-                .map((ingredient, index) => (
-                  <li
-                    key={ index }
-                    data-testid={ `${index}-ingredient-name-and-measure` }
-                  >
-                    {ingredient[1]}
-                    {': '}
-                    { measureArr[index][1] === null
-                      ? null
-                      : measureArr[index][1] }
-                  </li>
-                ))}
+              { ingredientArr.map((ingredient, index) => (
+                <li
+                  key={ index }
+                  data-testid={ `${index}-ingredient-name-and-measure` }
+                  className="ingredientsList"
+                >
+                  {ingredient[0]}
+                  {': '}
+                  { ingredient[1] }
+                </li>
+              ))}
             </ul>
             {/* Intruções de preparação */}
             <p data-testid="instructions" className="instructions">
@@ -129,16 +158,18 @@ function DrinkDescription({ history }) {
               {/* botão de favoritar */}
               <button
                 type="button"
+                onClick={ setFavorites }
                 data-testid="favorite-btn"
-                onClick={ addFavorites }
               >
                 { favorite ? (
                   <img
+                    data-testid="favorite-btn"
                     src={ blackHeartIcon }
                     alt="Icone de favorito marcado"
                   />
                 ) : (
                   <img
+                    data-testid="favorite-btn"
                     src={ whiteHeartIcon }
                     alt="Icone de favorito desmarcado"
                   />
@@ -172,7 +203,12 @@ function DrinkDescription({ history }) {
                 className="describeButtonStart"
                 type="button"
                 data-testid="start-recipe-btn"
-                onClick={ () => history.push(`${history.location.pathname}/in-progress`) }
+                onClick={ () => {
+                  addInProgressDrinks({
+                    [id]: ingredientArr,
+                  });
+                  history.push(`${history.location.pathname}/in-progress`);
+                } }
               >
                 {verifyInProgress ? 'Continue' : 'Start'}
                 {' '}

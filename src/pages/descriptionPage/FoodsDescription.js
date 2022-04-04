@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import '../../styles/describe.css';
 import {
-  addInFavorites,
   doneRecipes,
-  favorites,
-  inProgressMeals,
+  getfavorites,
   removeFavorites,
+  addInFavorites,
+  getInProgress,
+  addInProgressMeals,
 } from '../../services/localStorage';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
@@ -22,7 +23,6 @@ function FoodsDescription({ history }) {
   const [verifyInProgress, setVerifyInProgress] = useState(false);
   const [verifyDoneRecipes, setVerifyDoneRecipes] = useState(false);
   const [ingredientArr, setIngredient] = useState([]);
-  const [measureArr, setMeasure] = useState([]);
   const [urlLink, setUrlLink] = useState(' ');
   const [linkCopied, setLinkCopied] = useState(false);
   const [favorite, setFavorite] = useState(false);
@@ -33,19 +33,24 @@ function FoodsDescription({ history }) {
       const response = await data.json();
 
       const arrayOfEntries = Object.entries(response.meals[0]);
-
       const measures = arrayOfEntries.filter((measure) => (
         measure[0].includes('strMeasure')
-      ));
+      )).filter((measureTest) => (
+        measureTest[1] !== null && measureTest[1] !== ''
+      )).map((measuress) => measuress[1]);
       const ingredients = arrayOfEntries.filter((ingredient) => (
         ingredient[0].includes('strIngredient')
+      )).filter((ingredientsTest) => (
+        ingredientsTest[1] !== null && ingredientsTest[1] !== ''
+      )).map((ingredient) => ingredient[1]);
+      const createIngredientsMeasure = ingredients.map((ingredient, index) => (
+        [ingredient, measures[index]]
       ));
 
       const linkOfVideo = String(response.meals[0].strYoutube).split('=');
 
       setUrlLink(`https://www.youtube.com/embed/${linkOfVideo[1]}`);
-      setIngredient(ingredients);
-      setMeasure(measures);
+      setIngredient(createIngredientsMeasure);
       setFoodsObject(response.meals[0]);
     };
     requestAPIFoods();
@@ -56,9 +61,13 @@ function FoodsDescription({ history }) {
     };
     requestAPIRecommended();
     const verifyLocalStorage = () => {
-      setVerifyInProgress(inProgressMeals(id));
+      const favoritesInlocalStorage = getfavorites();
+      const inProgressLocalStorage = getInProgress();
+
+      setFavorite(favoritesInlocalStorage.some((idFav) => Number(idFav.id) === id));
+      setVerifyInProgress(Object.values(inProgressLocalStorage)
+        .some((idFoods) => Number(Object.keys(idFoods)[0]) === id));
       setVerifyDoneRecipes(doneRecipes(id));
-      setFavorite(favorites(id));
     };
     verifyLocalStorage();
   }, [id]);
@@ -74,7 +83,7 @@ function FoodsDescription({ history }) {
     }, TIMER_CLOCK);
   }
 
-  function addFavorites() {
+  function setFavorites() {
     setFavorite(!favorite);
 
     if (!favorite === false) {
@@ -118,18 +127,15 @@ function FoodsDescription({ history }) {
             </h2>
             {/* Lista de ingredientes e quantidades */}
             <ul>
-              { ingredientArr.filter((ingredientsTest) => (
-                ingredientsTest[1] !== null && ingredientsTest[1] !== ''
-              )).map((ingredient, index) => (
+              { ingredientArr.map((ingredient, index) => (
                 <li
                   key={ index }
                   data-testid={ `${index}-ingredient-name-and-measure` }
+                  className="ingredientsList"
                 >
-                  {ingredient[1]}
+                  {ingredient[0]}
                   {': '}
-                  { measureArr[index][1] === null
-                    ? null
-                    : measureArr[index][1] }
+                  { ingredient[1] }
                 </li>
               ))}
             </ul>
@@ -160,24 +166,18 @@ function FoodsDescription({ history }) {
               <button
                 type="button"
                 data-testid="favorite-btn"
-                onClick={ addFavorites }
+                onClick={ setFavorites }
+                id="lalala"
               >
-                { favorite ? (
-                  <img
-                    src={ blackHeartIcon }
-                    alt="Icone de favorito marcado"
-                  />
-                ) : (
-                  <img
-                    src={ whiteHeartIcon }
-                    alt="Icone de favorito desmarcado"
-                  />
-                ) }
+                <img
+                  src={ favorite ? blackHeartIcon : whiteHeartIcon }
+                  alt="Icone de favorito"
+                />
               </button>
             </div>
             {/* vídeo da receita */}
             <iframe
-              title={ `vídeo ${measureArr.strMeal}` }
+              title={ `vídeo ${foodsObject.strMeal}` }
               width="360"
               height="250"
               data-testid="video"
@@ -212,7 +212,12 @@ function FoodsDescription({ history }) {
                 className="describeButtonStart"
                 type="button"
                 data-testid="start-recipe-btn"
-                onClick={ () => history.push(`${history.location.pathname}/in-progress`) }
+                onClick={ () => {
+                  addInProgressMeals({
+                    [id]: ingredientArr,
+                  });
+                  history.push(`${history.location.pathname}/in-progress`);
+                } }
               >
                 {verifyInProgress ? 'Continue' : 'Start'}
                 {' '}
