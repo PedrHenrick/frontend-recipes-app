@@ -3,10 +3,13 @@ import Header from '../components/Header';
 
 function Favorite() {
   return (
-    <Header
-      title="Favorite Recipes"
-      showSearch={ false }
-    />
+    <main>
+      <Header
+        title="Favorite Recipes"
+        showSearch={ false }
+      />
+      <h1>Favorites</h1>
+    </main>
   );
 }
 
