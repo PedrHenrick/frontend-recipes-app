@@ -86,11 +86,11 @@ function DrinkDescription({ history }) {
       removeFavorites(id);
     } else {
       addInFavorites({
-        id,
+        id: id.toString(),
         type: 'drink',
-        nationality: drinkObject.strArea,
+        nationality: '',
         category: drinkObject.strCategory,
-        alcoholicOrNot: '',
+        alcoholicOrNot: drinkObject.strAlcoholic,
         name: drinkObject.strDrink,
         image: drinkObject.strDrinkThumb,
       });
@@ -159,21 +159,12 @@ function DrinkDescription({ history }) {
               <button
                 type="button"
                 onClick={ setFavorites }
-                data-testid="favorite-btn"
               >
-                { favorite ? (
-                  <img
-                    data-testid="favorite-btn"
-                    src={ blackHeartIcon }
-                    alt="Icone de favorito marcado"
-                  />
-                ) : (
-                  <img
-                    data-testid="favorite-btn"
-                    src={ whiteHeartIcon }
-                    alt="Icone de favorito desmarcado"
-                  />
-                ) }
+                <img
+                  data-testid="favorite-btn"
+                  src={ favorite ? blackHeartIcon : whiteHeartIcon }
+                  alt="Icone de favorito"
+                />
               </button>
             </div>
             {/* lista de itens recomendados */}
@@ -187,7 +178,7 @@ function DrinkDescription({ history }) {
                     <img
                       src={ recommend[1].strMealThumb }
                       alt={ `Imagem da comida ${recommend[1].strMeal}` }
-                      width="180px"
+                      width="200px"
                     />
                     <h3
                       data-testid={ `${index}-recomendation-title` }

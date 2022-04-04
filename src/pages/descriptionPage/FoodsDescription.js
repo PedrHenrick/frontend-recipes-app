@@ -90,7 +90,7 @@ function FoodsDescription({ history }) {
       removeFavorites(id);
     } else {
       addInFavorites({
-        id,
+        id: id.toString(),
         type: 'food',
         nationality: foodsObject.strArea,
         category: foodsObject.strCategory,
@@ -165,11 +165,10 @@ function FoodsDescription({ history }) {
               {/* botão de favoritar */}
               <button
                 type="button"
-                data-testid="favorite-btn"
                 onClick={ setFavorites }
-                id="lalala"
               >
                 <img
+                  data-testid="favorite-btn"
                   src={ favorite ? blackHeartIcon : whiteHeartIcon }
                   alt="Icone de favorito"
                 />
