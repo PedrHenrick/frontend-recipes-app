@@ -69,10 +69,49 @@ export const saveIngredientsInStorage = (target, recipeId, recipeType) => {
   localStorage.setItem(recipeType, JSON.stringify(recipeIngredients));
 };
 
+export const saveFavoriteRecipesInStorage = (recipe, type) => {
+  let favorites = [];
+  const storage = localStorage.getItem('favoriteRecipes');
+  const favoriteRecipe = {
+    id: recipe[`id${type}`],
+    type: type === 'Meal' ? 'food' : 'drink',
+    nationality: type === 'Drink' ? '' : recipe.strArea,
+    category: recipe.strCategory,
+    alcoholicOrNot: type === 'Meal' ? '' : recipe.strAlcholic,
+    name: recipe[`str${type}`],
+    image: recipe[`str${type}Thumb`],
+  };
+
+  if (!storage || Object.keys(storage).length === 0) {
+    favorites = [favoriteRecipe];
+  } else {
+    const favoritesInStorage = JSON.parse(storage);
+    favorites = [...favoritesInStorage, favoriteRecipe];
+  }
+
+  localStorage.setItem('favoriteRecipes', JSON.stringify(favorites));
+};
+
+export const removeFavoriteRecipeFromStorage = (recipeId) => {
+  const storage = localStorage.getItem('favoriteRecipes');
+  if (storage && Object.keys(storage).length > 0) {
+    const refreshedFavorites = JSON.parse(storage).filter(({ id }) => recipeId !== id);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(refreshedFavorites));
+  }
+};
+
 export const matchArrays = (...arrays) => {
   if (arrays[0].length !== arrays[1].length) return false;
   for (let index = 0; index < arrays[0].length; index += 1) {
     if (arrays[0][index] !== arrays[1][index]) return false;
   }
   return true;
+};
+
+export const checkEveryValue = (arrayItems) => {
+  const values = arrayItems.map((element) => {
+    const [value] = Object.values(element);
+    return value;
+  });
+  return values.every((value) => value);
 };

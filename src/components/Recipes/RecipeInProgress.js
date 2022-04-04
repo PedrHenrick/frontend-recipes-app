@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../Forms/Button';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import { fetchMealsOrDrinksByName } from '../../services/api';
 import '../../styles/recipes.css';
 import IngredientsList from './IngredientsList';
+import recipesContext from '../../context/recipesContext';
+import { removeFavoriteRecipeFromStorage,
+  saveFavoriteRecipesInStorage } from '../../helpers/helpers';
 
 const INITIAL_STATE_MEAL = {
   idMeal: '52963',
@@ -127,14 +131,27 @@ const INITIAL_STATE_DRINK = {
   dateModified: '2017-09-07 21:42:09',
 };
 
+const THREE_SECONDS = 3000;
 function RecipeInProgress(props) {
   const { isMeal, recipeId } = props;
   const recipeType = isMeal ? 'Meal' : 'Drink';
   const type = isMeal ? 'meals' : 'drinks';
+  const { ingredientsStatus: { disabled } } = useContext(recipesContext);
+
   const [recipe, setRecipe] = useState(isMeal ? INITIAL_STATE_MEAL : INITIAL_STATE_DRINK);
   const [copiedText, setCopiedText] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const favoriteIconSrc = isFavorite ? blackHeartIcon : whiteHeartIcon;
 
   useEffect(() => {
+    const storage = localStorage.getItem('favoriteRecipes');
+
+    if (storage && Object.keys(storage).length > 0) {
+      const favorite = JSON.parse(storage).some(({ id }) => recipeId === id);
+      setIsFavorite(favorite);
+    }
+
     fetchMealsOrDrinksByName(type).then((recipeResult) => {
       const matchedRecipe = recipeResult[type]
         .find((rec) => rec[`id${recipeType}`] === recipeId);
@@ -143,16 +160,24 @@ function RecipeInProgress(props) {
       }
     });
   }, [recipeId, type, recipeType]);
-
-  const favoriteRecipeHandler = () => { };
+  const favoriteRecipeHandler = () => {
+    setIsFavorite(!isFavorite);
+    if (isFavorite) {
+      removeFavoriteRecipeFromStorage(recipeId);
+    } else {
+      console.log(recipe);
+      saveFavoriteRecipesInStorage(recipe, recipeType);
+    }
+  };
 
   const shareClickHandler = () => {
-    const URL = window.location.href;
-    console.log(URL);
-    navigator.clipboard.write(URL)
-      .then(() => {
-        setCopiedText(true);
-      });
+    const URL = window.location.href.replace('/in-progress', '');
+    navigator.clipboard.writeText(URL);
+    setCopiedText(true);
+    const interval = setInterval(() => {
+      setCopiedText(false);
+      clearInterval(interval);
+    }, THREE_SECONDS);
   };
 
   return (
@@ -170,16 +195,23 @@ function RecipeInProgress(props) {
         {recipe[`str${recipeType}`]}
       </h2>
       <div>
-        <button type="button" data-testid="share-btn" onClick={ shareClickHandler }>
-          <img src={ shareIcon } alt="icon share" />
-          {copiedText && <p>Link copied!</p>}
+        {copiedText && <p>Link copied!</p>}
+        <button type="button" onClick={ shareClickHandler }>
+          <img
+            data-testid="share-btn"
+            src={ shareIcon }
+            alt="icon share"
+          />
         </button>
         <button
           type="button"
-          data-testid="favorite-btn"
           onClick={ favoriteRecipeHandler }
         >
-          <img src={ whiteHeartIcon } alt="icon favorite" />
+          <img
+            data-testid="favorite-btn"
+            src={ favoriteIconSrc }
+            alt="icon favorite"
+          />
         </button>
       </div>
       <h6
@@ -199,7 +231,7 @@ function RecipeInProgress(props) {
       <Button
         btnName="Finish"
         dataTestid="finish-recipe-btn"
-        isDisabled
+        isDisabled={ !disabled }
       />
     </div>
   );

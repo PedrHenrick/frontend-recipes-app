@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import CheckBox from '../Forms/CheckBox';
 import '../../styles/recipes.css';
-import { getIngredientsAndMeasurements,
+import {
+  checkEveryValue,
+  getIngredientsAndMeasurements,
   saveIngredientsInStorage } from '../../helpers/helpers';
+import recipesContext from '../../context/recipesContext';
 
 function IngredientsList(props) {
   const { recipe, isMeal, recipeId } = props;
   const recipeType = isMeal ? 'meals' : 'cocktails';
   const [ingredientsChecked, setIngredientsChecked] = useState([]);
   const [ingredients, measurements] = getIngredientsAndMeasurements(recipe);
+  const { ingredientsStatus: { toggleButtonDisable } } = useContext(recipesContext);
 
   const checkIngredients = (ingredientsArray) => {
     const storage = localStorage.getItem(recipeType);
@@ -35,12 +39,15 @@ function IngredientsList(props) {
       return { [ingredient[0]]: ingredient[1] };
     });
     setIngredientsChecked(newIngredients);
+    const allChecked = checkEveryValue(newIngredients);
+    toggleButtonDisable(allChecked);
   };
 
   useEffect(() => {
     const ingredientsArray = checkIngredients(ingredients);
     setIngredientsChecked(ingredientsArray);
-    console.log(ingredientsArray);
+    const allChecked = checkEveryValue(ingredientsArray);
+    toggleButtonDisable(allChecked);
   }, [recipe]);
 
   const renderIngredients = () => ingredientsChecked
