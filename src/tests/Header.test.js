@@ -3,12 +3,13 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../helpers/renderWithRouter';
 import App from '../App';
-import Header from '../components/Header';
 
 describe(`9 - Implemente os elementos do header na tela principal de receitas, 
 respeitando os atributos descritos no protótipo`, () => {
   it('Testando se há os data-testids corretos', () => {
-    renderWithRouter(<Header />);
+    const { history } = renderWithRouter(<App />);
+    history.push('./foods');
+
     const profileHeader = screen.queryByTestId(/profile-top-btn/i);
     const PageHeader = screen.queryByTestId(/profile-top-btn/i);
     const SearchHeader = screen.queryByTestId(/search-top-btn/i);

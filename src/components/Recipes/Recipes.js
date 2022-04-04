@@ -5,6 +5,7 @@ import recipesContext from '../../context/recipesContext';
 import { fetchMealsOrDrinksByName } from '../../services/api';
 import Recipe from './Recipe';
 import Categories from '../Categories/Categories';
+import '../../styles/recipe.css';
 
 const MAX_RECIPES = 12;
 
@@ -16,16 +17,16 @@ function Recipes(props) {
   useEffect(() => {
     if (pathname === '/foods') {
       fetchMealsOrDrinksByName('meals').then(({ meals: results }) => {
-        const mealResults = results.filter((element, index) => index < MAX_RECIPES);
+        const mealResults = results.filter((_element, index) => index < MAX_RECIPES);
         setMeals(mealResults);
       });
     } else if (pathname === '/drinks') {
       fetchMealsOrDrinksByName('drinks').then(({ drinks: results }) => {
-        const drinkResults = results.filter((element, index) => index < MAX_RECIPES);
+        const drinkResults = results.filter((_element, index) => index < MAX_RECIPES);
         setDrinks(drinkResults);
       });
     }
-  }, [pathname]);
+  }, [pathname, setMeals, setDrinks]);
 
   useEffect(() => {
     if (meals.length > 1) {
@@ -34,7 +35,7 @@ function Recipes(props) {
     if (drinks.length > 1) {
       setDrinks(drinks);
     }
-  }, [setMeals, setDrinks]);
+  }, [setMeals, setDrinks, meals, drinks]);
 
   const renderRecipes = () => {
     if (pathname === '/foods') {
