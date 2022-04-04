@@ -1,8 +1,8 @@
 .sectionDescribe {
-  max-width: 360px;
-  min-width: 360px;
   max-height: 640px;
+  max-width: 360px;
   min-height: 640px;
+  min-width: 360px;
   overflow: scroll;
 }
 
@@ -12,9 +12,9 @@
 }
 
 .divButtonShare {
+  align-items: center;
   display: flex;
   margin-right: 5px;
-  align-items: center;
 }
 
 .linkMessage {
@@ -30,27 +30,27 @@
 }
 
 .ingredientsList {
-  margin: 3px;
   font-size: 15px;
   font-weight: 500;
+  margin: 3px;
 }
 
 .instructions {
   border-radius: 10px;
-  padding: 20px;
   font-size: 15px;
   font-weight: 700;
+  padding: 20px;
 }
 
 .describeButtonStart {
   border: solid 2px rgb(95, 94, 94);
-  border-radius: 7px; 
+  border-radius: 7px;
   bottom: 0;
   font-size: 13px;
   font-weight: 900;
   height: 50px;
   margin-left: 135px;
-  position: fixed;
   max-width: 90px;
   min-width: 90px;
+  position: fixed;
 }
