@@ -12,6 +12,7 @@ function Favorite(/* { history } */) {
 
   const [favoriteObject, setFavoriteObject] = useState([]);
   const [linkCopied, setLinkCopied] = useState(false);
+  const [favorite, setFavorite] = useState(true);
 
   useEffect(() => {
     const verifyLocalStorage = () => {
@@ -19,7 +20,7 @@ function Favorite(/* { history } */) {
       setFavoriteObject(favoritesInlocalStorage);
     };
     verifyLocalStorage();
-  }, []);
+  }, [favorite]);
 
   function copyClipboard(pathname) {
     const copyText = `http://localhost:3000${pathname}`;
@@ -34,9 +35,9 @@ function Favorite(/* { history } */) {
 
   function setFavorites(id) {
     removeFavorites(id);
+    setFavorite(!favorite);
   }
 
-  console.log(favoriteObject);
   return (
     <main>
       <Header
