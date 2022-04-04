@@ -130,10 +130,11 @@ const INITIAL_STATE_DRINK = {
 function RecipeInProgress(props) {
   const { isMeal, recipeId } = props;
   const recipeType = isMeal ? 'Meal' : 'Drink';
+  const type = isMeal ? 'meals' : 'drinks';
   const [recipe, setRecipe] = useState(isMeal ? INITIAL_STATE_MEAL : INITIAL_STATE_DRINK);
+  const [copiedText, setCopiedText] = useState(false);
 
   useEffect(() => {
-    const type = isMeal ? 'meals' : 'drinks';
     fetchMealsOrDrinksByName(type).then((recipeResult) => {
       const matchedRecipe = recipeResult[type]
         .find((rec) => rec[`id${recipeType}`] === recipeId);
@@ -141,7 +142,18 @@ function RecipeInProgress(props) {
         setRecipe(matchedRecipe);
       }
     });
-  }, []);
+  }, [recipeId, type, recipeType]);
+
+  const favoriteRecipeHandler = () => { };
+
+  const shareClickHandler = () => {
+    const URL = window.location.href;
+    console.log(URL);
+    navigator.clipboard.write(URL)
+      .then(() => {
+        setCopiedText(true);
+      });
+  };
 
   return (
     <div className="recipe-progress__container">
@@ -158,10 +170,15 @@ function RecipeInProgress(props) {
         {recipe[`str${recipeType}`]}
       </h2>
       <div>
-        <button type="button" data-testid="share-btn">
+        <button type="button" data-testid="share-btn" onClick={ shareClickHandler }>
           <img src={ shareIcon } alt="icon share" />
+          {copiedText && <p>Link copied!</p>}
         </button>
-        <button type="button" data-testid="favorite-btn">
+        <button
+          type="button"
+          data-testid="favorite-btn"
+          onClick={ favoriteRecipeHandler }
+        >
           <img src={ whiteHeartIcon } alt="icon favorite" />
         </button>
       </div>
@@ -172,14 +189,18 @@ function RecipeInProgress(props) {
         {recipe.strCategory}
       </h6>
       <h3 className="recipe-progress__ingredients">Ingredients</h3>
-      <IngredientsList recipe={ recipe } isMeal={ isMeal } />
+      <IngredientsList recipe={ recipe } isMeal={ isMeal } recipeId={ recipeId } />
       <p
         className="recipe-progress__instructions"
         data-testid="instructions"
       >
         { recipe.strInstructions }
       </p>
-      <Button btnName="Finish" dataTestid="finish-recipe-btn" isDisabled />
+      <Button
+        btnName="Finish"
+        dataTestid="finish-recipe-btn"
+        isDisabled
+      />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import CheckBox from '../Forms/CheckBox';
 import '../../styles/recipes.css';
@@ -6,43 +6,64 @@ import { getIngredientsAndMeasurements,
   saveIngredientsInStorage } from '../../helpers/helpers';
 
 function IngredientsList(props) {
-  const { recipe, isMeal } = props;
+  const { recipe, isMeal, recipeId } = props;
   const recipeType = isMeal ? 'meals' : 'cocktails';
-  const type = isMeal ? 'Meal' : 'Drink';
-  const recipeId = recipe[`id${type}`];
+  const [ingredientsChecked, setIngredientsChecked] = useState([]);
   const [ingredients, measurements] = getIngredientsAndMeasurements(recipe);
-  const [isChecked, setIsChecked] = useState(false);
-  const storage = localStorage.getItem(recipeType) ?? false;
 
-  const checkIngredient = (ingredient) => {
+  const checkIngredients = (ingredientsArray) => {
+    const storage = localStorage.getItem(recipeType);
     if (storage) {
-      const ingredientsInStorage = JSON.parse(storage)[recipeId];
-      return ingredientsInStorage?.includes(ingredient);
+      const ingredientsInStorage = JSON.parse(storage)[recipeId] ?? [];
+      return ingredientsArray.map((ing) => ({
+        [ing]: ingredientsInStorage.some((item) => item === ing),
+      }));
     }
-    return isChecked;
+    return ingredientsArray.map((ing) => ({
+      [ing]: false,
+    }));
   };
 
   const inputChangeHandler = ({ target }) => {
-    setIsChecked(target.checked);
     saveIngredientsInStorage(target, recipeId, recipeType);
+    const newIngredients = ingredientsChecked.map((item) => {
+      const [ingredient] = Object.entries(item);
+
+      if (ingredient[0] === target.value) {
+        return { [ingredient[0]]: target.checked };
+      }
+      return { [ingredient[0]]: ingredient[1] };
+    });
+    setIngredientsChecked(newIngredients);
   };
 
-  const renderIngredients = () => ingredients.map((ingredient, index) => (
-    <li
-      key={ index }
-      data-testid={ `${index}-ingredient-step` }
-    >
-      <CheckBox
-        inputType="checkbox"
-        inputValue={ ingredient }
-        changed={ inputChangeHandler }
-        isChecked={ checkIngredient(ingredient) }
-      />
-      {ingredient}
-      {' - '}
-      {measurements[index]}
-    </li>
-  ));
+  useEffect(() => {
+    const ingredientsArray = checkIngredients(ingredients);
+    setIngredientsChecked(ingredientsArray);
+    console.log(ingredientsArray);
+  }, [recipe]);
+
+  const renderIngredients = () => ingredientsChecked
+    .map((ingredientObj, index) => {
+      const [ingredientEntry] = Object.entries(ingredientObj);
+
+      return (
+        <li
+          key={ index }
+          data-testid={ `${index}-ingredient-step` }
+        >
+          <CheckBox
+            inputType="checkbox"
+            inputValue={ ingredientEntry[0] }
+            changed={ inputChangeHandler }
+            isChecked={ ingredientEntry[1] }
+          />
+          {ingredientEntry[0]}
+          {' - '}
+          {measurements[index]}
+        </li>
+      );
+    });
 
   return (
     <ul className="recipe-progress__list">
@@ -58,6 +79,7 @@ IngredientsList.defaultProps = {
 IngredientsList.propTypes = {
   recipe: PropTypes.shape({}).isRequired,
   isMeal: PropTypes.bool,
+  recipeId: PropTypes.string.isRequired,
 };
 
 export default IngredientsList;

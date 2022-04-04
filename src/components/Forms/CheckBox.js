@@ -17,16 +17,16 @@ function CheckBox(props) {
 
 CheckBox.defaultProps = {
   inputClass: '',
-  isChecked: false,
   dataTestid: '',
   changed: () => '',
+  isChecked: false,
 };
 
 CheckBox.propTypes = {
   inputClass: PropTypes.string,
   inputValue: PropTypes.string.isRequired,
-  isChecked: PropTypes.bool,
   dataTestid: PropTypes.string,
   changed: PropTypes.func,
+  isChecked: PropTypes.bool,
 };
 export default CheckBox;
