@@ -9,8 +9,9 @@ import mealIcon from '../images/mealIcon.svg';
 import '../styles/bottomMenu.css';
 
 function BottomMenu({ history: { push } }) {
+  const objectOfStyles = { position: 'fixed', bottom: '0px' };
   return (
-    <footer className="footerMenu" data-testid="footer">
+    <footer data-testid="footer" style={ objectOfStyles }>
       <button
         type="button"
         onClick={ () => push('/drinks') }
