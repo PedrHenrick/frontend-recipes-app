@@ -55,8 +55,8 @@
 }
 
 .title {
-  display: flex;
   color: #ff5d13;
+  display: flex;
   font-size: 25px;
   max-width: 150px;
 }
