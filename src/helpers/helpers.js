@@ -77,9 +77,9 @@ export const saveFavoriteRecipesInStorage = (recipe, type) => {
     type: type === 'Meal' ? 'food' : 'drink',
     nationality: type === 'Drink' ? '' : recipe.strArea,
     category: recipe.strCategory,
-    alcoholicOrNot: type === 'Meal' ? '' : recipe.strAlcholic,
     name: recipe[`str${type}`],
     image: recipe[`str${type}Thumb`],
+    alcoholicOrNot: type === 'Drink' ? recipe.strAlcoholic : '',
   };
 
   if (!storage || Object.keys(storage).length === 0) {

@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import RecipeInProgress from '../../components/Recipes/RecipeInProgress';
 
 function FoodsInProgress(props) {
-  const { location: { pathname }, match: { params } } = props;
+  const { location: { pathname } } = props;
   return (
     <div>
       <RecipeInProgress
         isMeal={ pathname.startsWith('/foods') }
-        recipeId={ params.recipe_id }
       />
     </div>
   );
@@ -17,11 +16,6 @@ function FoodsInProgress(props) {
 FoodsInProgress.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string,
-  }).isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      recipe_id: PropTypes.string,
-    }),
   }).isRequired,
 };
 
