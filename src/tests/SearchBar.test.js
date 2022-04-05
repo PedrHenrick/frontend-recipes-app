@@ -56,7 +56,7 @@ describe('Teste o componente `<SearchBar />`', () => {
     const searchBtn = screen.getAllByRole('button', { name: /Search/i })[0];
     expect(searchBtn).toBeInTheDocument();
   });
-  test('Se ao clicar no button é feita uma chamada na api', () => {});
-  test('Se ao clicar no button é redirecionada pra details para meals e drinks',
-    () => {});
+  // test('Se ao clicar no button é feita uma chamada na api', () => {});
+  // test('Se ao clicar no button é redirecionada pra details para meals e drinks',
+  //   () => {});
 });
