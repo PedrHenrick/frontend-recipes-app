@@ -8,6 +8,7 @@ function RecipesProvider({ children }) {
   const [searchInput, setSearchInput] = useState('');
   const [meals, setMeals] = useState([]);
   const [drinks, setDrinks] = useState([]);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const searchParams = {
     searchInput,
@@ -25,6 +26,10 @@ function RecipesProvider({ children }) {
         drink: {
           drinks,
           setDrinks,
+        },
+        ingredientsStatus: {
+          disabled: isDisabled,
+          toggleButtonDisable: setIsDisabled,
         },
       } }
     >

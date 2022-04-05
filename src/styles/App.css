@@ -1,7 +1,9 @@
 html {
   background-color: rgb(102, 102, 102);
   display: flex;
+  font-size: 62.5%;
   justify-content: center;
+  overflow: auto;
 }
 
 body {
@@ -12,5 +14,6 @@ body {
   margin: 0;
   max-width: 360px;
   min-width: 360px;
+  overflow: auto;
   padding: 0;
 }

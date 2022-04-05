@@ -102,3 +102,21 @@ export const fetchRecipesByCategory = async (type, category) => {
     console.error(err.message);
   }
 };
+
+export const getRecipeById = async (type, id) => {
+  try {
+    let url;
+    if (type === 'meals') {
+      url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+    } else if (type === 'drinks') {
+      url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+    } else {
+      invalidType();
+    }
+    const response = await fetch(url);
+    const results = await response.json();
+    return results;
+  } catch (err) {
+    console.error(err.message);
+  }
+};
