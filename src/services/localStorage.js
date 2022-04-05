@@ -1,4 +1,5 @@
-export const doneRecipes = (id) => {
+// funções relacionadas às receitas favoritas
+export const getDoneRecipes = (id) => {
   const result = localStorage.getItem('doneRecipes');
   const finalResult = JSON.parse(result);
 
@@ -10,6 +11,10 @@ export const doneRecipes = (id) => {
   }
   return true;
 };
+
+export const addDoneRecipes = () => true;
+
+export const removeDoneRecipes = () => false;
 
 // funções relacionadas as receitas em progresso
 export const getInProgress = () => {

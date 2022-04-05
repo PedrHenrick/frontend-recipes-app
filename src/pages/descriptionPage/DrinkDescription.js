@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import '../../styles/describe.css';
 import {
-  doneRecipes,
+  getDoneRecipes,
   getfavorites,
   removeFavorites,
   addInFavorites,
@@ -63,7 +63,7 @@ function DrinkDescription({ history }) {
       setFavorite(favoritesInlocalStorage.some((idFav) => Number(idFav.id) === id));
       setVerifyInProgress(Object.values(inProgressLocalStorage)
         .some((idFoods) => Number(Object.keys(idFoods)[0]) === id));
-      setVerifyDoneRecipes(doneRecipes(id));
+      setVerifyDoneRecipes(getDoneRecipes(id));
     };
     verifyLocalStorage();
   }, [id]);
