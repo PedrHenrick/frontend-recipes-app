@@ -11,16 +11,23 @@ function Favorite(/* { history } */) {
   const TIMER_CLOCK = 3000;
 
   const [favoriteObject, setFavoriteObject] = useState([]);
+  const [filterCategory, setFilterCategory] = useState('all');
   const [linkCopied, setLinkCopied] = useState(false);
   const [favorite, setFavorite] = useState(true);
 
   useEffect(() => {
     const verifyLocalStorage = () => {
       const favoritesInlocalStorage = getfavorites();
-      setFavoriteObject(favoritesInlocalStorage);
+
+      const objectFiltered = favoritesInlocalStorage
+        .filter((favoriteInList) => favoriteInList.type === filterCategory);
+
+      if (filterCategory === 'food') setFavoriteObject(objectFiltered);
+      else if (filterCategory === 'drink') setFavoriteObject(objectFiltered);
+      else setFavoriteObject(favoritesInlocalStorage);
     };
     verifyLocalStorage();
-  }, [favorite]);
+  }, [favorite, filterCategory]);
 
   function copyClipboard(pathname) {
     const copyText = `http://localhost:3000${pathname}`;
@@ -38,6 +45,10 @@ function Favorite(/* { history } */) {
     setFavorite(!favorite);
   }
 
+  function filterFunction(filter) {
+    setFilterCategory(filter);
+  }
+
   return (
     <main>
       <Header
@@ -48,6 +59,7 @@ function Favorite(/* { history } */) {
         <button
           type="button"
           data-testid="filter-by-all-btn"
+          onClick={ () => filterFunction('all') }
         >
           All
         </button>
@@ -55,6 +67,7 @@ function Favorite(/* { history } */) {
         <button
           type="button"
           data-testid="filter-by-food-btn"
+          onClick={ () => filterFunction('food') }
         >
           Food
         </button>
@@ -62,6 +75,7 @@ function Favorite(/* { history } */) {
         <button
           type="button"
           data-testid="filter-by-drink-btn"
+          onClick={ () => filterFunction('drink') }
         >
           Drinks
         </button>
