@@ -59,7 +59,6 @@ function Recipes(props) {
       />));
     }
   };
-
   return (
     <div className="recipe-container">
       <Categories type={ pathname === '/foods' ? 'meals' : 'drinks' } />
