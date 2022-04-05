@@ -195,7 +195,7 @@ function FoodsDescription({ history }) {
                     <img
                       src={ recommend[1].strDrinkThumb }
                       alt={ `Imagem da comida ${recommend[1].strDrink}` }
-                      width="180px"
+                      width="200px"
                     />
                     <h3
                       data-testid={ `${index}-recomendation-title` }

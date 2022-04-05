@@ -28,6 +28,7 @@ function Header({ history: { push }, title, showSearch }) {
         </button>
         <h2
           data-testid="page-title"
+          className="pageTitle"
         >
           { title }
         </h2>
