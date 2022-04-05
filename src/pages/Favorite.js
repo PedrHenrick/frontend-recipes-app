@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-// import PropTypes from 'prop-types';
+import '../styles/favorites.css';
 
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import { getfavorites, removeFavorites } from '../services/localStorage';
 
-function Favorite(/* { history } */) {
-  const TIMER_CLOCK = 3000;
+function Favorite() {
+  const TIMER_CLOCK = 2000;
 
   const [favoriteObject, setFavoriteObject] = useState([]);
   const [filterCategory, setFilterCategory] = useState('all');
-  const [linkCopied, setLinkCopied] = useState(false);
+  // const [linkCopied, setLinkCopied] = useState(false);
   const [favorite, setFavorite] = useState(true);
 
   useEffect(() => {
@@ -29,13 +29,15 @@ function Favorite(/* { history } */) {
     verifyLocalStorage();
   }, [favorite, filterCategory]);
 
-  function copyClipboard(pathname) {
+  function copyClipboard(pathname, index) {
+    const linkMessage = document.body.getElementsByClassName('linkMessage');
+    linkMessage[index].innerHTML = 'Link copied!';
+
     const copyText = `http://localhost:3000${pathname}`;
     navigator.clipboard.writeText(copyText);
 
-    setLinkCopied(true);
     const interval = setInterval(() => {
-      setLinkCopied(false);
+      linkMessage[index].innerHTML = 'Copy the link!';
       clearInterval(interval);
     }, TIMER_CLOCK);
   }
@@ -50,7 +52,7 @@ function Favorite(/* { history } */) {
   }
 
   return (
-    <main>
+    <main className="mainFavorites">
       <Header
         title="Favorite Recipes"
         showSearch={ false }
@@ -59,6 +61,7 @@ function Favorite(/* { history } */) {
         <button
           type="button"
           data-testid="filter-by-all-btn"
+          className="buttonFilter"
           onClick={ () => filterFunction('all') }
         >
           All
@@ -67,6 +70,7 @@ function Favorite(/* { history } */) {
         <button
           type="button"
           data-testid="filter-by-food-btn"
+          className="buttonFilter"
           onClick={ () => filterFunction('food') }
         >
           Food
@@ -75,44 +79,49 @@ function Favorite(/* { history } */) {
         <button
           type="button"
           data-testid="filter-by-drink-btn"
+          className="buttonFilter"
           onClick={ () => filterFunction('drink') }
         >
           Drinks
         </button>
       </section>
-      <section>
+      <section className="sectionCards">
         { favoriteObject && favoriteObject.map((favoriteInList, index) => (
-          <div key={ index }>
+          <div className="cardItem" key={ index }>
             <Link to={ `/${favoriteInList.type}s/${favoriteInList.id}` }>
               <img
                 src={ favoriteInList.image }
                 alt={ `Imagem da comida ${favoriteInList.name}` }
                 width="150px"
                 data-testid={ `${index}-horizontal-image` }
+                className="imageFood"
               />
             </Link>
 
-            <p data-testid={ `${index}-horizontal-top-text` }>
-              { favoriteInList.type === 'food'
-                ? `${favoriteInList.nationality} - ${favoriteInList.category}`
-                : favoriteInList.alcoholicOrNot }
-            </p>
+            <div className="informationCard">
+              <p
+                data-testid={ `${index}-horizontal-top-text` }
+                className="topText"
+              >
+                { favoriteInList.type === 'food'
+                  ? `${favoriteInList.nationality} - ${favoriteInList.category}`
+                  : favoriteInList.alcoholicOrNot }
+              </p>
+              <Link to={ `/${favoriteInList.type}s/${favoriteInList.id}` }>
+                <h1
+                  data-testid={ `${index}-horizontal-name` }
+                  className="title"
+                >
+                  {favoriteInList.name}
+                </h1>
+              </Link>
 
-            <Link to={ `/${favoriteInList.type}s/${favoriteInList.id}` }>
-              <h1 data-testid={ `${index}-horizontal-name` }>
-                {favoriteInList.name}
-              </h1>
-            </Link>
-
-            <div className="divButtons">
-              <div className="divButtonShare">
-                { linkCopied
-                  ? <p className="linkMessage">Link copied!</p>
-                  : <p className="linkMessage">Copy the link!</p> }
+              <div>
                 <button
                   type="button"
+                  className="buttonIcon"
                   onClick={ () => (
-                    copyClipboard(`/${favoriteInList.type}s/${favoriteInList.id}`)
+                    copyClipboard(`/${favoriteInList.type}s/${favoriteInList.id}`, index)
                   ) }
                 >
                   <img
@@ -121,17 +130,21 @@ function Favorite(/* { history } */) {
                     data-testid={ `${index}-horizontal-share-btn` }
                   />
                 </button>
+                <button
+                  type="button"
+                  className="buttonIcon"
+                  onClick={ () => setFavorites(favoriteInList.id) }
+                >
+                  <img
+                    src={ blackHeartIcon }
+                    alt="Icone de favorito"
+                    data-testid={ `${index}-horizontal-favorite-btn` }
+                  />
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={ () => setFavorites(favoriteInList.id) }
-              >
-                <img
-                  src={ blackHeartIcon }
-                  alt="Icone de favorito"
-                  data-testid={ `${index}-horizontal-favorite-btn` }
-                />
-              </button>
+              <p className="linkMessage">
+                Copy the link!
+              </p>
             </div>
           </div>
         )) }
@@ -141,11 +154,3 @@ function Favorite(/* { history } */) {
 }
 
 export default Favorite;
-
-// Favorite.defaultProps = {
-//   history: {},
-// };
-
-// Favorite.propTypes = {
-//   history: PropTypes.objectOf(PropTypes.any),
-// };

@@ -1,0 +1,79 @@
+.mainFavorites {
+  background-color: #ff5d13;
+  max-height: 640px;
+  max-width: 360px;
+  min-height: 640px;
+  min-width: 360px;
+  overflow: scroll;
+}
+
+.sectionFilter {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.buttonFilter {
+  background-color: #555;
+  border: none;
+  border-radius: 5px;
+  color: #ff5d13;
+  font-size: 15px;
+  font-weight: 700;
+  height: 50px;
+  margin: 5px;
+  width: 150px;
+}
+
+.cardItem {
+  align-items: center;
+  background-color: #555;
+  border-radius: 10px;
+  box-shadow: 2px 10px 10px  rgb(54, 54, 54);
+  display: flex;
+  margin: 15px;
+  padding: 10px;
+  padding-left: 10px;
+}
+
+.imageFood {
+  border: 4px solid #ff5d13;
+  border-radius: 70px 250px 250px 70px;
+  margin-right: 10px;
+}
+
+.informationCard {
+  display: flex;
+  flex-direction: column;
+}
+
+.topText {
+  color: #cac7c7;
+  font-size: 15px;
+  font-weight: 900;
+  margin: 0;
+}
+
+.title {
+  display: flex;
+  color: #ff5d13;
+  font-size: 25px;
+  max-width: 150px;
+}
+
+.linkMessage {
+  color: #cac7c7;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  min-width: 150px;
+}
+
+.buttonIcon {
+  background-color: #ff5d13;
+  border: none;
+  border-radius: 10px;
+  height: 40px;
+  margin: 3px;
+  width: 50px;
+}

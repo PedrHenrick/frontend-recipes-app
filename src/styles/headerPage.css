@@ -3,11 +3,18 @@
 }
 
 .headerPage {
-  align-items: center;
   background-color: rgb(196, 196, 196);
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+}
+
+.pageTitle {
+  align-items: center;
+  display: flex;
+  font-weight: 700;
+  justify-content: center;
+  margin: 0;
+  min-width: 268px;
+  padding: 0;
 }
 
 .headerInput {
