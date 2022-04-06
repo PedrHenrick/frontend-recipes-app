@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import '../../styles/describe.css';
 import {
-  doneRecipes,
+  getDoneRecipes,
   getfavorites,
   removeFavorites,
   addInFavorites,
@@ -12,6 +12,7 @@ import {
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
+import { getRecipeById, getRecipeRecommendeds } from '../../services/api';
 
 function DrinkDescription({ history }) {
   const NUMBER_RECOMMENDED = 6;
@@ -28,8 +29,7 @@ function DrinkDescription({ history }) {
 
   useEffect(() => {
     const requestAPI = async () => {
-      const data = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
-      const response = await data.json();
+      const response = await getRecipeById('drinks', id);
 
       const arrayOfEntries = Object.entries(response.drinks[0]);
       const measures = arrayOfEntries.filter((measure) => (
@@ -51,19 +51,20 @@ function DrinkDescription({ history }) {
     };
     requestAPI();
     const requestAPIRecommended = async () => {
-      const data = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-      const response = await data.json();
+      const response = await getRecipeRecommendeds('meals');
       setRecommended(response.meals);
     };
     requestAPIRecommended();
     const verifyLocalStorage = () => {
       const favoritesInlocalStorage = getfavorites();
       const inProgressLocalStorage = getInProgress();
+      const donRecipesInlocalStorage = getDoneRecipes();
 
       setFavorite(favoritesInlocalStorage.some((idFav) => Number(idFav.id) === id));
       setVerifyInProgress(Object.values(inProgressLocalStorage)
         .some((idFoods) => Number(Object.keys(idFoods)[0]) === id));
-      setVerifyDoneRecipes(doneRecipes(id));
+      setVerifyDoneRecipes(donRecipesInlocalStorage
+        .some((idDone) => Number(idDone.id) === id));
     };
     verifyLocalStorage();
   }, [id]);
@@ -189,7 +190,7 @@ function DrinkDescription({ history }) {
                 )) }
             </ul>
             {/* botão de começar/continuar uma receita */}
-            { verifyDoneRecipes && (
+            { !verifyDoneRecipes && (
               <button
                 className="describeButtonStart"
                 type="button"

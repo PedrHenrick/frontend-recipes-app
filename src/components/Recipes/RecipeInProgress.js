@@ -8,9 +8,10 @@ import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import '../../styles/recipes.css';
 import IngredientsList from './IngredientsList';
 import recipesContext from '../../context/recipesContext';
-import { removeFavoriteRecipeFromStorage,
+import { currentDate, removeFavoriteRecipeFromStorage,
   saveFavoriteRecipesInStorage } from '../../helpers/helpers';
 import { getRecipeById } from '../../services/api';
+import { addDoneRecipes } from '../../services/localStorage';
 
 const THREE_SECONDS = 3000;
 const CURRENT_PARAM = '/in-progress';
@@ -67,6 +68,18 @@ function RecipeInProgress(props) {
   };
 
   const finishRecipeHandler = () => {
+    addDoneRecipes({
+      id: recipeId.toString(),
+      type: type.split('s')[0],
+      nationality: recipeType === 'Meal' ? recipe.strArea : '',
+      category: recipe.strCategory,
+      alcoholicOrNot: recipe.strAlcoholic,
+      name: recipe[`str${recipeType}`],
+      image: recipe[`str${recipeType}Thumb`],
+      doneDate: currentDate(),
+      tags: recipe.strTags && recipe.strTags.split(','),
+    });
+
     push('/done-recipes');
   };
 

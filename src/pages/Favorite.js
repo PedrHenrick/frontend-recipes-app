@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/favorites.css';
 
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
@@ -12,7 +11,6 @@ function Favorite() {
 
   const [favoriteObject, setFavoriteObject] = useState([]);
   const [filterCategory, setFilterCategory] = useState('all');
-  // const [linkCopied, setLinkCopied] = useState(false);
   const [favorite, setFavorite] = useState(true);
 
   useEffect(() => {

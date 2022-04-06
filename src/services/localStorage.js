@@ -1,14 +1,34 @@
-export const doneRecipes = (id) => {
-  const result = localStorage.getItem('doneRecipes');
-  const finalResult = JSON.parse(result);
+// funções relacionadas às receitas favoritas
+export const getDoneRecipes = () => {
+  const response = localStorage.getItem('doneRecipes');
+  const data = JSON.parse(response);
 
-  const verifyValue = finalResult === null
-    ? false : finalResult.some((idFoods) => idFoods.id === id);
+  const verifyValue = data === null
+    ? [] : data;
 
-  if (verifyValue) {
-    return false;
+  return verifyValue;
+};
+
+export const removeDoneRecipes = () => {
+  const response = localStorage.getItem('doneRecipes');
+  const data = JSON.parse(response);
+
+  const resetLocalStorage = data
+    .filter((unfinished) => unfinished.id !== id);
+  localStorage.setItem('doneRecipes', JSON.stringify(resetLocalStorage));
+};
+
+export const addDoneRecipes = (ObjectItem) => {
+  const response = localStorage.getItem('doneRecipes');
+  const data = JSON.parse(response);
+
+  if (data !== null) {
+    const resetLocalStorage = [...data, ObjectItem];
+    localStorage.setItem('doneRecipes', JSON.stringify(resetLocalStorage));
+  } else {
+    const resetLocalStorage = [ObjectItem];
+    localStorage.setItem('doneRecipes', JSON.stringify(resetLocalStorage));
   }
-  return true;
 };
 
 // funções relacionadas as receitas em progresso
