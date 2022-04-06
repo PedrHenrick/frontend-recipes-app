@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BottomMenu from '../components/BottomMenu';
 import HeaderPage from '../components/Header';
+import Button from '../components/Forms/Button';
 
 function Explore(props) {
   const { history: { push } } = props;
@@ -11,21 +12,20 @@ function Explore(props) {
         title="Explore"
         showSearch={ false }
       />
-      <button
+      <Button
         type="button"
-        data-testid="explore-foods"
-        onClick={ () => push('/explore/foods') }
+        dataTestid="explore-foods"
+        clicked={ () => push('/explore/foods') }
       >
         Explore Foods
-      </button>
+      </Button>
 
-      <button
-        type="button"
-        data-testid="explore-drinks"
-        onClick={ () => push('/explore/drinks') }
+      <Button
+        dataTestid="explore-drinks"
+        clicked={ () => push('/explore/drinks') }
       >
         Explore Drinks
-      </button>
+      </Button>
       <BottomMenu />
     </div>
   );

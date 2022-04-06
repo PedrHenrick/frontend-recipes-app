@@ -108,7 +108,9 @@ function SearchBar(props) {
         btnName="Search"
         dataTestid="exec-search-btn"
         clicked={ searchClickedHandler }
-      />
+      >
+        Search
+      </Button>
     </div>
   );
 }

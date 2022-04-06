@@ -1,3 +1,5 @@
+import { getRandomRecipe } from '../services/api';
+
 const checkIfItemsInStorage = (target, storage, recipeId) => {
   const recipeIngredients = {};
   if (!storage) {
@@ -124,4 +126,21 @@ export const currentDate = () => {
   const currentDateCreator = `${day}/${month}/${year}`;
 
   return currentDateCreator;
+};
+
+export const setExploreRecipeUrl = (btnName) => {
+  if (btnName === 'By Ingredient') return '/ingredients';
+  if (btnName === 'By Nationality') return '/nationalities';
+
+  return '';
+};
+
+export const redirectToRandomRecipe = async (isMeal) => {
+  const type = isMeal ? 'meals' : 'drinks';
+  const recipeType = isMeal ? 'Meal' : 'Drink';
+  const recipeResult = await getRandomRecipe(type);
+  const recipe = recipeResult[type][0];
+  const recipeId = recipe[`id${recipeType}`];
+  const path = isMeal ? `/foods/${recipeId}` : `/drinks/${recipeId}`;
+  return path;
 };

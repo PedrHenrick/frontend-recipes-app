@@ -101,23 +101,22 @@ function RecipeInProgress(props) {
           </h2>
           <div>
             {copiedText && <p>Link copied!</p>}
-            <button type="button" onClick={ shareClickHandler }>
+            <Button clicked={ shareClickHandler }>
               <img
                 data-testid="share-btn"
                 src={ shareIcon }
                 alt="icon share"
               />
-            </button>
-            <button
-              type="button"
-              onClick={ favoriteRecipeHandler }
+            </Button>
+            <Button
+              clicked={ favoriteRecipeHandler }
             >
               <img
                 data-testid="favorite-btn"
                 src={ favoriteIconSrc }
                 alt="icon favorite"
               />
-            </button>
+            </Button>
           </div>
           <h6
             className="recipe__category--title"
@@ -134,11 +133,12 @@ function RecipeInProgress(props) {
             { recipe.strInstructions }
           </p>
           <Button
-            btnName="Finish"
             dataTestid="finish-recipe-btn"
             isDisabled={ !disabled }
             clicked={ finishRecipeHandler }
-          />
+          >
+            Finish Recipe
+          </Button>
         </div>
       )}
     </section>
