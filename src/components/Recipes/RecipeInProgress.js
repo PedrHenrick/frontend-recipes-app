@@ -11,6 +11,7 @@ import recipesContext from '../../context/recipesContext';
 import { removeFavoriteRecipeFromStorage,
   saveFavoriteRecipesInStorage } from '../../helpers/helpers';
 import { getRecipeById } from '../../services/api';
+import { addDoneRecipes } from '../../services/localStorage';
 
 const THREE_SECONDS = 3000;
 const CURRENT_PARAM = '/in-progress';
@@ -67,6 +68,24 @@ function RecipeInProgress(props) {
   };
 
   const finishRecipeHandler = () => {
+    const date = new Date();
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    const currentDate = `${day}/${month}/${year}`;
+
+    addDoneRecipes({
+      id: recipeId.toString(),
+      type: type.split('s')[0],
+      nationality: recipeType === 'Meal' ? recipe.strArea : '',
+      category: recipe.strCategory,
+      alcoholicOrNot: recipe.strAlcoholic,
+      name: recipe[`str${recipeType}`],
+      image: recipe[`str${recipeType}Thumb`],
+      doneDate: currentDate,
+      tags: recipe.strTags && recipe.strTags.split(','),
+    });
+
     push('/done-recipes');
   };
 

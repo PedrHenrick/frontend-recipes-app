@@ -12,7 +12,6 @@ function Favorite() {
 
   const [favoriteObject, setFavoriteObject] = useState([]);
   const [filterCategory, setFilterCategory] = useState('all');
-  // const [linkCopied, setLinkCopied] = useState(false);
   const [favorite, setFavorite] = useState(true);
 
   useEffect(() => {

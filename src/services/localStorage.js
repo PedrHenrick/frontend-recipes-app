@@ -1,20 +1,35 @@
 // funções relacionadas às receitas favoritas
-export const getDoneRecipes = (id) => {
-  const result = localStorage.getItem('doneRecipes');
-  const finalResult = JSON.parse(result);
+export const getDoneRecipes = () => {
+  const response = localStorage.getItem('doneRecipes');
+  const data = JSON.parse(response);
 
-  const verifyValue = finalResult === null
-    ? false : finalResult.some((idFoods) => idFoods.id === id);
+  const verifyValue = data === null
+    ? [] : data;
 
-  if (verifyValue) {
-    return false;
-  }
-  return true;
+  return verifyValue;
 };
 
-export const addDoneRecipes = () => true;
+export const removeDoneRecipes = () => {
+  const response = localStorage.getItem('doneRecipes');
+  const data = JSON.parse(response);
 
-export const removeDoneRecipes = () => false;
+  const resetLocalStorage = data
+    .filter((unfinished) => unfinished.id !== id);
+  localStorage.setItem('doneRecipes', JSON.stringify(resetLocalStorage));
+};
+
+export const addDoneRecipes = (ObjectItem) => {
+  const response = localStorage.getItem('doneRecipes');
+  const data = JSON.parse(response);
+
+  if (data !== null) {
+    const resetLocalStorage = [...data, ObjectItem];
+    localStorage.setItem('doneRecipes', JSON.stringify(resetLocalStorage));
+  } else {
+    const resetLocalStorage = [ObjectItem];
+    localStorage.setItem('doneRecipes', JSON.stringify(resetLocalStorage));
+  }
+};
 
 // funções relacionadas as receitas em progresso
 export const getInProgress = () => {

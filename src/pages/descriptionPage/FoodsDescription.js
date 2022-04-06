@@ -63,11 +63,14 @@ function FoodsDescription({ history }) {
     const verifyLocalStorage = () => {
       const favoritesInlocalStorage = getfavorites();
       const inProgressLocalStorage = getInProgress();
+      const donRecipesInlocalStorage = getDoneRecipes();
 
-      setFavorite(favoritesInlocalStorage.some((idFav) => Number(idFav.id) === id));
+      setFavorite(favoritesInlocalStorage
+        .some((idFav) => Number(idFav.id) === id));
       setVerifyInProgress(Object.values(inProgressLocalStorage)
         .some((idFoods) => Number(Object.keys(idFoods)[0]) === id));
-      setVerifyDoneRecipes(getDoneRecipes(id));
+      setVerifyDoneRecipes(donRecipesInlocalStorage
+        .some((idDone) => Number(idDone.id) === id));
     };
     verifyLocalStorage();
   }, [id]);
@@ -101,6 +104,7 @@ function FoodsDescription({ history }) {
     }
   }
 
+  console.log(verifyDoneRecipes);
   return (
     <main>
       { foodsObject.length !== 0
@@ -206,7 +210,7 @@ function FoodsDescription({ history }) {
                 )) }
             </ul>
             {/* botão de começar/continuar uma receita */}
-            { verifyDoneRecipes && (
+            { !verifyDoneRecipes && (
               <button
                 className="describeButtonStart"
                 type="button"
