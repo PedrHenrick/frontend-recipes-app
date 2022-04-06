@@ -48,11 +48,10 @@ function DoneRecipes() {
         title="Done Recipes"
         showSearch={ false }
       />
-      <section className="sectionFilter">
+      <section>
         <button
           type="button"
           data-testid="filter-by-all-btn"
-          className="buttonFilter"
           onClick={ () => filterFunction('all') }
         >
           All
@@ -61,7 +60,6 @@ function DoneRecipes() {
         <button
           type="button"
           data-testid="filter-by-food-btn"
-          className="buttonFilter"
           onClick={ () => filterFunction('food') }
         >
           Food
@@ -70,7 +68,6 @@ function DoneRecipes() {
         <button
           type="button"
           data-testid="filter-by-drink-btn"
-          className="buttonFilter"
           onClick={ () => filterFunction('drink') }
         >
           Drinks
@@ -78,69 +75,63 @@ function DoneRecipes() {
       </section>
 
       { doneRecipesObject && doneRecipesObject.map((doneItem, index) => (
-        <div className="cardItem" key={ index }>
+        <div key={ index }>
           <Link to={ `/${doneItem.type}s/${doneItem.id}` }>
             <img
               src={ doneItem.image }
               alt={ `Imagem da comida ${doneItem.name}` }
               width="150px"
               data-testid={ `${index}-horizontal-image` }
-              className="imageFood"
             />
           </Link>
 
-          <div className="informationCard">
-            <p
-              data-testid={ `${index}-horizontal-top-text` }
-              className="topText"
-            >
-              { doneItem.type === 'meal' || doneItem.type === 'food'
-                ? `${doneItem.nationality} - ${doneItem.category}`
-                : doneItem.alcoholicOrNot }
-            </p>
+          <p
+            data-testid={ `${index}-horizontal-top-text` }
+          >
+            { doneItem.type === 'meal' || doneItem.type === 'food'
+              ? `${doneItem.nationality} - ${doneItem.category}`
+              : doneItem.alcoholicOrNot }
+          </p>
 
-            <button
-              type="button"
-              className="buttonIcon"
-              onClick={ () => (
-                copyClipboard(`/${doneItem.type}s/${doneItem.id}`, index)
-              ) }
-            >
-              <img
-                src={ shareIcon }
-                alt="icone de compartilhamento"
-                data-testid={ `${index}-horizontal-share-btn` }
-              />
-            </button>
+          <button
+            type="button"
+            onClick={ () => (
+              copyClipboard(`/${doneItem.type}s/${doneItem.id}`, index)
+            ) }
+          >
+            <img
+              src={ shareIcon }
+              alt="icone de compartilhamento"
+              data-testid={ `${index}-horizontal-share-btn` }
+            />
+          </button>
 
-            <Link to={ `/${doneItem.type}s/${doneItem.id}` }>
-              <h1
-                data-testid={ `${index}-horizontal-name` }
-                className="title"
+          <Link to={ `/${doneItem.type}s/${doneItem.id}` }>
+            <h1
+              data-testid={ `${index}-horizontal-name` }
+            >
+              {doneItem.name}
+            </h1>
+          </Link>
+
+          <p className="linkMessage">
+            {null}
+          </p>
+
+          <h3 data-testid={ `${index}-horizontal-done-date` }>
+            {doneItem.doneDate}
+          </h3>
+
+          <ul>
+            { doneItem.tags && doneItem.tags.map((tag, indexTag) => (
+              <li
+                key={ indexTag }
+                data-testid={ `0-${tag}-horizontal-tag` }
               >
-                {doneItem.name}
-              </h1>
-            </Link>
-
-            <p className="linkMessage">
-              {null}
-            </p>
-
-            <h3 data-testid={ `${index}-horizontal-done-date` }>
-              {doneItem.doneDate}
-            </h3>
-
-            <ul>
-              { doneItem.tags && doneItem.tags.map((tag, indexTag) => (
-                <li
-                  key={ indexTag }
-                  data-testid={ `0-${tag}-horizontal-tag` }
-                >
-                  { tag }
-                </li>
-              )) }
-            </ul>
-          </div>
+                { tag }
+              </li>
+            )) }
+          </ul>
         </div>
       ))}
     </main>

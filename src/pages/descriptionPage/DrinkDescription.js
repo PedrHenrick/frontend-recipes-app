@@ -12,6 +12,7 @@ import {
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
+import { getRecipeById, getRecipeRecommendeds } from '../../services/api';
 
 function DrinkDescription({ history }) {
   const NUMBER_RECOMMENDED = 6;
@@ -28,8 +29,7 @@ function DrinkDescription({ history }) {
 
   useEffect(() => {
     const requestAPI = async () => {
-      const data = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
-      const response = await data.json();
+      const response = await getRecipeById('drinks', id);
 
       const arrayOfEntries = Object.entries(response.drinks[0]);
       const measures = arrayOfEntries.filter((measure) => (
@@ -51,8 +51,7 @@ function DrinkDescription({ history }) {
     };
     requestAPI();
     const requestAPIRecommended = async () => {
-      const data = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-      const response = await data.json();
+      const response = await getRecipeRecommendeds('meals');
       setRecommended(response.meals);
     };
     requestAPIRecommended();

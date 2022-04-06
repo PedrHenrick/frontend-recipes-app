@@ -8,7 +8,7 @@ import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import '../../styles/recipes.css';
 import IngredientsList from './IngredientsList';
 import recipesContext from '../../context/recipesContext';
-import { removeFavoriteRecipeFromStorage,
+import { currentDate, removeFavoriteRecipeFromStorage,
   saveFavoriteRecipesInStorage } from '../../helpers/helpers';
 import { getRecipeById } from '../../services/api';
 import { addDoneRecipes } from '../../services/localStorage';
@@ -68,12 +68,6 @@ function RecipeInProgress(props) {
   };
 
   const finishRecipeHandler = () => {
-    const date = new Date();
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    const currentDate = `${day}/${month}/${year}`;
-
     addDoneRecipes({
       id: recipeId.toString(),
       type: type.split('s')[0],
@@ -82,7 +76,7 @@ function RecipeInProgress(props) {
       alcoholicOrNot: recipe.strAlcoholic,
       name: recipe[`str${recipeType}`],
       image: recipe[`str${recipeType}Thumb`],
-      doneDate: currentDate,
+      doneDate: currentDate(),
       tags: recipe.strTags && recipe.strTags.split(','),
     });
 

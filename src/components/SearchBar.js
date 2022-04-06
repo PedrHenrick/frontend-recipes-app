@@ -49,10 +49,10 @@ function SearchBar(props) {
 
   const saveMealsOrDrinks = (results) => {
     if (type === 'drinks') {
-      const drinks = results.filter((element, index) => index < MAX_RECIPES);
+      const drinks = results.filter((_element, index) => index < MAX_RECIPES);
       setDrinks(drinks);
     } else if (type === 'meals') {
-      const meals = results.filter((element, index) => index < MAX_RECIPES);
+      const meals = results.filter((_element, index) => index < MAX_RECIPES);
       setMeals(meals);
     }
   };
