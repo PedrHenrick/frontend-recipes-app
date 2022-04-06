@@ -68,19 +68,21 @@ function Categories(props) {
   const renderCategories = () => categories.map(({ strCategory: category }, index) => (
     <Button
       key={ index }
-      btnName={ category }
       dataTestid={ `${category}-category-filter` }
       clicked={ () => clickCategoryHandler(category) }
-    />
+    >
+      {category}
+    </Button>
   ));
   return (
     <div className="categories-container">
       { renderCategories() }
       <Button
-        btnName="All"
         dataTestid="All-category-filter"
         clicked={ () => clickCategoryHandler('All') }
-      />
+      >
+        All
+      </Button>
     </div>
   );
 }

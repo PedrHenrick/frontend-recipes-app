@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Button(props) {
-  const { btnName, clicked, changed, dataTestid, isDisabled } = props;
+  const { children, clicked, changed, dataTestid, isDisabled } = props;
   return (
     <button
       type="button"
@@ -11,7 +11,7 @@ function Button(props) {
       onChange={ changed }
       disabled={ isDisabled }
     >
-      {btnName}
+      {children}
     </button>
   );
 }
@@ -24,7 +24,10 @@ Button.defaultProps = {
 };
 
 Button.propTypes = {
-  btnName: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+  ]).isRequired,
   changed: PropTypes.func,
   clicked: PropTypes.func,
   dataTestid: PropTypes.string,
