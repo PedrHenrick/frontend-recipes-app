@@ -59,7 +59,6 @@ function ExploreFoodsNationalities() {
     }
   };
 
-  console.log(recipes);
   return (
     <main>
       <Header
