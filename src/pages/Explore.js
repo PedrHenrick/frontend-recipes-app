@@ -31,10 +31,6 @@ function Explore(props) {
   );
 }
 
-/* Login.defaulftProps = {
-  history: {},
-}; */
-
 Explore.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
