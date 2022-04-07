@@ -20,6 +20,7 @@ import FoodsDescription from './pages/descriptionPage/FoodsDescription';
 import DrinksDescription from './pages/descriptionPage/DrinkDescription';
 import ExploreFoodsIngredients from './pages/exploresPages/ExploreFoodsIngredients';
 import ExploreDrinksIngredients from './pages/exploresPages/ExploreDrinksIngredients';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
           path="/explore/drinks/ingredients"
           component={ ExploreDrinksIngredients }
         />
+        <Route path="*" component={ NotFoundPage } />
       </Switch>
     </RecipesProvider>
   );
