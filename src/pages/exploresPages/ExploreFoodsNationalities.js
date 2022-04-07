@@ -46,8 +46,8 @@ function ExploreFoodsNationalities() {
   useEffect(() => {
     fetchRecipes().then((allRecipes) => {
       setRecipes(allRecipes);
-    });
-    fetchNacionalities().then();
+    }).catch((err) => console.error(err.message));
+    fetchNacionalities().then().catch((err) => console.error(err.message));
   }, []);
 
   const filterRecipes = async ({ target }) => {
