@@ -4,6 +4,7 @@ import recipesContext from '../../context/recipesContext';
 import Button from '../Forms/Button';
 import { fetchMealsOrDrinksByName, fetchMealsOrDrinksCategories,
   fetchRecipesByCategory } from '../../services/api';
+import '../../styles/searchBar.css';
 
 const MAX_CATEGORIES = 5;
 const MAX_RECIPES = 12;
@@ -67,6 +68,7 @@ function Categories(props) {
 
   const renderCategories = () => categories.map(({ strCategory: category }, index) => (
     <Button
+      btnClass="category__btn"
       key={ index }
       dataTestid={ `${category}-category-filter` }
       clicked={ () => clickCategoryHandler(category) }
@@ -78,6 +80,7 @@ function Categories(props) {
     <div className="categories-container">
       { renderCategories() }
       <Button
+        btnClass="category__btn"
         dataTestid="All-category-filter"
         clicked={ () => clickCategoryHandler('All') }
       >

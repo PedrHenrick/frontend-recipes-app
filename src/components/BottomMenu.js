@@ -1,47 +1,31 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
-import drinkIcon from '../images/drinkIcon.svg';
-import exploreIcon from '../images/exploreIcon.svg';
-import mealIcon from '../images/mealIcon.svg';
-
+import Button from './Forms/Button';
+import Icon from './Icon';
 import '../styles/bottomMenu.css';
 
 function BottomMenu({ history: { push } }) {
-  const objectOfStyles = { position: 'fixed', bottom: '0px' };
   return (
-    <footer data-testid="footer" style={ objectOfStyles }>
-      <button
-        type="button"
-        onClick={ () => push('/drinks') }
+    <footer data-testid="footer" className="recipe__footer">
+      <Button
+        btnClass="menu__btn"
+        clicked={ () => push('/drinks') }
       >
-        <img
-          data-testid="drinks-bottom-btn"
-          src={ drinkIcon }
-          alt="drinkIcon"
-        />
-      </button>
-      <button
-        type="button"
-        onClick={ () => push('/explore') }
+        <Icon iconClass="menu__icon" iconName="glass2" />
+      </Button>
+      <Button
+        btnClass="menu__btn"
+        clicked={ () => push('/explore') }
       >
-        <img
-          data-testid="explore-bottom-btn"
-          src={ exploreIcon }
-          alt="exploreIcon"
-        />
-      </button>
-      <button
-        type="button"
-        onClick={ () => push('/foods') }
+        <Icon iconClass="menu__icon" iconName="compass2" />
+      </Button>
+      <Button
+        btnClass="menu__btn"
+        clicked={ () => push('/foods') }
       >
-        <img
-          data-testid="food-bottom-btn"
-          src={ mealIcon }
-          alt="mealIcon"
-        />
-      </button>
+        <Icon iconClass="menu__icon" iconName="food" />
+      </Button>
     </footer>
   );
 }

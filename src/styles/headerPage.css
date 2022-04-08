@@ -3,23 +3,50 @@
 }
 
 .headerPage {
-  background-color: rgb(196, 196, 196);
+  align-items: center;
+  background-color: rgb(252, 209, 208);
   display: flex;
+  justify-content: space-between;
+  min-height: 5rem;
 }
 
 .pageTitle {
   align-items: center;
   display: flex;
+  font-size: 2.5rem;
   font-weight: 700;
-  justify-content: center;
-  margin: 0;
-  min-width: 268px;
-  padding: 0;
 }
 
 .headerInput {
+  background-color: rgb(245, 245, 242);
+  border: 1px solid rgb(231, 231, 231);
+  border-radius: 10rem;
+  color: #2c0703;
+  font-family: inherit;
+  font-size: 1.3rem;
   margin-left: 10%;
   margin-right: 10%;
   margin-top: 3%;
+  padding: 3px 6px;
+  transition: all 0.3s;
   width: 80%;
 }
+
+.headerInput:focus {
+  border: 1px solid #890620;
+  box-shadow: 10px 10px 10px rgba(137, 6, 32, 0.178);
+  outline: none;
+}
+
+.profile__btn {
+  background-color: transparent;
+  border: none;
+  padding: 1rem;
+}
+
+.profile__icon, .profile__search {
+  fill: #890620;
+  height: 3rem;
+  width: 3rem;
+}
+

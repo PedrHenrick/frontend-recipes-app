@@ -8,6 +8,7 @@ import { fetchMealsOrDrinksByFirstLetter,
   fetchMealsOrDrinksByIngredient,
   fetchMealsOrDrinksByName } from '../services/api';
 import { getMealsOrDrinks } from '../helpers/helpers';
+import '../styles/searchBar.css';
 
 const MAX_RECIPES = 12;
 
@@ -80,31 +81,38 @@ function SearchBar(props) {
 
   return (
     <div className="search-container">
-      <Radio
-        inputId="ingredientsearch"
-        inputLabel="Ingredient"
-        inputName="search"
-        dataTestid="ingredient-search-radio"
-        changed={ inputChangeHandler }
-        radioValue="ingredient"
-      />
-      <Radio
-        inputId="recipesearch"
-        inputLabel="Name"
-        inputName="search"
-        dataTestid="name-search-radio"
-        changed={ inputChangeHandler }
-        radioValue="name"
-      />
-      <Radio
-        inputId="firstlettersearch"
-        inputLabel="First Letter"
-        inputName="search"
-        dataTestid="first-letter-search-radio"
-        changed={ inputChangeHandler }
-        radioValue="firstletter"
-      />
+      <div className="search__filters">
+        <span>By: </span>
+        <Radio
+          inputClass="search__input"
+          inputId="ingredientsearch"
+          inputLabel="Ingredient"
+          inputName="search"
+          dataTestid="ingredient-search-radio"
+          changed={ inputChangeHandler }
+          radioValue="ingredient"
+        />
+        <Radio
+          inputClass="search__input"
+          inputId="recipesearch"
+          inputLabel="Name"
+          inputName="search"
+          dataTestid="name-search-radio"
+          changed={ inputChangeHandler }
+          radioValue="name"
+        />
+        <Radio
+          inputClass="search__input"
+          inputId="firstlettersearch"
+          inputLabel="First Letter"
+          inputName="search"
+          dataTestid="first-letter-search-radio"
+          changed={ inputChangeHandler }
+          radioValue="firstletter"
+        />
+      </div>
       <Button
+        btnClass="search__btn"
         btnName="Search"
         dataTestid="exec-search-btn"
         clicked={ searchClickedHandler }
@@ -112,6 +120,7 @@ function SearchBar(props) {
         Search
       </Button>
     </div>
+
   );
 }
 

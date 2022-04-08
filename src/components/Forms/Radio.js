@@ -2,10 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Radio(props) {
-  const { inputId, inputLabel, inputName, dataTestid, changed, radioValue } = props;
+  const { inputId,
+    inputLabel,
+    inputName,
+    inputClass,
+    dataTestid,
+    changed,
+    radioValue } = props;
   return (
-    <label htmlFor={ inputId }>
-      {inputLabel}
+    <div className="radio__group">
       <input
         type="radio"
         id={ inputId }
@@ -14,12 +19,18 @@ function Radio(props) {
         onChange={ changed }
         value={ radioValue }
       />
-    </label>
+      <label htmlFor={ inputId } className={ inputClass }>
+        {inputLabel}
+      </label>
+
+    </div>
+
   );
 }
 
 Radio.defaultProps = {
   inputLabel: '',
+  inputClass: '',
   dataTestid: '',
   radioValue: '',
   changed: () => '',
@@ -27,6 +38,7 @@ Radio.defaultProps = {
 
 Radio.propTypes = {
   inputId: PropTypes.string.isRequired,
+  inputClass: PropTypes.string,
   inputLabel: PropTypes.string,
   inputName: PropTypes.string.isRequired,
   dataTestid: PropTypes.string,

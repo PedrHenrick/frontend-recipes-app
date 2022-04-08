@@ -7,7 +7,7 @@ import Button from '../components/Forms/Button';
 function Explore(props) {
   const { history: { push } } = props;
   return (
-    <div>
+    <div className="food-container">
       <HeaderPage
         title="Explore"
         showSearch={ false }

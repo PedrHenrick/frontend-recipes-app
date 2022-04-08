@@ -6,7 +6,7 @@ import SearchBar from '../components/SearchBar';
 
 function Foods() {
   return (
-    <div>
+    <div className="food-container">
       <HeaderPage
         title="Foods"
         showSearch

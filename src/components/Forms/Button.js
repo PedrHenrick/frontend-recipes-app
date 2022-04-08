@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Button(props) {
-  const { children, clicked, changed, dataTestid, isDisabled } = props;
+  const { children, clicked, changed, dataTestid, isDisabled, btnClass } = props;
   return (
     <button
       type="button"
+      className={ btnClass }
       data-testid={ dataTestid }
       onClick={ clicked }
       onChange={ changed }
@@ -20,6 +21,7 @@ Button.defaultProps = {
   changed: () => '',
   clicked: () => '',
   dataTestid: '',
+  btnClass: '',
   isDisabled: false,
 };
 
@@ -31,6 +33,7 @@ Button.propTypes = {
   changed: PropTypes.func,
   clicked: PropTypes.func,
   dataTestid: PropTypes.string,
+  btnClass: PropTypes.string,
   isDisabled: PropTypes.bool,
 };
 

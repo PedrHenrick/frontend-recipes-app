@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/login.css';
+import Logo from '../components/Logo';
 
 function Login(props) {
   const { history: { push } } = props;
@@ -40,6 +41,7 @@ function Login(props) {
 
   return (
     <div className="login-container">
+      <Logo />
       <form onSubmit={ inputSubmitHandler } className="login-form">
         <label htmlFor="email" className="login__label">
           E-mail:

@@ -1,14 +1,23 @@
-.bottomMenu {
+.recipe__footer {
   align-items: center;
-  background-color: rgb(196, 196, 196);
+  background-color: rgb(252, 209, 208);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  position: fixed;
+  top: 59rem;
+  width: inherit;
 }
 
-.headerInput {
-  margin-left: 10%;
-  margin-right: 10%;
-  margin-top: 3%;
-  width: 80%;
+.menu__btn {
+  background-color: transparent;
+  border: none;
+  padding: 1rem;
 }
+
+.menu__icon {
+  fill: #890620;
+  height: 3rem;
+  width: 3rem;
+}
+

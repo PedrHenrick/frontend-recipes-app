@@ -1,5 +1,42 @@
-.recipe-container {
-  max-height: 640px;
-  min-height: 640px;
-  overflow: scroll;
+.recipes, .recipe__card {
+  display: flex;
+}
+
+.recipes {
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-top: 2rem;
+}
+
+.recipe__card {
+  flex-direction: column;
+  margin: 1rem;
+  max-width: 15rem;
+}
+
+.recipe__img {
+  border-radius: 5px;
+  width: 12rem;
+}
+
+.recipe__link {
+  font-size: 1.3rem;
+  font-weight: 900;
+}
+
+.recipe__name {
+  font-size: 1.3rem;
+  font-weight: 900;
+  max-width: 12rem;
+}
+
+.recipe__link:link, .recipe__link:visited {
+  color: #48220d;
+  text-decoration: none;
+}
+
+.recipe__link:hover, .recipe__link:active {
+  color: #890620;
+  text-decoration: none;
 }
