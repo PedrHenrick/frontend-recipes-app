@@ -5,7 +5,7 @@ import RecipeInProgress from '../../components/Recipes/RecipeInProgress';
 function FoodsInProgress(props) {
   const { location: { pathname } } = props;
   return (
-    <div>
+    <div className="recipe-background">
       <RecipeInProgress
         isMeal={ pathname.startsWith('/foods') }
       />

@@ -157,3 +157,12 @@ export function setCountryFlag(country) {
     .find((nationality) => nationality
       .includes('unknown'));
 }
+
+export const addMeasurementConnective = (measure) => {
+  if (measure.includes('large')
+    || measure.includes('medium')
+    || measure.includes('small')) {
+    return ' ';
+  }
+  return ' of ';
+};

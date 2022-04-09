@@ -65,11 +65,12 @@
   color: rgb(72, 34, 13);
   font-size: 1.5rem;
   font-weight: 700;
-  left: 33%;
+  left: 50%;
   min-width: 9rem;
   padding: 1rem 2rem;
   position: fixed;
   top: 55rem;
+  transform: translateX(-50%);
 }
 
 .recipe-description__img {
@@ -95,6 +96,10 @@
   align-items: center;
   display: flex;
   justify-content: space-between;
+}
+
+.recipe-description__category {
+  font-size: 1.75rem;
 }
 
 .recipe-description__name {

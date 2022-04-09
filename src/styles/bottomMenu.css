@@ -9,13 +9,13 @@
   width: inherit;
 }
 
-.menu__btn {
+.footer-menu__btn {
   background-color: transparent;
   border: none;
   padding: 1rem;
 }
 
-.menu__icon {
+.footer-menu__icon {
   fill: #890620;
   height: 3rem;
   width: 3rem;

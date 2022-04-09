@@ -60,14 +60,14 @@ function IngredientsList(props) {
           data-testid={ `${index}-ingredient-step` }
         >
           <CheckBox
+            inputId={ `ingredient-${index}` }
+            inputLabel={ ingredientEntry[0] }
             inputType="checkbox"
             inputValue={ ingredientEntry[0] }
             changed={ inputChangeHandler }
             isChecked={ ingredientEntry[1] }
+            measurement={ measurements[index] }
           />
-          {ingredientEntry[0]}
-          {' - '}
-          {measurements[index]}
         </li>
       );
     });

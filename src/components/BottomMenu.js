@@ -9,22 +9,22 @@ function BottomMenu({ history: { push } }) {
   return (
     <footer data-testid="footer" className="recipe__footer">
       <Button
-        btnClass="menu__btn"
+        btnClass="footer-menu__btn"
         clicked={ () => push('/drinks') }
       >
-        <Icon iconClass="menu__icon" iconName="glass2" />
+        <Icon iconClass="footer-menu__icon" iconName="glass2" />
       </Button>
       <Button
-        btnClass="menu__btn"
+        btnClass="footer-menu__btn"
         clicked={ () => push('/explore') }
       >
         <Icon iconClass="menu__icon" iconName="compass2" />
       </Button>
       <Button
-        btnClass="menu__btn"
+        btnClass="footer-menu__btn"
         clicked={ () => push('/foods') }
       >
-        <Icon iconClass="menu__icon" iconName="food" />
+        <Icon iconClass="footer-menu__icon" iconName="food" />
       </Button>
     </footer>
   );

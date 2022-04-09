@@ -1,22 +1,51 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Icon from '../Icon';
+import { addMeasurementConnective } from '../../helpers/helpers';
 
 function CheckBox(props) {
-  const { changed, dataTestid, inputClass, inputValue, isChecked } = props;
+  const { changed,
+    dataTestid,
+    inputId,
+    inputLabel,
+    inputClass,
+    inputValue,
+    measurement,
+    isChecked } = props;
+
+  const checkIcon = isChecked ? 'checkmark' : 'add-solid';
+  const ingredientClass = isChecked
+    ? 'ingredients__check checked' : 'ingredients__check';
+  const nameClass = isChecked
+    ? 'ingredients__name checked' : 'ingredients__name';
+
   return (
-    <input
-      type="checkbox"
-      className={ inputClass }
-      data-testid={ dataTestid }
-      onChange={ changed }
-      value={ inputValue }
-      checked={ isChecked }
-    />
+    <div className="input__group">
+      <input
+        id={ inputId }
+        type="checkbox"
+        className={ inputClass }
+        data-testid={ dataTestid }
+        onChange={ changed }
+        value={ inputValue }
+        checked={ isChecked }
+      />
+      <label htmlFor={ inputId } className={ ingredientClass }>
+        <Icon iconClass="progress-menu__icon--step" iconName={ checkIcon } />
+        <span>{measurement}</span>
+        { addMeasurementConnective(measurement) }
+        <span className={ nameClass }>{inputLabel}</span>
+      </label>
+
+    </div>
   );
 }
 
 CheckBox.defaultProps = {
   inputClass: '',
+  inputId: '',
+  inputLabel: '',
+  measurement: '',
   dataTestid: '',
   changed: () => '',
   isChecked: false,
@@ -24,6 +53,9 @@ CheckBox.defaultProps = {
 
 CheckBox.propTypes = {
   inputClass: PropTypes.string,
+  inputId: PropTypes.string,
+  inputLabel: PropTypes.string,
+  measurement: PropTypes.string,
   inputValue: PropTypes.string.isRequired,
   dataTestid: PropTypes.string,
   changed: PropTypes.func,

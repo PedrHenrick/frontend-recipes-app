@@ -103,6 +103,8 @@ function FoodsDescription({ history }) {
     }
   };
 
+  const btnName = verifyInProgress ? 'Continue Recipe' : 'Start Recipe';
+
   return (
     <main>
       { foodsObject.length !== 0
@@ -208,9 +210,7 @@ function FoodsDescription({ history }) {
                   history.push(`${history.location.pathname}/in-progress`);
                 } }
               >
-                {verifyInProgress ? 'Continue' : 'Start'}
-                {' '}
-                Recipe
+                {btnName}
               </Button>
             )}
           </section>
