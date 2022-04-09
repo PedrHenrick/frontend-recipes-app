@@ -1,4 +1,5 @@
 import { getRandomRecipe } from '../services/api';
+import nacionalityScr from './nacionalitiesSrc';
 
 const checkIfItemsInStorage = (target, storage, recipeId) => {
   const recipeIngredients = {};
@@ -144,3 +145,15 @@ export const redirectToRandomRecipe = async (isMeal) => {
   const path = isMeal ? `/foods/${recipeId}` : `/drinks/${recipeId}`;
   return path;
 };
+
+export function setCountryFlag(country) {
+  if (country) {
+    const flagSrc = nacionalityScr
+      .find((nationality) => nationality
+        .includes(country.toLowerCase()));
+    return flagSrc;
+  }
+  return nacionalityScr
+    .find((nationality) => nationality
+      .includes('unknown'));
+}

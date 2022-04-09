@@ -1,14 +1,11 @@
-.sectionDescribe {
+/* stylelint-disable selector-list-comma-space-after */
+.recipe-description {
   max-height: 640px;
   max-width: 360px;
   min-height: 640px;
   min-width: 360px;
   overflow: scroll;
-}
-
-.divButtons {
-  display: flex;
-  justify-content: center;
+  position: relative;
 }
 
 .divButtonShare {
@@ -21,18 +18,36 @@
   width: 65px;
 }
 
-.recommendedList {
+.recommended__list {
   display: flex;
   list-style: none;
   overflow: scroll;
-  padding: 0;
+  padding: 2rem;
   text-align: center;
 }
 
-.ingredientsList {
-  font-size: 15px;
-  font-weight: 500;
-  margin: 3px;
+.recommended__item {
+  max-width: 15rem;
+  padding: 5px;
+}
+
+.recommended__img {
+  border-radius: 5px;
+  width: 11rem;
+}
+
+.recommended__name {
+  color: rgb(72, 34, 13);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.recommended__heading {
+  color: rgb(182, 70, 95);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  padding-left: 2.5rem;
 }
 
 .instructions {
@@ -42,15 +57,113 @@
   padding: 20px;
 }
 
-.describeButtonStart {
-  border: solid 2px rgb(95, 94, 94);
-  border-radius: 7px;
-  bottom: 0;
-  font-size: 13px;
-  font-weight: 900;
-  height: 50px;
-  margin-left: 135px;
-  max-width: 90px;
-  min-width: 90px;
+.start-recipe__btn {
+  background-color: #b2cc2b;
+  border: 1px solid transparent;
+  border-radius: 6rem;
+  box-shadow: 1rem 1rem 1rem rgba(0, 0, 0, 0.14);
+  color: rgb(72, 34, 13);
+  font-size: 1.5rem;
+  font-weight: 700;
+  left: 33%;
+  min-width: 9rem;
+  padding: 1rem 2rem;
   position: fixed;
+  top: 55rem;
 }
+
+.recipe-description__img {
+  width: 36rem;
+}
+
+.recipe-description__heading {
+  background-image: linear-gradient(to bottom, transparent, black);
+  left: 0;
+  padding: 2rem 1rem;
+  position: absolute;
+  top: 25.3rem;
+  width: 36rem;
+}
+
+.recipe-description__name,
+.recipe-description__category,
+.nacionality__heading {
+  color: rgb(235, 212, 203);
+}
+
+.recipe-description__details {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.recipe-description__name {
+  font-size: 3rem;
+  font-weight: 400;
+  letter-spacing: -1px;
+}
+
+.nacionality__heading {
+  margin-right: 2rem;
+}
+
+.nacionality__img {
+  height: 2.3rem;
+  margin: 3px;
+  width: 2.3rem;
+}
+
+.ingredient-title {
+  color: rgb(182, 70, 95);
+  font-size: 3rem;
+  font-weight: 400;
+  letter-spacing: -1px;
+  margin: 2rem;
+  margin-top: 5rem;
+}
+
+.ingredients__list {
+  list-style: none;
+  padding: 2rem;
+  padding-bottom: 0;
+}
+
+.ingredients__item {
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin: 8px 0;
+}
+
+.ingredient__name {
+  color: rgb(182, 70, 95);
+  font-weight: 700;
+}
+
+.ingredient__instructions {
+  font-size: 1.3rem;
+  padding: 2rem;
+}
+
+.recipe-description__buttons {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  left: 24rem;
+  position: absolute;
+  top: 38rem;
+  width: 10rem;
+}
+
+.menu__btn {
+  background-color: transparent;
+  border: none;
+  padding: 1rem;
+}
+
+.menu__icon {
+  fill: rgb(182, 70, 95);
+  height: 2.7rem;
+  width: 2.7rem;
+}
+

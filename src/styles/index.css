@@ -9,7 +9,7 @@ html {
 }
 
 /* stylelint-disable-next-line selector-no-qualifying-type */
-input[ type = 'checkbox' ], input[ type = 'radio' ] {
+input[ type = 'radio' ] {
   appearance: none;
 }
 
