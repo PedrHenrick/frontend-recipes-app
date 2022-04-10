@@ -9,13 +9,13 @@ import {
   getInProgress,
   addInProgressDrinks,
 } from '../../services/localStorage';
-import shareIcon from '../../images/shareIcon.svg';
-import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import { getRecipeById, getRecipeRecommendeds } from '../../services/api';
+import { addMeasurementConnective } from '../../helpers/helpers';
+import Button from '../../components/Forms/Button';
+import Icon from '../../components/Icon';
+import Recommended from '../../components/Recipes/Recommended';
 
 function DrinkDescription({ history }) {
-  const NUMBER_RECOMMENDED = 6;
   const TIMER_CLOCK = 3000;
 
   const id = (Number(history.location.pathname.split('/')[2]));
@@ -69,7 +69,7 @@ function DrinkDescription({ history }) {
     verifyLocalStorage();
   }, [id]);
 
-  function copyClipboard() {
+  const copyClipboard = () => {
     const copyText = `http://localhost:3000${history.location.pathname}`;
     navigator.clipboard.writeText(copyText);
 
@@ -78,9 +78,9 @@ function DrinkDescription({ history }) {
       setLinkCopied(false);
       clearInterval(interval);
     }, TIMER_CLOCK);
-  }
+  };
 
-  function setFavorites() {
+  const setFavorites = () => {
     setFavorite(!favorite);
 
     if (!favorite === false) {
@@ -96,116 +96,108 @@ function DrinkDescription({ history }) {
         image: drinkObject.strDrinkThumb,
       });
     }
-  }
+  };
+
+  const btnName = verifyInProgress ? 'Continue Recipe' : 'Start Recipe';
 
   return (
     <main>
       { drinkObject.length !== 0
         ? (
-          <section>
+          <section className="recipe-description">
+            <Button
+              btnClass="go-back__btn"
+              clicked={ history.goBack }
+            >
+              <Icon iconClass="menu__icon" iconName="undo2" />
+            </Button>
             {/* Imagem da comida */}
             <img
+              className="recipe-description__img"
               data-testid="recipe-photo"
               src={ drinkObject.strDrinkThumb }
               alt={ `Imagem da bebida ${drinkObject.strDrink}` }
               width="100px"
             />
             {/* Nome da comida */}
-            <h1 data-testid="recipe-title">
-              { drinkObject.strDrink }
-            </h1>
-            {/* Categoria da comida */}
-            <h2 data-testid="recipe-category">
-              { drinkObject.strAlcoholic }
-            </h2>
+            <div className="recipe-description__heading">
+              <h2 data-testid="recipe-title" className="recipe-description__name">
+                { drinkObject.strDrink }
+              </h2>
+              {/* Categoria da comida */}
+              <h3 data-testid="recipe-category" className="recipe-description__category">
+                { drinkObject.strAlcoholic }
+              </h3>
+            </div>
+
             {/* Lista de ingredientes e quantidades */}
-            <ul>
-              { ingredientArr.map((ingredient, index) => (
-                <li
-                  key={ index }
-                  data-testid={ `${index}-ingredient-name-and-measure` }
-                  className="ingredientsList"
-                >
-                  {ingredient[0]}
-                  {': '}
-                  { ingredient[1] }
-                </li>
-              ))}
-            </ul>
+            <div className="recipe-description__ingredients">
+              <h2 className="ingredient-title">Ingrendients</h2>
+              <ul className="ingredients__list">
+                { ingredientArr.map((ingredient, index) => (
+                  <li
+                    key={ index }
+                    data-testid={ `${index}-ingredient-name-and-measure` }
+                    className="ingredients__item"
+                  >
+                    <span className="ingredient__measurement">
+                      { ingredient[1]
+                      && `${ingredient[1]} ${addMeasurementConnective(ingredient[0])} `}
+                    </span>
+                    <span className="ingredient__name">
+                      { ingredient[0] }
+                    </span>
+                    {' '}
+                  </li>
+                ))}
+              </ul>
+            </div>
             {/* Intruções de preparação */}
-            <p data-testid="instructions" className="instructions">
-              { drinkObject.strInstructions }
-            </p>
+            <div className="recipe-description__instructions">
+              <h2 className="ingredient-title">Instructions</h2>
+              <p className="ingredient__instructions">
+                {drinkObject.strInstructions}
+              </p>
+            </div>
 
             {/* Botões de compatilhamento e de favoritar */}
-            <div className="divButtons">
+            <div className="recipe-description__buttons">
               <div className="divButtonShare">
-                {/* mensagem de compartilhamento */}
-                { linkCopied
-                  ? <p className="linkMessage">Link copied!</p>
-                  : <p className="linkMessage">Copy the link!</p> }
-                {/* botão de compatilhar */}
-                <button
-                  type="button"
+                <Button
+                  btnClass="menu__btn"
                   data-testid="share-btn"
-                  onClick={ copyClipboard }
+                  clicked={ copyClipboard }
                 >
-                  <img
-                    src={ shareIcon }
-                    alt="icone de compartilhamento"
+                  <Icon iconClass="menu__icon" iconName="share2" />
+                </Button>
+                <Button
+                  btnClass="menu__btn"
+                  clicked={ setFavorites }
+                >
+                  <Icon
+                    iconClass="menu__icon"
+                    iconName={ favorite ? 'heart' : 'heart-o' }
                   />
-                </button>
+                </Button>
               </div>
-              {/* botão de favoritar */}
-              <button
-                type="button"
-                onClick={ setFavorites }
-              >
-                <img
-                  data-testid="favorite-btn"
-                  src={ favorite ? blackHeartIcon : whiteHeartIcon }
-                  alt="Icone de favorito"
-                />
-              </button>
+              { linkCopied && <p className="linkMessage">Copy the link!</p> }
             </div>
             {/* lista de itens recomendados */}
-            <ul className="recommendedList">
-              { Object.entries(recommended).slice(0, NUMBER_RECOMMENDED)
-                .map((recommend, index) => (
-                  <li
-                    key={ recommend[1].idMeal }
-                    data-testid={ `${index}-recomendation-card` }
-                  >
-                    <img
-                      src={ recommend[1].strMealThumb }
-                      alt={ `Imagem da comida ${recommend[1].strMeal}` }
-                      width="200px"
-                    />
-                    <h3
-                      data-testid={ `${index}-recomendation-title` }
-                    >
-                      { recommend[1].strMeal }
-                    </h3>
-                  </li>
-                )) }
-            </ul>
+            <Recommended recommended={ recommended } type="meals" />
             {/* botão de começar/continuar uma receita */}
             { !verifyDoneRecipes && (
-              <button
-                className="describeButtonStart"
-                type="button"
-                data-testid="start-recipe-btn"
-                onClick={ () => {
+              <Button
+                btnClass="start-recipe__btn"
+                dataTestid="start-recipe-btn"
+                clicked={ () => {
                   addInProgressDrinks({
                     [id]: ingredientArr,
                   });
                   history.push(`${history.location.pathname}/in-progress`);
                 } }
               >
-                {verifyInProgress ? 'Continue' : 'Start'}
-                {' '}
-                Recipe
-              </button>
+                {btnName}
+              </Button>
             )}
           </section>
         ) : null}

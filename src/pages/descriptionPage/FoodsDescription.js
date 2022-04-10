@@ -10,7 +10,7 @@ import {
   addInProgressMeals,
 } from '../../services/localStorage';
 import { getRecipeById, getRecipeRecommendeds } from '../../services/api';
-import { setCountryFlag } from '../../helpers/helpers';
+import { addMeasurementConnective, setCountryFlag } from '../../helpers/helpers';
 import Button from '../../components/Forms/Button';
 import Icon from '../../components/Icon';
 import Recommended from '../../components/Recipes/Recommended';
@@ -110,6 +110,12 @@ function FoodsDescription({ history }) {
       { foodsObject.length !== 0
         ? (
           <section className="recipe-description">
+            <Button
+              btnClass="go-back__btn"
+              clicked={ history.goBack }
+            >
+              <Icon iconClass="menu__icon" iconName="undo2" />
+            </Button>
             <img
               className="recipe-description__img"
               data-testid="recipe-photo"
@@ -150,7 +156,8 @@ function FoodsDescription({ history }) {
                     className="ingredients__item"
                   >
                     <span className="ingredient__measurement">
-                      {`${ingredient[1]} of `}
+                      { ingredient[1]
+                    && `${ingredient[1]} ${addMeasurementConnective(ingredient[0])} `}
                     </span>
                     <span className="ingredient__name">
                       { ingredient[0] }
@@ -198,7 +205,7 @@ function FoodsDescription({ history }) {
               { null }
             </iframe>
             {/* lista de itens recomendados */}
-            <Recommended recommended={ recommended } />
+            <Recommended recommended={ recommended } type="drinks" />
             { !verifyDoneRecipes && (
               <Button
                 btnClass="start-recipe__btn"

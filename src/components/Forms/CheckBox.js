@@ -18,6 +18,8 @@ function CheckBox(props) {
     ? 'ingredients__check checked' : 'ingredients__check';
   const nameClass = isChecked
     ? 'ingredients__name checked' : 'ingredients__name';
+  const notQuantifiable = measurement.toLowerCase() === 'to taste'
+  || measurement.toLowerCase() === 'to serve';
 
   return (
     <div className="input__group">
@@ -32,9 +34,15 @@ function CheckBox(props) {
       />
       <label htmlFor={ inputId } className={ ingredientClass }>
         <Icon iconClass="progress-menu__icon--step" iconName={ checkIcon } />
-        <span>{measurement}</span>
+        {!notQuantifiable && <span>{measurement}</span>}
         { addMeasurementConnective(measurement) }
         <span className={ nameClass }>{inputLabel}</span>
+        { notQuantifiable && (
+          <span>
+            {' '}
+            {measurement.toLowerCase()}
+          </span>
+        )}
       </label>
 
     </div>

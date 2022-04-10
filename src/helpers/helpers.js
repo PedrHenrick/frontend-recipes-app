@@ -159,9 +159,14 @@ export function setCountryFlag(country) {
 }
 
 export const addMeasurementConnective = (measure) => {
+  if (measure === undefined
+    || measure === 'to taste'
+    || measure?.toLowerCase() === 'to serve') return '';
+
   if (measure.includes('large')
     || measure.includes('medium')
-    || measure.includes('small')) {
+    || measure.includes('small')
+    || measure.length <= 2) {
     return ' ';
   }
   return ' of ';

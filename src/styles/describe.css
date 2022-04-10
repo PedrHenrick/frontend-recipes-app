@@ -18,12 +18,18 @@
   width: 65px;
 }
 
+.recipe-description__recommended {
+  background-color: #f0d8dd;
+  padding-top: 2px;
+}
+
 .recommended__list {
   display: flex;
   list-style: none;
-  overflow: scroll;
+  overflow-x: scroll;
   padding: 2rem;
   text-align: center;
+  width: 36rem;
 }
 
 .recommended__item {
@@ -79,10 +85,14 @@
 
 .recipe-description__heading {
   background-image: linear-gradient(to bottom, transparent, black);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   left: 0;
+  min-height: 15.1rem;
   padding: 2rem 1rem;
   position: absolute;
-  top: 25.3rem;
+  top: 21.3rem;
   width: 36rem;
 }
 
@@ -170,5 +180,14 @@
   fill: rgb(182, 70, 95);
   height: 2.7rem;
   width: 2.7rem;
+}
+
+.go-back__btn {
+  background-color: transparent;
+  border: none;
+  left: 0;
+  padding: 1rem;
+  position: absolute;
+  top: 0;
 }
 

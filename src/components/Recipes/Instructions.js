@@ -9,7 +9,9 @@ function Instructions(props) {
     if (instructions?.length > 0) {
       return instructions.map((step, index) => (
         <li key={ index } className="instructions__item">
-          <h5 className="instructions__heading">{`Step ${index + 1}`}</h5>
+          {instructions.length > 1 && (
+            <h5 className="instructions__heading">{`Step ${index + 1}`}</h5>
+          )}
           <p className="instructions__text">{step}</p>
         </li>
       ));

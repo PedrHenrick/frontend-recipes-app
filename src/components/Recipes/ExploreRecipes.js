@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Button from '../Forms/Button';
 import { redirectToRandomRecipe, setExploreRecipeUrl } from '../../helpers/helpers';
+import Icon from '../Icon';
 
 function ExploreRecipes(props) {
   const { isMeal, history: { push } } = props;
@@ -26,24 +27,30 @@ function ExploreRecipes(props) {
   return (
     <div>
       <Button
+        btnClass="menu__btn"
         dataTestid="explore-by-ingredient"
         clicked={ exploreByParamHandler }
       >
-        By Ingredient
+        <Icon iconClass="menu__icon" iconName="spoon-knife" />
+        <span>By Ingredient</span>
       </Button>
       {isMeal && (
         <Button
+          btnClass="menu__btn"
           dataTestid="explore-by-nationality"
           clicked={ exploreByParamHandler }
         >
-          By Nationality
+          <Icon iconClass="menu__icon" iconName="location" />
+          <span>By Nationality</span>
         </Button>
       )}
       <Button
+        btnClass="menu__btn"
         dataTestid="explore-surprise"
         clicked={ exploreByParamHandler }
       >
-        Surprise me!
+        <Icon iconClass="menu__icon" iconName="gift" />
+        <span>Surprise me!</span>
       </Button>
     </div>
   );

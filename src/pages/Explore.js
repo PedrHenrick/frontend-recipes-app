@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import BottomMenu from '../components/BottomMenu';
 import HeaderPage from '../components/Header';
 import Button from '../components/Forms/Button';
+import '../styles/explore.css';
 
 function Explore(props) {
   const { history: { push } } = props;
@@ -12,20 +13,24 @@ function Explore(props) {
         title="Explore"
         showSearch={ false }
       />
-      <Button
-        type="button"
-        dataTestid="explore-foods"
-        clicked={ () => push('/explore/foods') }
-      >
-        Explore Foods
-      </Button>
+      <div className="explore-container">
+        <Button
+          btnClass="explore-btn explore--foods"
+          type="button"
+          dataTestid="explore-recipes"
+          clicked={ () => push('/explore/foods') }
+        >
+          <span>Explore Foods</span>
+        </Button>
 
-      <Button
-        dataTestid="explore-drinks"
-        clicked={ () => push('/explore/drinks') }
-      >
-        Explore Drinks
-      </Button>
+        <Button
+          btnClass="explore-btn explore--drinks"
+          dataTestid="explore-recipes"
+          clicked={ () => push('/explore/drinks') }
+        >
+          <span>Explore Drinks</span>
+        </Button>
+      </div>
       <BottomMenu />
     </div>
   );

@@ -18,7 +18,7 @@ function BottomMenu({ history: { push } }) {
         btnClass="footer-menu__btn"
         clicked={ () => push('/explore') }
       >
-        <Icon iconClass="menu__icon" iconName="compass2" />
+        <Icon iconClass="footer-menu__icon" iconName="compass2" />
       </Button>
       <Button
         btnClass="footer-menu__btn"
