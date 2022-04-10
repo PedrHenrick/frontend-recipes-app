@@ -156,3 +156,23 @@ export const getRandomRecipe = async (type) => {
     console.error(err.message);
   }
 };
+
+export const fetchMealsOrDrinksIngredients = async (type) => {
+  try {
+    let url;
+
+    if (type === 'meals') {
+      url = 'https://www.themealdb.com/api/json/v1/1/list.php?i=list';
+    } else if (type === 'drinks') {
+      url = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list';
+    } else {
+      invalidType();
+    }
+
+    const data = await fetch(url);
+    const results = await data.json();
+    return results;
+  } catch (err) {
+    console.error(err.message);
+  }
+};
