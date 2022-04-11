@@ -1,9 +1,22 @@
+.explore-container {
+  background-image: url('../assets/img/fundo.jpg');
+  background-position: center;
+  background-size: contain;
+  height: 64rem;
+  overflow: auto;
+  padding-bottom: 3rem;
+  position: relative;
+  width: 36rem;
+}
+
 .explore-btn {
+  backface-visibility: hidden;
   background-size: cover;
   border: none;
   border-radius: 1rem;
   height: 7rem;
   margin: 2rem 1rem;
+  overflow: hidden;
   text-align: end;
   vertical-align: text-bottom;
   width: 11rem;
@@ -11,7 +24,8 @@
 
 .explore-btn span {
   align-items: flex-end;
-  color: rgb(235, 212, 203);
+  background-image: linear-gradient(to bottom, transparent, #890620);
+  color: #f9f0f2;
   display: flex;
   font-size: 1.4rem;
   font-weight: 700;
@@ -28,4 +42,72 @@
 
 .explore--foods {
   background-image: url('../assets/img/explore-food-bg.jpg');
+}
+
+.explore__buttons {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 1rem;
+}
+
+.explore-menu__btn {
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.explore-menu__btn span {
+  color: #890620;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.explore-menu__icon {
+  fill: rgb(182, 70, 95);
+  height: 3rem;
+  width: 3rem;
+}
+
+.ingredient {
+  box-shadow: 2rem 1rem 1rem rgba(182, 70, 95, 0.18);
+  margin-bottom: 5px;
+  padding: 1px;
+}
+
+.ingredients {
+  background-color: white;
+  border-radius: 0.8rem;
+  margin: 1.2rem;
+  margin-bottom: 3rem;
+}
+
+.nacionality__img {
+  height: 2.5rem;
+  margin-left: 1rem;
+}
+
+.nacionality__label {
+  align-items: center;
+  display: flex;
+  margin: 2rem;
+
+}
+
+.nacionality__select {
+  background-color: white;
+  border: 1px solid rgb(235, 212, 203);
+  border-radius: 20rem;
+  font-size: 1.3rem;
+  min-width: 14rem;
+  padding: 2px 1rem;
+}
+
+.nacionality__select:focus {
+  border: 1px solid rgb(182, 70, 95);
+  box-shadow: 0 1rem 2rem rgba(182, 70, 95, 0.14);
+  outline: none;
 }

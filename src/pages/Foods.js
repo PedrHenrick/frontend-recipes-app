@@ -4,7 +4,8 @@ import HeaderPage from '../components/Header';
 import Recipes from '../components/Recipes/Recipes';
 import SearchBar from '../components/SearchBar';
 
-function Foods() {
+function Foods(props) {
+  console.log(props);
   return (
     <div className="food-container">
       <HeaderPage
@@ -12,7 +13,7 @@ function Foods() {
         showSearch
       />
       <SearchBar type="meals" />
-      <Recipes />
+      <Recipes type="meals" />
       <BottomMenu />
     </div>
   );

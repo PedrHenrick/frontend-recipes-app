@@ -12,9 +12,11 @@
 
 .pageTitle {
   align-items: center;
+  color: #890620;
   display: flex;
   font-size: 2.5rem;
   font-weight: 700;
+  padding-right: 2rem;
 }
 
 .headerInput {

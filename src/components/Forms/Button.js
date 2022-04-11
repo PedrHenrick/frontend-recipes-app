@@ -29,6 +29,7 @@ Button.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.element,
+    PropTypes.arrayOf(PropTypes.any),
   ]).isRequired,
   changed: PropTypes.func,
   clicked: PropTypes.func,

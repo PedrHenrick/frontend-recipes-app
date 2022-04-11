@@ -15,10 +15,11 @@ import Button from '../../components/Forms/Button';
 import Icon from '../../components/Icon';
 import Recommended from '../../components/Recipes/Recommended';
 
-function FoodsDescription({ history }) {
+function FoodsDescription(props) {
+  const { history } = props;
+  console.log(props);
   const TIMER_CLOCK = 3000;
-
-  const id = Number(history.location.pathname.split('/')[2]);
+  const id = Number(window.location.pathname.split('/')[2]);
   const [foodsObject, setFoodsObject] = useState([]);
   const [recommended, setRecommended] = useState([]);
   const [verifyInProgress, setVerifyInProgress] = useState(false);
@@ -214,7 +215,7 @@ function FoodsDescription({ history }) {
                   addInProgressMeals({
                     [id]: ingredientArr,
                   });
-                  history.push(`${history.location.pathname}/in-progress`);
+                  history.push(`${window.location.pathname}/in-progress`);
                 } }
               >
                 {btnName}

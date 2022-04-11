@@ -12,7 +12,7 @@ function Drinks() {
         showSearch
       />
       <SearchBar type="drinks" />
-      <Recipes />
+      <Recipes type="drinks" />
       <BottomMenu />
     </div>
   );

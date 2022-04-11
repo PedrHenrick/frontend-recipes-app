@@ -3,10 +3,14 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 function Recipe(props) {
-  const { index, recipeName, recipeImgSrc, recipeId, recipeType } = props;
+  const { dataTestid, index, recipeName, recipeImgSrc, recipeId, recipeType } = props;
 
   return (
-    <Link to={ `${recipeType}/${recipeId}` } className="recipe__link">
+    <Link
+      to={ `${recipeType}/${recipeId}` }
+      className="recipe__link"
+      data-testid={ dataTestid }
+    >
       <div className="recipe__card" data-testid={ `${index}-recipe-card` }>
         <img
           src={ recipeImgSrc }
@@ -25,7 +29,12 @@ function Recipe(props) {
   );
 }
 
+Recipe.defaultProps = {
+  dataTestid: '',
+};
+
 Recipe.propTypes = {
+  dataTestid: PropTypes.string,
   index: PropTypes.number.isRequired,
   recipeName: PropTypes.string.isRequired,
   recipeId: PropTypes.string.isRequired,

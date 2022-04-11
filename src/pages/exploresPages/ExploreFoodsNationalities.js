@@ -1,14 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Recipe from '../../components/Recipes/Recipe';
 import BottomMenu from '../../components/BottomMenu';
 import Header from '../../components/Header';
 import recipesContext from '../../context/recipesContext';
 import { getRecipeRecommendeds } from '../../services/api';
+import { setCountryFlag } from '../../helpers/helpers';
 
 function ExploreFoodsNationalities() {
   const MAX_RECIPES = 12;
   const { recipes: { recipeList } } = useContext(recipesContext);
   const [nationalities, setNationalities] = useState(['All']);
+  const [selectedNacionality, setSelectedNacionality] = useState('unknown');
   const [recipes, setRecipes] = useState(recipeList);
 
   const fetchRecipes = async () => {
@@ -52,23 +54,31 @@ function ExploreFoodsNationalities() {
 
   const filterRecipes = async ({ target }) => {
     if (target.value === 'All') {
+      setSelectedNacionality('unknown');
       setRecipes(recipeList);
     } else {
       const filterdRecipes = await filterRecipesByNacionality(target.value);
       setRecipes(filterdRecipes);
+      setSelectedNacionality(target.value);
     }
   };
 
   return (
-    <main>
+    <div className="food-container">
       <Header
         title="Explore Nationalities"
         showSearch
       />
       { nationalities.length > 1 && (
         <section>
-          <label htmlFor="DropNationalities">
+          <label htmlFor="DropNationalities" className="nacionality__label">
+            <img
+              className="nacionality__img"
+              src={ setCountryFlag(selectedNacionality) }
+              alt="flag of unknown"
+            />
             <select
+              className="nacionality__select"
               id="DropNationalities"
               data-testid="explore-by-nationality-dropdown"
               onChange={ filterRecipes }
@@ -85,39 +95,26 @@ function ExploreFoodsNationalities() {
             </select>
           </label>
           <div>
-            { recipes.length > 0 && recipes.map((recipe, index) => (
-              <Link
-                to={ `/foods/${recipe.idMeal}` }
-                key={ index }
-                data-testid={ `${index}-recipe-card` }
-              >
-                <div
-                  key={ index }
-                  className="recipe__card"
-
-                >
-                  <h4
-                    className="recipe__name"
-                    data-testid={ `${index}-card-name` }
-                  >
-                    {recipe.strMeal}
-                  </h4>
-                  <img
-                    src={ recipe.strMealThumb }
-                    alt={ `recipe ${recipe.strMeal} img ${index}` }
-                    className="recipe__img"
-                    data-testid={ `${index}-card-img` }
-                    width="150px"
+            { recipes.length > 0 && (
+              <div className="recipes">
+                { recipes.map((recipe, index) => (
+                  <Recipe
+                    key={ index }
+                    dataTestid={ `${index}-recipe-card` }
+                    recipeName={ recipe.strMeal }
+                    recipeImgSrc={ recipe.strMealThumb }
+                    recipeId={ recipe.idMeal }
+                    recipeType="/foods"
                   />
-                </div>
-              </Link>
-            )) }
+                )) }
+              </div>
+            ) }
           </div>
         </section>
       ) }
 
       <BottomMenu />
-    </main>
+    </div>
 
   );
 }

@@ -5,14 +5,14 @@ import ExploreRecipes from '../../components/Recipes/ExploreRecipes';
 
 function exploreFoods() {
   return (
-    <>
+    <div className="food-container">
       <Header
         title="Explore Foods"
         showSearch={ false }
       />
       <ExploreRecipes isMeal />
       <BottomMenu />
-    </>
+    </div>
   );
 }
 

@@ -16,7 +16,7 @@ const THREE_SECONDS = 3000;
 const CURRENT_PARAM = '/in-progress';
 
 function RecipeInProgress(props) {
-  const { isMeal, history: { push } } = props;
+  const { isMeal, history } = props;
   const recipeType = isMeal ? 'Meal' : 'Drink';
   const type = isMeal ? 'meals' : 'drinks';
   const recipeId = window.location.pathname
@@ -79,7 +79,7 @@ function RecipeInProgress(props) {
       tags: recipe.strTags && recipe.strTags.split(','),
     });
 
-    push('/done-recipes');
+    history.push('/done-recipes');
   };
   const [ingredients] = getIngredientsAndMeasurements(recipe);
 
@@ -87,6 +87,12 @@ function RecipeInProgress(props) {
     <section>
       { isLoaded && (
         <div className="recipe-progress__container">
+          <Button
+            btnClass="go-back__btn"
+            clicked={ history.goBack }
+          >
+            <Icon iconClass="progress-menu__icon" iconName="undo2" />
+          </Button>
           <div className="recipe-progress__heading">
             <h2
               className="recipe-progress__name"
@@ -163,13 +169,12 @@ function RecipeInProgress(props) {
 
 RecipeInProgress.defaultProps = {
   isMeal: false,
+  history: undefined,
 };
 
 RecipeInProgress.propTypes = {
   isMeal: PropTypes.bool,
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
+  history: PropTypes.objectOf(PropTypes.any),
 };
 
 export default withRouter(RecipeInProgress);

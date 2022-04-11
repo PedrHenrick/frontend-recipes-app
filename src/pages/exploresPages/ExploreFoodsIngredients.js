@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import BottomMenu from '../../components/BottomMenu';
 import Header from '../../components/Header';
+import Ingredient from '../../components/Recipes/Ingredient';
 import { fetchMealsOrDrinksIngredients } from '../../services/api';
 
 function ExploreFoodsIngredients() {
@@ -18,36 +18,26 @@ function ExploreFoodsIngredients() {
   console.log(ingredientsList);
 
   return (
-    <>
+    <div className="explore-container">
       <Header
         title="Explore Ingredients"
         showSearch={ false }
       />
-      { ingredientsList.map(({ strIngredient }, index) => (
+      <div className="recipes ingredients">
+        { ingredientsList.map(({ strIngredient }, index) => (
         // site sobre paginas dinamicas usando Link >> https://learnwithparam.com/blog/dynamic-pages-in-react-router/
-        <Link to={ `/foods/${strIngredient}` } key={ strIngredient }>
-          <div
-            className="recipe__card"
-            data-testid={ `${index}-ingredient-card` }
-          >
-            <h4
-              className="recipe__name"
-              data-testid={ `${index}-card-name` }
-            >
-              {strIngredient}
-            </h4>
-            <img
-              src={ `https://www.themealdb.com/images/ingredients/${strIngredient}-Small.png` }
-              alt={ `ingredient ${strIngredient} img ${index}` }
-              className="recipe__img"
-              data-testid={ `${index}-card-img` }
-              width="150px"
-            />
-          </div>
-        </Link>
-      )) }
+          <Ingredient
+            dataTestid={ `${index}-card-img` }
+            key={ strIngredient }
+            index={ index }
+            ingredientImgSrc={ `https://www.themealdb.com/images/ingredients/${strIngredient}-Small.png` }
+            ingredientPath={ `/foods/${strIngredient}` }
+            strIngredient={ strIngredient }
+          />
+        )) }
+      </div>
       <BottomMenu />
-    </>
+    </div>
   );
 }
 

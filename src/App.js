@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 
 import './styles/App.css';
@@ -27,20 +28,43 @@ function App() {
     <RecipesProvider>
       <Switch>
         <Route exact path="/" component={ Login } />
-        <Route exact path="/foods/" component={ Foods } />
-        <Route exact path="/foods/:filter" component={ Foods } />
-        <Route exact path="/drinks/:filter" component={ Drinks } />
+        <Route exact path="/foods" component={ Foods } />
         <Route exact path="/drinks" component={ Drinks } />
         <Route exact path="/profile" component={ Profile } />
         <Route exact path="/favorite-recipes" component={ Favorite } />
         <Route exact path="/done-recipes" component={ DoneRecipes } />
         <Route exact path="/explore" component={ Explore } />
-        <Route exact path="/foods/:food_recipes_id" component={ FoodsDescription } />
-        <Route exact path="/drinks/:drink_recipes_id" component={ DrinksDescription } />
-        <Route path="/foods/:recipe_id/in-progress" component={ FoodsInProgress } />
+        <Route
+          path="/foods/:recipe_id/in-progress"
+          component={ FoodsInProgress }
+        />
         <Route
           path="/drinks/:recipe_id/in-progress"
           component={ DrinksInProgress }
+        />
+        <Route
+          path="/drinks/:id"
+          render={ (props) => {
+            const { history, match: { params: { id } } } = props;
+            const paramId = Number(id);
+            console.log(paramId);
+            if (Number.isNaN(paramId)) {
+              return <Drinks history={ history } />;
+            }
+            return <DrinksDescription history={ history } />;
+          } }
+        />
+        <Route
+          path="/foods/:id"
+          render={ (props) => {
+            const { history, match: { params: { id } } } = props;
+            const paramId = Number(id);
+            console.log(paramId);
+            if (Number.isNaN(paramId)) {
+              return <Foods history={ history } />;
+            }
+            return <FoodsDescription history={ history } />;
+          } }
         />
         <Route exact path="/explore/foods" component={ ExploreFoods } />
         <Route exact path="/explore/drinks" component={ ExploreDrinks } />
@@ -58,5 +82,20 @@ function App() {
     </RecipesProvider>
   );
 }
+
+App.defaultProps = {
+  match: undefined,
+  history: undefined,
+};
+
+App.propTypes = {
+  match: PropTypes.shape({
+    path: PropTypes.string,
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }),
+  history: PropTypes.objectOf(PropTypes.any),
+};
 
 export default App;

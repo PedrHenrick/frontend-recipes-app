@@ -13,41 +13,38 @@ function Recipes(props) {
   const { meal: { meals, setMeals },
     drink: { drinks, setDrinks } } = useContext(recipesContext);
   const { location: { pathname },
-    match: { path, params: { filter } } } = props;
+    match: { path, params: { id } }, type } = props;
+
+  const recipeType = type === 'meals' ? 'Meal' : 'Drink';
   // add match, path, params e filter
   useEffect(() => {
-    if (pathname === '/foods') {
-      fetchMealsOrDrinksByName('meals').then(({ meals: results }) => {
-        const mealResults = results.filter((_element, index) => index < MAX_RECIPES);
-        setMeals(mealResults);
-      });
-    } else if (pathname === '/drinks') {
-      fetchMealsOrDrinksByName('drinks').then(({ drinks: results }) => {
-        const drinkResults = results.filter((_element, index) => index < MAX_RECIPES);
-        setDrinks(drinkResults);
-      }); // add
-    } else if (path === '/foods/:filter') {
-      fetchMealsOrDrinksByName('meals').then(({ meals: results }) => {
-        const mealsResults = results.filter((_element) => {
+    if (path === '/foods/:id') {
+      fetchMealsOrDrinksByName(type).then(({ [type]: results }) => {
+        const recipeResults = results.filter((_element) => {
           const recipeElements = Object.values(_element)
             .filter((item) => item);
           const recipeElementsToLower = recipeElements.map((item) => item.toLowerCase());
-          return recipeElementsToLower.includes(filter.toLowerCase());
+          return recipeElementsToLower.includes(id.toLowerCase());
         });
-        setMeals(mealsResults);
+        console.log(type);
+
+        if (type === 'meals') {
+          setMeals(recipeResults);
+        } else {
+          setDrinks(recipeResults);
+        }
       });
-    } else if (path === '/drinks/:filter') {
-      fetchMealsOrDrinksByName('drinks').then(({ drinks: results }) => {
-        const drinksResults = results.filter((_element) => {
-          const drinksElements = Object.values(_element)
-            .filter((item) => item);
-          const recipeElementsToLower = drinksElements.map((item) => item.toLowerCase());
-          return recipeElementsToLower.includes(filter.toLowerCase());
-        });
-        setDrinks(drinksResults);
+    } else {
+      fetchMealsOrDrinksByName(type).then(({ [type]: results }) => {
+        const recipeResults = results.filter((_element, index) => index < MAX_RECIPES);
+        if (type === 'meals') {
+          setMeals(recipeResults);
+        } else {
+          setDrinks(recipeResults);
+        }
       });
     }
-  }, [pathname, setMeals, setDrinks, path, filter]);
+  }, [pathname, setMeals, setDrinks, path, id, type]);
 
   useEffect(() => {
     if (meals.length > 1) {
@@ -59,46 +56,23 @@ function Recipes(props) {
   }, [setMeals, setDrinks, meals, drinks]);
 
   const renderRecipes = () => {
-    if (pathname === '/foods') {
-      return meals.map((meal, index) => (<Recipe
-        key={ index }
-        index={ index }
-        recipeName={ meal.strMeal }
-        recipeImgSrc={ meal.strMealThumb }
-        recipeId={ meal.idMeal }
-        recipeType={ pathname }
-      />));
+    let recipes;
+    let recipePath;
+    if (type === 'meals') {
+      recipes = meals;
+      recipePath = '/foods';
+    } else {
+      recipes = drinks;
+      recipePath = '/drinks';
     }
-    if (pathname === '/drinks') {
-      return drinks.map((drink, index) => (<Recipe
+    if (recipes?.length > 0) {
+      return recipes.map((recipe, index) => (<Recipe
         key={ index }
         index={ index }
-        recipeName={ drink.strDrink }
-        recipeImgSrc={ drink.strDrinkThumb }
-        recipeId={ drink.idDrink }
-        recipeType={ pathname }
-      />));
-    } // add
-    if (path === '/foods/:filter') {
-      return meals.map((meal, index) => (<Recipe
-        key={ index }
-        index={ index }
-        recipeName={ meal.strMeal }
-        recipeImgSrc={ meal.strMealThumb }
-        recipeId={ meal.idMeal }
-        recipeType="/foods"
-        data-testid={ `${index}-recipe-card` }
-      />));
-    }
-    if (path === '/drinks/:filter') {
-      return drinks.map((drink, index) => (<Recipe
-        key={ index }
-        index={ index }
-        recipeName={ drink.strDrink }
-        recipeImgSrc={ drink.strDrinkThumb }
-        recipeId={ drink.idDrink }
-        recipeType="/drinks"
-        data-testid={ `${index}-recipe-card` }
+        recipeName={ recipe[`str${recipeType}`] }
+        recipeImgSrc={ recipe[`str${recipeType}Thumb`] }
+        recipeId={ recipe[`id${recipeType}`] }
+        recipeType={ recipePath }
       />));
     }
   };
@@ -119,9 +93,10 @@ Recipes.propTypes = {
   match: PropTypes.shape({
     path: PropTypes.string,
     params: PropTypes.shape({
-      filter: PropTypes.string,
+      id: PropTypes.string,
     }).isRequired,
   }).isRequired,
+  type: PropTypes.string.isRequired,
 
 };
 

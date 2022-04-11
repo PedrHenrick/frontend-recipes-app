@@ -25,31 +25,31 @@ function ExploreRecipes(props) {
   };
 
   return (
-    <div>
+    <div className="explore__buttons">
       <Button
-        btnClass="menu__btn"
+        btnClass="explore-menu__btn"
         dataTestid="explore-by-ingredient"
         clicked={ exploreByParamHandler }
       >
-        <Icon iconClass="menu__icon" iconName="spoon-knife" />
+        <Icon iconClass="explore-menu__icon" iconName="spoon-knife" />
         <span>By Ingredient</span>
       </Button>
       {isMeal && (
         <Button
-          btnClass="menu__btn"
+          btnClass="explore-menu__btn"
           dataTestid="explore-by-nationality"
           clicked={ exploreByParamHandler }
         >
-          <Icon iconClass="menu__icon" iconName="location" />
+          <Icon iconClass="explore-menu__icon" iconName="location" />
           <span>By Nationality</span>
         </Button>
       )}
       <Button
-        btnClass="menu__btn"
+        btnClass="explore-menu__btn"
         dataTestid="explore-surprise"
         clicked={ exploreByParamHandler }
       >
-        <Icon iconClass="menu__icon" iconName="gift" />
+        <Icon iconClass="explore-menu__icon" iconName="gift" />
         <span>Surprise me!</span>
       </Button>
     </div>
