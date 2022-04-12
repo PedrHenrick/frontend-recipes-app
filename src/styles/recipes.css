@@ -35,7 +35,6 @@
   font-size: 1.2rem;
   padding: 2rem 0;
   text-align: center;
-
 }
 
 .recipe-progress__name,
@@ -179,5 +178,121 @@
   box-shadow: none;
   color: rgb(116, 116, 116);
   cursor: not-allowed;
+}
 
+.done {
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.done-recipe {
+  background-color: #f9f0f2;
+}
+
+.done-recipe__card {
+  background-color: white;
+  border-radius: 7px;
+  box-shadow: 1rem 1rem 1rem rgba(182, 70, 95, 0.13);
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+  min-width: 90%;
+  padding: 1rem;
+}
+
+.done-recipe__link {
+  display: flex;
+  justify-content: space-between;
+  text-decoration: none;
+}
+
+.done-recipe__link:hover, .done-recipe__link:active {
+  text-decoration: none;
+}
+
+.done-recipe__img {
+  border-radius: 5px;
+  height: 6rem;
+  margin: 5px 0;
+}
+
+.done-recipe__heading {
+  color: rgb(182, 70, 95);
+  font-size: 1.8rem;
+  max-height: 3.2rem;
+  text-decoration: none;
+}
+
+
+.tag__list {
+  list-style: none;
+}
+
+.done-recipe__options {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 7rem;
+  margin-top: -4rem;
+}
+
+.done-menu__btn {
+  background-color: transparent;
+  border: none;
+  padding: 2px;
+}
+
+.done-menu__icon {
+  fill: rgb(182, 70, 95);
+  height: 2.2rem;
+  width: 2.2rem;
+}
+
+.done-recipe__date {
+  align-items: center;
+  color: #890620;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.2rem;
+}
+
+.done-recipe__date h3 {
+  font-size: 1.4rem;
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+.done-recipe__date span {
+  align-items: center;
+  display: flex;
+}
+
+.done-recipe__tag--nacionality,
+.done-recipe__tag--category,
+.done-recipe__tag--alcoholic,
+.tag__list li {
+  background-color: rgb(177, 204, 43);
+  border-radius: 3rem;
+  color: rgb(72, 34, 13);
+  font-size: 1.05rem;
+  margin: 0 4px;
+  padding: 2px 8px;
+}
+
+.done-recipe__tag--alcoholic {
+  background-color: rgb(75, 29, 63);
+  color: white;
+}
+
+.alcoholic {
+  margin-top: -3rem;
+}
+
+.done-recipe__tag--category {
+  background-color: #ef2822;
+  color: white;
+}
+
+.tag__list li {
+  background-color: rgb(255, 196, 3);
 }
