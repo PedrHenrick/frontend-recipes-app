@@ -13,7 +13,7 @@ function Explore(props) {
         title="Explore"
         showSearch={ false }
       />
-      <div>
+      <div className="explore-btn__container">
         <Button
           btnClass="explore-btn explore--foods"
           type="button"

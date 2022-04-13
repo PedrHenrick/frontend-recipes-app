@@ -38,10 +38,14 @@
 
 .explore--drinks {
   background-image: url('../assets/img/explore-drink-bg.jpg');
+  height: 13rem;
+  width: 17rem;
 }
 
 .explore--foods {
   background-image: url('../assets/img/explore-food-bg.jpg');
+  height: 12rem;
+  width: 16rem;
 }
 
 .explore__buttons {
@@ -110,4 +114,13 @@
   border: 1px solid rgb(182, 70, 95);
   box-shadow: 0 1rem 2rem rgba(182, 70, 95, 0.14);
   outline: none;
+}
+
+.explore-btn__container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  margin-top: -4rem;
 }

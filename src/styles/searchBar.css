@@ -60,9 +60,11 @@
 .categories-container {
   margin-top: 2rem;
 }
+
 .category__btn {
   background-color: white;
   border: 1px solid rgb(239, 40, 34);
+  border-radius: 3rem;
   color: #48220d;
   font-size: 1.2rem;
   margin: 5px;
